@@ -18,6 +18,12 @@ import java.lang.Exception
 import java.lang.System.out
 //import java.util.jar.Manifest
 import android.Manifest.permission;
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.parse
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import com.example.watching_android.JsonPlaceHolder
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,22 +38,8 @@ class MainActivity : AppCompatActivity() {
         // READ_PHONE_STATE Permission code
         checkPermission(Manifest.permission.READ_PHONE_STATE, MainActivity.READ_PHONE_STATE)
 
-        //Extracting phone number
-
-    }
-
-    fun checkPermission(permission: String, requestCode: Int){
-        if(ContextCompat.checkSelfPermission(this,
-                                   permission) == PackageManager.PERMISSION_DENIED) {
-
-            //Requesting the permission
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(permission),
-                requestCode
-            )
-        }else{
-            //Permission granted
+        //If the app has permission then extract IMEI and phone number
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
             try{
 
                 val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -63,7 +55,24 @@ class MainActivity : AppCompatActivity() {
             } catch (ex: Exception){
                 Log.e("", ex.message)
             }
+        }
+    }
 
+    /**
+     * Function to check if the permission is granted by user or not, if the permission is not granted then ask for permission
+     */
+    fun checkPermission(permission: String, requestCode: Int){
+        if(ContextCompat.checkSelfPermission(this,
+                                   permission) == PackageManager.PERMISSION_DENIED) {
+
+            //Requesting the permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(permission),
+                requestCode
+            )
+        }else{
+            //Permission granted
         }
     }
 
@@ -92,5 +101,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun sendJsonObject(){
+        // Creating Retrofit's instance
+         val retrofit =  Retrofit.Builder()
+            .baseUrl(" http://rensou.akoba.xyz/rensou.json")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+        // Creating JsonPlaceHolder's object
+       // jsonPlaceHolder Json
+
+    }
 
 }
