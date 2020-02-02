@@ -18,11 +18,14 @@ import java.lang.Exception
 import java.lang.System.out
 //import java.util.jar.Manifest
 import android.Manifest.permission;
+import android.graphics.PostProcessor
 import okhttp3.MediaType
-import okhttp3.MediaType.Companion.parse
-import retrofit2.Retrofit
+//import okhttp3.MediaType.Companion.parse
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.watching_android.JsonPlaceHolder
+import retrofit2.*
+import retrofit2.http.POST
+import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -51,11 +54,43 @@ class MainActivity : AppCompatActivity() {
                 if (telNumber != null)
                     Toast.makeText(this, "Phone number: " + telNumber,
                         Toast.LENGTH_LONG).show()
+                sendJsonObject()
 
             } catch (ex: Exception){
                 Log.e("", ex.message)
             }
         }
+    }
+    internal fun sendJsonObject(){
+        // Creating Retrofit's instance
+        val retrofit =  Retrofit.Builder()
+            .baseUrl(" http://rensou.akoba.xyz/")//
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        // Creating JsonPlaceHolder's object
+        val service = retrofit.create(JsonPlaceHolder::class.java)
+        var call = service.getPosts()
+
+
+        call.enqueue(object : Callback<List<POST>>{
+
+            override fun onResponse(call: Call<List<POST>>, response: Response<List<POST>>) {
+
+                var str = "Success"
+
+            }
+
+          override  fun onFailure(call: Call<List<POST>>, throwable: Throwable){
+
+               var str = "failure"
+            }
+        })
+        object {
+
+            var BaseUrl = "http://rensou.akoba.xyz/"
+        }
+
     }
 
     /**
@@ -98,18 +133,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
-
-    }
-
-    fun sendJsonObject(){
-        // Creating Retrofit's instance
-         val retrofit =  Retrofit.Builder()
-            .baseUrl(" http://rensou.akoba.xyz/rensou.json")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-        // Creating JsonPlaceHolder's object
-       // jsonPlaceHolder Json
 
     }
 
