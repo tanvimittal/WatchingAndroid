@@ -7,14 +7,16 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.watching_android.Database.sendJsonObject
-
+import com.example.watching_android.database.RetrofitFunctions
+import com.example.watching_android.model.UserInfoData
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,8 +30,14 @@ class MainActivity : AppCompatActivity() {
 
         // READ_PHONE_STATE Permission code
         checkPermission(Manifest.permission.READ_PHONE_STATE, READ_PHONE_STATE)
+        val btn = findViewById<Button>(R.id.btn)
+        btn.setOnClickListener(View.OnClickListener {
+            Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show()
+            RetrofitFunctions.registerUser(UserInfoData())
+        })
 
     }
+
 
     /**
      * 携帯番号とＩＭＥＩ番号を取る機能
@@ -47,8 +55,10 @@ class MainActivity : AppCompatActivity() {
                 val telNumber = tm.line1Number
                 // 電話場番号はＮｕｌｌではない場合は次に進む
                 if(telNumber!=null) {
-                    Toast.makeText(this, "Telephone number: " + telNumber, Toast.LENGTH_LONG).show()
-                    sendJsonObject()
+                    var userInfo =
+                        UserInfoData(phone_number = telNumber)
+                    RetrofitFunctions.registerUser(userInfo)
+
                 } else{
                     // Alert Boxを表示してアプリを終了する。
                     val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(this@MainActivity).create()
