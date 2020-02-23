@@ -2,30 +2,18 @@ package com.example.watching_android
 
 import android.Manifest
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
-import android.content.pm.PathPermission
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.util.Log
-import android.view.accessibility.AccessibilityManager
 import android.widget.Toast
 import androidx.annotation.NonNull
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
-import java.lang.Exception
-import java.lang.System.out
-//import java.util.jar.Manifest
-import android.Manifest.permission;
-import android.graphics.PostProcessor
-import okhttp3.MediaType
-//import okhttp3.MediaType.Companion.parse
-import retrofit2.converter.gson.GsonConverterFactory
-import com.example.watching_android.JsonPlaceHolder
-import retrofit2.*
-import retrofit2.http.POST
-import java.io.IOException
+import com.example.watching_android.Database.sendJsonObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,65 +27,59 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // READ_PHONE_STATE Permission code
-        checkPermission(Manifest.permission.READ_PHONE_STATE, MainActivity.READ_PHONE_STATE)
+        checkPermission(Manifest.permission.READ_PHONE_STATE, READ_PHONE_STATE)
 
-        //If the app has permission then extract IMEI and phone number
+    }
+
+    /**
+     * 携帯番号とＩＭＥＩ番号を取る機能
+     */
+    fun readPhoneNumber() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
             try{
 
                 val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                /*
                 val IMEI = tm.getImei(0)
                 if(IMEI!=null)
-                    Toast.makeText(this, "IMEI number: " + IMEI, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "IMEI number: " + IMEI, Toast.LENGTH_LONG).show() */
 
                 val telNumber = tm.line1Number
-                if (telNumber != null)
-                    Toast.makeText(this, "Phone number: " + telNumber,
-                        Toast.LENGTH_LONG).show()
-                sendJsonObject()
+                // 電話場番号はＮｕｌｌではない場合は次に進む
+                if(telNumber!=null) {
+                    Toast.makeText(this, "Telephone number: " + telNumber, Toast.LENGTH_LONG).show()
+                    sendJsonObject()
+                } else{
+                    // Alert Boxを表示してアプリを終了する。
+                    val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(this@MainActivity).create()
+                    if (alertDialog != null) {
+                        alertDialog.setTitle(this.resources.getString(R.string.alertTelTitle))
+                        alertDialog.setMessage(this.resources.getString(R.string.alertTelMsg))
+                        alertDialog.setButton(
+                            AlertDialog.BUTTON_NEUTRAL, "OK",
+                            DialogInterface.OnClickListener { dialog, which -> finish() })
+                        alertDialog.show()
+                    }
+                }
 
             } catch (ex: Exception){
                 Log.e("", ex.message)
             }
         }
-    }
-    internal fun sendJsonObject(){
-        // Creating Retrofit's instance
-        val retrofit =  Retrofit.Builder()
-            .baseUrl(" http://rensou.akoba.xyz/")//
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        // If the permission is not there
+        else{
 
-        // Creating JsonPlaceHolder's object
-        val service = retrofit.create(JsonPlaceHolder::class.java)
-        var call = service.getPosts()
-
-
-        call.enqueue(object : Callback<List<POST>>{
-
-            override fun onResponse(call: Call<List<POST>>, response: Response<List<POST>>) {
-
-                var str = "Success"
-
-            }
-
-          override  fun onFailure(call: Call<List<POST>>, throwable: Throwable){
-
-               var str = "failure"
-            }
-        })
-        object {
-
-            var BaseUrl = "http://rensou.akoba.xyz/"
+            // requestPhonePermission
+            checkPermission(Manifest.permission.READ_PHONE_STATE, READ_PHONE_STATE)
         }
-
     }
 
     /**
-     * Function to check if the permission is granted by user or not, if the permission is not granted then ask for permission
+     * Function to check if the permission is granted by user or not,
+     * if the permission is not granted then ask for permission
      */
     fun checkPermission(permission: String, requestCode: Int){
-        if(ContextCompat.checkSelfPermission(this,
+        if (ContextCompat.checkSelfPermission(this,
                                    permission) == PackageManager.PERMISSION_DENIED) {
 
             //Requesting the permission
@@ -106,8 +88,8 @@ class MainActivity : AppCompatActivity() {
                 arrayOf(permission),
                 requestCode
             )
-        }else{
-            //Permission granted
+        } else{
+            readPhoneNumber()
         }
     }
 
@@ -124,13 +106,12 @@ class MainActivity : AppCompatActivity() {
                                          permissions,
                                          grantResults)
 
-        if(requestCode == MainActivity.READ_PHONE_STATE){
-            if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this,
-                          "Phone Permission Granted",
-                           Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+        if (requestCode == READ_PHONE_STATE) {
+            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                readPhoneNumber()
+            } else {
+                // Close the app
+                finish()
             }
         }
 

@@ -1,4 +1,4 @@
-package com.example.watching_android
+package com.example.watching_android.Database
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -6,6 +6,6 @@ import retrofit2.http.POST
 
 interface JsonPlaceHolder {
 
-    @GET("posts")
+    @GET("rensou.json")
     fun getPosts(): Call<List<POST>>
 }
