@@ -3,4 +3,8 @@
     <!-- Alert box contents of telephone number not found -->
     <string name="alertTelTitle">お知らせ</string>
     <string name="alertTelMsg">Sorry! You cannot use this app.</string>
+    <!-- ID of the user -->
+    <string name="ID">000</string>
+    <!-- API key -->
+    <string name="api_key">Default Key</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.watching_android
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
@@ -17,6 +18,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.UserInfoData
+import android.content.SharedPreferences
+import androidx.annotation.CheckResult
+import com.example.watching_android.database.Preferences
+import com.example.watching_android.model.UserRegistration
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     companion object{
         const val READ_PHONE_STATE = 100
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,11 +39,12 @@ class MainActivity : AppCompatActivity() {
         val btn = findViewById<Button>(R.id.btn)
         btn.setOnClickListener(View.OnClickListener {
             Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show()
-            RetrofitFunctions.registerUser(UserInfoData())
+            //RetrofitFunctions.registerUser(UserInfoData(), this)
+            checkPref(true, this)
+
         })
 
     }
-
 
     /**
      * 携帯番号とＩＭＥＩ番号を取る機能
@@ -57,8 +64,7 @@ class MainActivity : AppCompatActivity() {
                 if(telNumber!=null) {
                     var userInfo =
                         UserInfoData(phone_number = telNumber)
-                    RetrofitFunctions.registerUser(userInfo)
-
+                    RetrofitFunctions.registerUser(userInfo, this)
                 } else{
                     // Alert Boxを表示してアプリを終了する。
                     val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(this@MainActivity).create()
@@ -123,6 +129,32 @@ class MainActivity : AppCompatActivity() {
                 // Close the app
                 finish()
             }
+        }
+
+    }
+
+    fun checkPref(setOrNot: Boolean, activity: Activity){
+
+        if (setOrNot==false){
+            Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
+        }
+        else{
+            val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+            val apiKey = sharedPref.getString(activity .getString(R.string.api_key), "")
+            val id =  sharedPref.getInt(activity.getString(R.string.ID), 0)
+            Toast.makeText(activity, apiKey + " " + id, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    /**
+     * This function gets the response containing id and api key
+     */
+    fun getResponse(userRegistration: UserRegistration?, activity: Activity){
+
+        if(userRegistration!=null){
+            Preferences.setPreferences(userRegistration, activity)
+        } else{
+            //TODO: DECIDE what to do when there is server side error
         }
 
     }
