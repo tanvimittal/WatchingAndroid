@@ -7,4 +7,8 @@
     <string name="ID">000</string>
     <!-- API key -->
     <string name="api_key">Default Key</string>
+    <!-- Hint for Nick Name -->
+    <string name="hint_nickname">ニックネームを入力してください。</string>
+    <!-- Button for registering nickname -->
+    <string name="btn_nickname_reguster">登録</string>
 </resources>

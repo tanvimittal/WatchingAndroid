@@ -11,12 +11,12 @@ import java.lang.Exception
  */
 object Preferences{
 
-    fun setPreferences(userRegistration: UserRegistration, activity: Activity){
+    fun setPreferences(userRegistration: UserRegistration, activity: Activity) : Boolean{
 
         val mainActivity = MainActivity()
         var res = true
             try{
-                val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+                val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
                 with (sharedPref.edit()) {
                     putString(activity.getString(com.example.watching_android.R.string.api_key), userRegistration.api_key)
                     putInt(activity.getString(com.example.watching_android.R.string.ID), userRegistration.id)
@@ -25,7 +25,6 @@ object Preferences{
             } catch (e :Exception){
                 res = false
             }
-
-        mainActivity.checkPref(res, activity)
+            return res
     }
 }

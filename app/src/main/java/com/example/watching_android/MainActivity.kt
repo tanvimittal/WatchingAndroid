@@ -22,9 +22,10 @@ import android.content.SharedPreferences
 import androidx.annotation.CheckResult
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.model.UserRegistration
+import com.example.watching_android.ui.NickNameFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
     // Declaring constant of permission READ_PHONE_STATE
     companion object{
         const val READ_PHONE_STATE = 100
@@ -64,7 +65,8 @@ class MainActivity : AppCompatActivity() {
                 if(telNumber!=null) {
                     var userInfo =
                         UserInfoData(phone_number = telNumber)
-                    RetrofitFunctions.registerUser(userInfo, this)
+                    val userRegistration = RetrofitFunctions.registerUser(userInfo, this)
+                    this.getResponse(userRegistration, this)
                 } else{
                     // Alert Boxを表示してアプリを終了する。
                     val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(this@MainActivity).create()
@@ -133,16 +135,25 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun checkPref(setOrNot: Boolean, activity: Activity){
+    fun checkPref(setOrNot: Boolean, activity: Activity) {
 
-        if (setOrNot==false){
+        if (setOrNot == false) {
             Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
-        }
-        else{
+        } else {
             val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-            val apiKey = sharedPref.getString(activity .getString(R.string.api_key), "")
-            val id =  sharedPref.getInt(activity.getString(R.string.ID), 0)
+            val apiKey = sharedPref.getString(activity.getString(R.string.api_key), "")
+            val id = sharedPref.getInt(activity.getString(R.string.ID), 0)
             Toast.makeText(activity, apiKey + " " + id, Toast.LENGTH_LONG).show()
+
+            if(!activity.isFinishing){
+                val transaction = supportFragmentManager.beginTransaction()
+                val nickNameFragment = NickNameFragment()
+                transaction.add(R.id.mainActivity, nickNameFragment)
+                transaction.commit()
+            }
+
+
+
         }
     }
 
@@ -152,7 +163,9 @@ class MainActivity : AppCompatActivity() {
     fun getResponse(userRegistration: UserRegistration?, activity: Activity){
 
         if(userRegistration!=null){
-            Preferences.setPreferences(userRegistration, activity)
+            val setOrNot = Preferences.setPreferences(userRegistration, activity)
+            this.checkPref(setOrNot, activity)
+
         } else{
             //TODO: DECIDE what to do when there is server side error
         }
