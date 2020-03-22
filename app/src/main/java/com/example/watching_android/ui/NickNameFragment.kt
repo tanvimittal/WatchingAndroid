@@ -8,7 +8,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.watching_android.R
+import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
+import com.example.watching_android.model.NickNameData
 
 /**
  * Purpose of this class to register nickname
@@ -30,7 +32,10 @@ class NickNameFragment() : Fragment() {
         val registerButton = nickNameView?.findViewById<Button>(R.id.btnNickName)
         registerButton?.setOnClickListener(View.OnClickListener {
             Toast.makeText(activity, "Working", Toast.LENGTH_LONG).show()
-            RetrofitFunctions.registerNickName("1","Tanvi")
+            val userRegistration = activity?.let { it1 -> Preferences.getPreferences(it1) }
+            if (userRegistration != null) {
+                RetrofitFunctions.registerNickName(NickNameData(Preferences.USERID,"Tanvi"))
+            }
         })
 
         return nickNameView

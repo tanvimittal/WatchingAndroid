@@ -65,8 +65,7 @@ class MainActivity : AppCompatActivity() {
                 if(telNumber!=null) {
                     var userInfo =
                         UserInfoData(phone_number = telNumber)
-                    val userRegistration = RetrofitFunctions.registerUser(userInfo, this)
-                    this.getResponse(userRegistration, this)
+                    RetrofitFunctions.registerUser(userInfo, this)
                 } else{
                     // Alert Boxを表示してアプリを終了する。
                     val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(this@MainActivity).create()
@@ -145,11 +144,16 @@ class MainActivity : AppCompatActivity() {
             val id = sharedPref.getInt(activity.getString(R.string.ID), 0)
             Toast.makeText(activity, apiKey + " " + id, Toast.LENGTH_LONG).show()
 
-            if(!activity.isFinishing){
-                val transaction = supportFragmentManager.beginTransaction()
-                val nickNameFragment = NickNameFragment()
-                transaction.add(R.id.mainActivity, nickNameFragment)
-                transaction.commit()
+            if(!activity.isFinishing && !activity.isDestroyed ){
+                try{
+                    val transaction = supportFragmentManager.beginTransaction()
+                    val nickNameFragment = NickNameFragment()
+                    transaction.add(R.id.mainActivity, nickNameFragment)
+                    transaction.commit()
+                } catch (e: java.lang.Exception){
+                    print(e.printStackTrace())
+                }
+
             }
 
 

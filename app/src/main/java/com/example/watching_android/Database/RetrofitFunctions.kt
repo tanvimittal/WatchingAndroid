@@ -9,6 +9,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.watching_android.MainActivity
+import com.example.watching_android.model.NickNameData
+import com.example.watching_android.model.PhoneClass
 import retrofit2.http.POST
 
 /**
@@ -19,15 +21,15 @@ object RetrofitFunctions{
     /**
      * This function is used to register users on database
      */
-    fun registerUser(userInfoData: UserInfoData, activity: Activity): UserRegistration{
+    fun registerUser(userInfoData: UserInfoData, activity: Activity){
 
         val mainActivity = MainActivity()
         val retrofitConnection = RetrofitConnection()
         var resUserInfoData = UserRegistration(0, "")
-        retrofitConnection.createUser(userInfoData.phone_number)
+        retrofitConnection.createUser(PhoneClass(userInfoData.phone_number))
             .enqueue(object : Callback<UserRegistration>{
                 override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
-                    //mainActivity.getResponse(null, activity)
+                    mainActivity.getResponse(null, activity)
                 }
 
                 override fun onResponse(call: Call<UserRegistration>, response: Response<UserRegistration>) {
@@ -36,16 +38,16 @@ object RetrofitFunctions{
                     val id : Int = response.body()?.id ?:0
                     resUserInfoData.id = id
                     resUserInfoData.api_key = api_key
-                   // mainActivity.getResponse(resUserInfoData, activity)
+                   mainActivity.getResponse(resUserInfoData, activity)
                 }
 
             })
-        return resUserInfoData
+
     }
 
-    fun registerNickName(id: String, nickName: String){
+    fun registerNickName(nickName: NickNameData){
         val retrofitConnection = RetrofitConnection()
-        retrofitConnection.updateNickName(id, nickName)
+        retrofitConnection.updateNickName(nickName)
             .enqueue(object : Callback<UserRegistration>{
                 override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
                     val str = "failed"
