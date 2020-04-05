@@ -19,7 +19,10 @@ import androidx.core.content.ContextCompat
 import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.UserInfoData
 import android.content.SharedPreferences
+import android.webkit.CookieSyncManager.createInstance
 import androidx.annotation.CheckResult
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.model.UserRegistration
 import com.example.watching_android.ui.NickNameFragment
@@ -29,9 +32,14 @@ class MainActivity : AppCompatActivity() {
     // Declaring constant of permission READ_PHONE_STATE
     companion object{
         const val READ_PHONE_STATE = 100
+        lateinit var transaction: FragmentTransaction
+        lateinit var nickNameFragment: NickNameFragment
+
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -44,7 +52,34 @@ class MainActivity : AppCompatActivity() {
             checkPref(true, this)
 
         })
+        nickNameFragment = NickNameFragment()
+        transaction = supportFragmentManager.beginTransaction()
+        transaction.add(R.id.mainActivity, nickNameFragment)
 
+    }
+
+    fun checkPref(setOrNot: Boolean, activity: Activity) {
+
+        if (setOrNot == false) {
+            Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
+        } else {
+            val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+            val apiKey = sharedPref.getString(activity.getString(R.string.api_key), "")
+            val id = sharedPref.getInt(activity.getString(R.string.ID), 0)
+            Toast.makeText(activity, apiKey + " " + id, Toast.LENGTH_LONG).show()
+
+                if(!activity.isFinishing && !activity.isDestroyed ){
+                try{
+
+                    transaction.replace(R.id.mainActivity, nickNameFragment);
+                    transaction.commit()
+
+                } catch (e: java.lang.Exception){
+                    print(e.printStackTrace())
+                }
+
+            }
+        }
     }
 
     /**
@@ -134,32 +169,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun checkPref(setOrNot: Boolean, activity: Activity) {
-
-        if (setOrNot == false) {
-            Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
-        } else {
-            val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-            val apiKey = sharedPref.getString(activity.getString(R.string.api_key), "")
-            val id = sharedPref.getInt(activity.getString(R.string.ID), 0)
-            Toast.makeText(activity, apiKey + " " + id, Toast.LENGTH_LONG).show()
-
-            if(!activity.isFinishing && !activity.isDestroyed ){
-                try{
-                    val transaction = supportFragmentManager.beginTransaction()
-                    val nickNameFragment = NickNameFragment()
-                    transaction.add(R.id.mainActivity, nickNameFragment)
-                    transaction.commit()
-                } catch (e: java.lang.Exception){
-                    print(e.printStackTrace())
-                }
-
-            }
 
 
-
-        }
-    }
 
     /**
      * This function gets the response containing id and api key
