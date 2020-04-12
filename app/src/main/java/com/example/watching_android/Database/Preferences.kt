@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.example.watching_android.MainActivity
 import com.example.watching_android.R
+import com.example.watching_android.model.NickNameData
 import com.example.watching_android.model.UserRegistration
 import java.lang.Exception
 
@@ -14,10 +15,12 @@ object Preferences{
 
     var USERID = -1
     var APIKEY = ""
-    fun setPreferences(userRegistration: UserRegistration, activity: Activity) : Boolean{
+    fun setPreferences(userRegistration: UserRegistration?,nickNameData: NickNameData?, activity: Activity) : Boolean{
 
         val mainActivity = MainActivity()
         var res = true
+        // If userRegistration object is not null then write API key and user id in shared preferences
+        if (userRegistration!=null){
             try{
                 val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
                 with (sharedPref.edit()) {
@@ -32,6 +35,22 @@ object Preferences{
             } catch (e :Exception){
                 res = false
             }
+        }
+
+        // If userRegistration object is not null then write API key and user id in shared preferences
+        if (nickNameData!=null){
+            try{
+                val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+                with (sharedPref.edit()) {
+                    putString(activity.getString(com.example.watching_android.R.string.nick_name), nickNameData.nick_name)
+                    commit()
+                }
+            } catch (e :Exception){
+                res = false
+            }
+        }
+
+
             return res
     }
 

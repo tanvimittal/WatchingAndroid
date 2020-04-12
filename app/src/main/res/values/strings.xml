@@ -7,6 +7,8 @@
     <string name="ID">000</string>
     <!-- API key -->
     <string name="api_key">Default Key</string>
+    <!-- NickName -->
+    <string name="nick_name">""</string>
     <!-- Hint for Nick Name -->
     <string name="hint_nickname">ニックネームを入力してください。</string>
     <!-- Button for registering nickname -->
@@ -14,4 +16,9 @@
     <!-- Alert box contents of telephone number not found -->
     <string name="alertNickNameTitle">お知らせ</string>
     <string name="alertNickNameMsg">Nickname should be between 1 and 15 characters</string>
+    <!-- Ohayou button -->
+    <string name="btn_ohayou">おはよう</string>
+    <!-- Oyasumi button -->
+    <string name="btn_oyasumi">おやすみ</string>
+    <string name="tab_text_1">Chats</string>
 </resources>

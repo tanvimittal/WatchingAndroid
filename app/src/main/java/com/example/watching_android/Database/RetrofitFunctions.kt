@@ -29,7 +29,7 @@ object RetrofitFunctions{
         retrofitConnection.createUser(PhoneClass(userInfoData.phone_number))
             .enqueue(object : Callback<UserRegistration>{
                 override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
-                    mainActivity.getResponse(null, activity)
+                    mainActivity.getResponse(null, null, activity)
                 }
 
                 override fun onResponse(call: Call<UserRegistration>, response: Response<UserRegistration>) {
@@ -38,23 +38,27 @@ object RetrofitFunctions{
                     val id : Int = response.body()?.id ?:0
                     resUserInfoData.id = id
                     resUserInfoData.api_key = api_key
-                   mainActivity.getResponse(resUserInfoData, activity)
+                   mainActivity.getResponse(resUserInfoData, null, activity)
                 }
 
             })
 
     }
 
-    fun registerNickName(nickName: NickNameData){
+    /**
+     * This function is calling retrofit API and saving data as user shared preference
+     */
+    fun registerNickName(nickName: NickNameData, activity: Activity){
+        val mainActivity = MainActivity()
         val retrofitConnection = RetrofitConnection()
         retrofitConnection.updateNickName(nickName)
             .enqueue(object : Callback<UserRegistration>{
                 override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
-                    val str = "failed"
+                    mainActivity.getResponse(null, null, activity)
                 }
 
                 override fun onResponse(call: Call<UserRegistration>, response: Response<UserRegistration>) {
-                   val str = "Worked"
+                    mainActivity.getResponse(null, nickName, activity)
                 }
 
             })

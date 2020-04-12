@@ -54,7 +54,11 @@ class NickNameFragment() : Fragment() {
             if(nickName!= null && nickName.trim().length<=15 && nickName.isNotEmpty()){
                 val userRegistration = activity?.let { it1 -> Preferences.getPreferences(it1) }
                 if (userRegistration != null) {
-                    RetrofitFunctions.registerNickName(NickNameData(Preferences.USERID,nickName))
+                    activity?.let { it1 ->
+                        RetrofitFunctions.registerNickName(NickNameData(Preferences.USERID,nickName),
+                            it1
+                        )
+                    }
                 }
             }
             else{
