@@ -1,8 +1,6 @@
 package com.example.watching_android.database
 
 import android.app.Activity
-import android.content.Context
-import com.example.watching_android.R
 import com.example.watching_android.model.UserRegistration
 import com.example.watching_android.model.UserInfoData
 import retrofit2.Call
@@ -11,7 +9,6 @@ import retrofit2.Response
 import com.example.watching_android.MainActivity
 import com.example.watching_android.model.NickNameData
 import com.example.watching_android.model.PhoneClass
-import retrofit2.http.POST
 
 /**
  *  This class has functions related to retrofit
