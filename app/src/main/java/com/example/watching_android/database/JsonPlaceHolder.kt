@@ -1,5 +1,6 @@
 package com.example.watching_android.database
 
+import com.example.watching_android.model.Messages
 import com.example.watching_android.model.NickNameData
 import com.example.watching_android.model.PhoneClass
 import com.example.watching_android.model.UserRegistration
@@ -16,5 +17,8 @@ interface JsonPlaceHolder {
 
     @PUT( "users")
     fun updateNickName(@Body nickName: NickNameData): Call<UserRegistration>
+
+    @GET("events")
+    fun getMessgaes():Call<Messages>
 
 }
