@@ -2,6 +2,7 @@ package com.example.watching_android
 
 import android.Manifest
 import android.app.Activity
+import android.content.ComponentCallbacks
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -28,7 +29,6 @@ import com.example.watching_android.ui.NickNameFragment
 import com.example.watching_android.ui.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
 
-
 class MainActivity : AppCompatActivity() {
     // Declaring constant of permission READ_PHONE_STATE
     companion object{
@@ -38,11 +38,16 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+       /** startKoin {
+            androidContext(this@MainActivity)
+            androidLogger()
+            modules(appModule)
+        }**/
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
         val nickName = sharedPref.getString(this.getString(R.string.nick_name), "")

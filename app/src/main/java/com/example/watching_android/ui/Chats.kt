@@ -1,5 +1,6 @@
 package com.example.watching_android.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import com.example.watching_android.R
 
+
 class Chats : Fragment() {
 
     var textViewMessage : TextView?=null
 
-  /*  private val viewModel : MessageViewModel by viewModels(
-        factoryProducer = {SavedStateViewModelFactory(activity!!.application, this,null)}
-    )*/
- /*private val viewModel by viewModels<MessageViewModel> () {
-      SavedStateViewModelFactory(activity!!.application, this,null)
-  }*/
+   private val viewModel : MessageViewModel by viewModels(
+        factoryProducer =   { SavedStateViewModelFactory(requireActivity().application, this)}
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,14 +35,12 @@ class Chats : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel: MessageViewModel by viewModels(
-            factoryProducer = {SavedStateViewModelFactory(activity!!.application, this,null)}
-        )
-        viewModel.messages.observe(viewLifecycleOwner, Observer {
+
+        viewModel.messages.observe(viewLifecycleOwner){
             //TODO: Update UI
             textViewMessage?.text ?:viewModel.messages.toString()
 
-        })
+        }
 
     }
 }
