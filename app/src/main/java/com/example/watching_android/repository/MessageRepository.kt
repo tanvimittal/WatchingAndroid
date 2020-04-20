@@ -13,9 +13,13 @@ import javax.inject.Singleton
 
 // This class will call and store messages which we get from API
 @Singleton
-class MessageRepository @Inject constructor(
+class MessageRepository(
     private val webservice : JsonPlaceHolder
 ){
+// At first, We don't need to use Dagger
+//class MessageRepository @Inject constructor(
+//    private val webservice : JsonPlaceHolder
+//){
 
     fun getMessages() : LiveData<Messages>{
         val data = MutableLiveData<Messages>()

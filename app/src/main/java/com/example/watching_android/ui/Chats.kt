@@ -16,9 +16,18 @@ class Chats : Fragment() {
 
     var textViewMessage : TextView?=null
 
-   private val viewModel : MessageViewModel by viewModels(
-        factoryProducer =   { SavedStateViewModelFactory(requireActivity().application, this)}
-    )
+    // https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate
+    // We don't need factoryProducer?!
+    // We want to pass Repository to ViewModel.
+//   private val viewModel : MessageViewModel by viewModels(
+//        factoryProducer =   { SavedStateViewModelFactory(requireActivity().application, this)}
+//    )
+    private val viewModel : MessageViewModel by viewModels()
+
+    // We have to explain this "by viewModels"? Why can't we construct by simple way like below?
+    //private val viewModel : MessageViewModel = MessageViewModel()
+    // https://qiita.com/mangano-ito/items/9b067916d1374d66b750
+    // https://developer.android.com/reference/kotlin/androidx/fragment/app/package-summary?hl=ja#viewmodels
 
     override fun onCreateView(
         inflater: LayoutInflater,
