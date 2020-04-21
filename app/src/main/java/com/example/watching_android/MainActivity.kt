@@ -10,6 +10,9 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -78,6 +81,35 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
+    /*
+     * Option Menu.
+     *
+     * https://developer.android.com/guide/topics/ui/menus?hl=ja#options-menu
+     */
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+            R.id.contact -> {
+                Toast.makeText(this, "TODO: Contact", Toast.LENGTH_LONG).show()
+                true
+            }
+            R.id.debug -> {
+                val intent = Intent(this, DebugActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     fun checkPref(setOrNot: Boolean, activity: Activity) {
 
