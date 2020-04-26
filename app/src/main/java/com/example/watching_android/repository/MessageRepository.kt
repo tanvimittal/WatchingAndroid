@@ -21,20 +21,22 @@ class MessageRepository(
 //    private val webservice : JsonPlaceHolder
 //){
 
-    fun getMessages() : LiveData<Messages>{
-        val data = MutableLiveData<Messages>()
+    fun getMessages() : LiveData<List<Messages>>{
+        val data = MutableLiveData<List<Messages>>()
         if (webservice != null) {
             val retrofitConnection = RetrofitConnection()
-            retrofitConnection.getMessgaes().enqueue(object : Callback<Messages>{
-                override fun onFailure(call: Call<Messages>, t: Throwable) {
-                    TODO("Not yet implemented")
+            retrofitConnection.getMessgaes().enqueue(object : Callback<List<Messages>>{
+                override fun onFailure(call: Call<List<Messages>>, t: Throwable) {
+                    val str = "Failure"
                 }
 
-                override fun onResponse(call: Call<Messages>, response: Response<Messages>) {
+                override fun onResponse(call: Call<List<Messages>>, response: Response<List<Messages>>) {
                    data.value = response.body()
                 }
             })
         }
+
         return data
     }
+
 }

@@ -20,5 +20,7 @@ class MessageViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     //val api_key : String = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing api key")
     //val user_id : Int = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing user id")
-    val messages : LiveData<Messages> = messageRepository.getMessages()
+    val messages : LiveData<List<Messages>> = messageRepository.getMessages()
+
+
 }

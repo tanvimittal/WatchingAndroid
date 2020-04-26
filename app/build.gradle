@@ -55,6 +55,9 @@ dependencies {
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
 
+    // Recycler View
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
     //Dagger
     implementation 'com.google.dagger:dagger:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.24'

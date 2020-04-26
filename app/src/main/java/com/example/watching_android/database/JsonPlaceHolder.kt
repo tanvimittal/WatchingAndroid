@@ -6,6 +6,7 @@ import com.example.watching_android.model.PhoneClass
 import com.example.watching_android.model.UserRegistration
 import retrofit2.Call
 import retrofit2.http.*
+import java.util.*
 
 interface JsonPlaceHolder {
 
@@ -19,6 +20,6 @@ interface JsonPlaceHolder {
     fun updateNickName(@Body nickName: NickNameData): Call<UserRegistration>
 
     @GET("events")
-    fun getMessgaes():Call<Messages>
+    fun getMessgaes():Call<List<Messages>>
 
 }

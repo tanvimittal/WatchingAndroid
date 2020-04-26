@@ -46,11 +46,6 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-       /** startKoin {
-            androidContext(this@MainActivity)
-            androidLogger()
-            modules(appModule)
-        }**/
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
         val nickName = sharedPref.getString(this.getString(R.string.nick_name), "")

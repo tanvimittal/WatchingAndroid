@@ -5,6 +5,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reyclerview_message_list"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
     <Button
             android:id="@+id/btn_ohayou"
             android:layout_width="wrap_content"
@@ -30,13 +38,15 @@
 
     <TextView
             android:id="@+id/txtViewMsg"
-            android:layout_width="397dp"
-            android:layout_height="529dp"
-            android:text="TextView"
+            android:layout_width="147dp"
+            android:layout_height="33dp"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.045"
+            app:layout_constraintHorizontal_bias="0.93"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.051" />
+            app:layout_constraintVertical_bias="0.159" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
