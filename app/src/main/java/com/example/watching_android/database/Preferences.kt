@@ -42,7 +42,7 @@ object Preferences{
             try{
                 val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
                 with (sharedPref.edit()) {
-                    putString(activity.getString(com.example.watching_android.R.string.nick_name), nickNameData.nick_name)
+                    putString(activity.getString(com.example.watching_android.R.string.nickname), nickNameData.nickname)
                     commit()
                 }
             } catch (e :Exception){

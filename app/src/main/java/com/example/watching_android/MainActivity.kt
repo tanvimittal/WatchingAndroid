@@ -26,6 +26,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.NickNameData
+import com.example.watching_android.model.PhoneNumber
 import com.example.watching_android.model.UserInfoData
 import com.example.watching_android.model.UserRegistration
 import com.example.watching_android.ui.NickNameFragment
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
-        val nickName = sharedPref.getString(this.getString(R.string.nick_name), "")
+        val nickName = sharedPref.getString(this.getString(R.string.nickname), "")
 
         // If nickName is not being set
         if (nickName.isNullOrBlank()){
@@ -114,7 +115,7 @@ class MainActivity : AppCompatActivity() {
             val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
             val apiKey = sharedPref.getString(activity.getString(R.string.api_key), "")
             val id = sharedPref.getInt(activity.getString(R.string.ID), 0)
-            val nickName = sharedPref.getString(activity.getString(R.string.nick_name), "")
+            val nickName = sharedPref.getString(activity.getString(R.string.nickname), "")
             Toast.makeText(activity, apiKey + " " + id + "" + nickName, Toast.LENGTH_LONG).show()
 
                 if(!activity.isFinishing && !activity.isDestroyed ){
@@ -139,6 +140,8 @@ class MainActivity : AppCompatActivity() {
             try{
 
                 val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                //Getting country code
+                val countryID= tm.simCountryIso.toUpperCase();
                 /*
                 val IMEI = tm.getImei(0)
                 if(IMEI!=null)
@@ -148,7 +151,7 @@ class MainActivity : AppCompatActivity() {
                 // 電話場番号はＮｕｌｌではない場合は次に進む
                 if(telNumber!=null) {
                     var userInfo =
-                        UserInfoData(phone_number = telNumber)
+                        UserInfoData(phone_number = PhoneNumber(countryID, telNumber))
                     RetrofitFunctions.registerUser(userInfo, this)
                 } else{
                     // Alert Boxを表示してアプリを終了する。

@@ -20,7 +20,7 @@ object RetrofitFunctions{
         val mainActivity = MainActivity()
         val retrofitConnection = RetrofitConnection()
         var resUserInfoData = UserRegistration(0, "")
-        retrofitConnection.createUser(PhoneClass(userInfoData.phone_number))
+        retrofitConnection.createUser(userInfoData)
             .enqueue(object : Callback<UserRegistration>{
                 override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
                     mainActivity.getResponse(null, null, activity)

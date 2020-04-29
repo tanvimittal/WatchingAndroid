@@ -54,7 +54,7 @@ class Chats : Fragment() {
 
             var result : StringBuilder = StringBuilder("")
             it.forEach{
-                result.append(it.user.nick_name + "-" + it.description)
+                result.append(it.user.nickname + "-" + it.description)
                 result.append(System.getProperty("line.separator"))
                 list.add(it)
             }

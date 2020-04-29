@@ -32,8 +32,8 @@ class DebugFragment : Fragment() {
             val sharedPref = activity?.getSharedPreferences("MainActivity", Context.MODE_PRIVATE)  // TODO: 保存先を変更
 
             if (sharedPref != null) {
-                val nickName = sharedPref.getString(getString(R.string.nick_name), "")  // TODO: キーがおかしい？
-                Log.d(this::class.java.simpleName, "nick_name = $nickName")
+                val nickName = sharedPref.getString(getString(R.string.nickname), "")  // TODO: キーがおかしい？
+                Log.d(this::class.java.simpleName, "nickname = $nickName")
 
                 sharedPref.edit().apply {
                     clear()

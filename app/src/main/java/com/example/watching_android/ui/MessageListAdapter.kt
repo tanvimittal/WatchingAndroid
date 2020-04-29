@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watching_android.R
 import com.example.watching_android.model.Messages
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MessageListAdapter(private val messageList: List<Messages>) :
@@ -37,20 +38,39 @@ class MessageListAdapter(private val messageList: List<Messages>) :
 
     class ReceivedMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var messageText: TextView = itemView.findViewById(R.id.text_message_body)
-        lateinit var timeText: TextView
+        var timeText: TextView = itemView.findViewById(R.id.text_message_time)
         var nameText: TextView = itemView.findViewById(R.id.text_message_name)
         fun bind(message: Messages) {
-            messageText.setText(message.description)
+            messageText.text = message.description
+
 
             // Format the stored timestamp into a readable String using method.
-            //   timeText.setText(Utils.formatDateTime(message.getCreatedAt()))
-            nameText.setText(message.user.nick_name)
+            val setDate = getDate(message.created_at)
+            timeText.text = setDate
+
+            //Setting nick name
+            nameText.text = message.user.nickname
 
             // Insert the profile image from the URL into the ImageView.
             //Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage)
         }
 
 
+        /**
+         * Converting date into desired format
+         */
+        fun getDate(date: Date): String {
+
+            // output format: hour:minute AM/PM
+            val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+            val outDateFormat = SimpleDateFormat("MM-dd", Locale.getDefault())
+
+            outputFormat.timeZone = TimeZone.getDefault()
+            outDateFormat.timeZone = TimeZone.getDefault()
+            val time = outputFormat.format(date)
+            val msgDate = outDateFormat.format(date)
+            return ("$msgDate $time")
+        }
     }
 
 }

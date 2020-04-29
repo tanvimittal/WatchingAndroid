@@ -8,7 +8,7 @@
     <!-- API key -->
     <string name="api_key">Default Key</string>
     <!-- NickName -->
-    <string name="nick_name">""</string>
+    <string name="nickname">""</string>
     <!-- Hint for Nick Name -->
     <string name="hint_nickname">ニックネームを入力してください。</string>
     <!-- Button for registering nickname -->
