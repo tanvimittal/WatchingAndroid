@@ -4,19 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watching_android.R
+import com.example.watching_android.database.RetrofitFunctions
+import com.example.watching_android.model.MessageDescription
 import com.example.watching_android.model.Messages
+import kotlinx.android.synthetic.main.fragment_debug.*
 
 
 class Chats : Fragment() {
 
     var textViewMessage : TextView? = null
+    var btnOhayou : Button ?= null
+    var btnOyasumi: Button ?= null
 
     // https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate
     // We don't need factoryProducer?!
@@ -37,9 +44,19 @@ class Chats : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val parentHolder = inflater.inflate(R.layout.chat_tab, container, false)
-
+        btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
+        btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
 
         return parentHolder
+        btnOhayou?.setOnClickListener(View.OnClickListener {
+            buttonClick(MessageDescription("おはよう"))
+            viewModel.getRecentMessages()
+        })
+        btnOyasumi?.setOnClickListener(View.OnClickListener {
+            buttonClick(MessageDescription("おやすみ"))
+            viewModel.getRecentMessages()
+        })
+
     }
 
     /**
@@ -47,13 +64,22 @@ class Chats : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textViewMessage = activity?.findViewById<TextView>(R.id.txtViewMsg)
-
+        btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
+        btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
+        btnOhayou?.setOnClickListener(View.OnClickListener {
+            buttonClick(MessageDescription("おはよう"))
+            viewModel.getRecentMessages()
+        })
+        btnOyasumi?.setOnClickListener(View.OnClickListener {
+            buttonClick(MessageDescription("おやすみ"))
+            viewModel.getRecentMessages()
+        })
         val list: MutableList<Messages> = mutableListOf()
-        viewModel.messages.observe(viewLifecycleOwner){
+
+        viewModel.messages.observe (viewLifecycleOwner){
 
             var result : StringBuilder = StringBuilder("")
-            it.forEach{
+            it!!.forEach{
                 result.append(it.user.nickname + "-" + it.description)
                 result.append(System.getProperty("line.separator"))
                 list.add(it)
@@ -66,9 +92,23 @@ class Chats : Fragment() {
                     layoutManager = viewManager
                     adapter = mMessageAdapter
                 }
-
+            // Scroll to last item in the list
+            mMessageRecycler?.scrollToPosition((mMessageRecycler.adapter?.itemCount ?: 0) - 1)
 
         }
+        fun checkData(){
+            viewModel.getRecentMessages()
+        }
 
+    }
+
+    fun buttonClick(messageDescription: MessageDescription){
+        RetrofitFunctions.sendMessageDescription(messageDescription)
+
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

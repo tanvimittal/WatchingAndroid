@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
         val nickName = sharedPref.getString(this.getString(R.string.nickname), "")
+        Preferences.APIKEY = sharedPref.getString(this.getString(R.string.api_key), "").toString()
 
         // If nickName is not being set
         if (nickName.isNullOrBlank()){
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
         // Set the tab
         else{
+            Preferences.APIKEY
             val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
             val viewPager: ViewPager = findViewById(R.id.view_pager)
             viewPager.adapter = sectionsPagerAdapter

@@ -1,17 +1,22 @@
 package com.example.watching_android.database
 
 import android.app.Activity
+import androidx.fragment.app.viewModels
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.watching_android.MainActivity
 import com.example.watching_android.model.*
+import com.example.watching_android.repository.MessageRepository
+import com.example.watching_android.ui.Chats
+import com.example.watching_android.ui.MessageViewModel
 
 /**
  *  This class has functions related to retrofit
  */
 object RetrofitFunctions{
 
+     lateinit var userApiKey: String
     /**
      * This function is used to register users on database
      */
@@ -28,10 +33,10 @@ object RetrofitFunctions{
 
                 override fun onResponse(call: Call<UserRegistration>, response: Response<UserRegistration>) {
 
-                    val api_key = response.body()?.api_key ?:""
+                    val userApiKey = response.body()?.api_key ?:""
                     val id : Int = response.body()?.id ?:0
                     resUserInfoData.id = id
-                    resUserInfoData.api_key = api_key
+                    resUserInfoData.api_key = userApiKey
                    mainActivity.getResponse(resUserInfoData, null, activity)
                 }
 
@@ -45,14 +50,35 @@ object RetrofitFunctions{
     fun registerNickName(nickName: NickNameData, activity: Activity){
         val mainActivity = MainActivity()
         val retrofitConnection = RetrofitConnection()
-        retrofitConnection.updateNickName(nickName)
-            .enqueue(object : Callback<UserRegistration>{
-                override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
+        retrofitConnection.updateNickName(Preferences.APIKEY, nickName)
+            .enqueue(object : Callback<Void>{
+                override fun onFailure(call: Call<Void>, t: Throwable) {
                     mainActivity.getResponse(null, null, activity)
                 }
 
-                override fun onResponse(call: Call<UserRegistration>, response: Response<UserRegistration>) {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     mainActivity.getResponse(null, nickName, activity)
+                }
+
+            })
+
+    }
+
+    /**
+    * This function is calling retrofit API and saving data as user shared preference
+    */
+    fun sendMessageDescription(messageDescription: MessageDescription){
+        val retrofitConnection = RetrofitConnection()
+        retrofitConnection.sendMessageDescription(Preferences.APIKEY, messageDescription)
+            .enqueue(object : Callback<Messages>{
+                override fun onFailure(call: Call<Messages>, t: Throwable) {
+                    //mainActivity.getResponse(null, null, activity)
+                    val str = "Fail"
+                }
+
+                override fun onResponse(call: Call<Messages>, response: Response<Messages>) {
+                    //mainActivity.getResponse(null, nickName, activity)
+                    val str = "Pass"
                 }
 
             })

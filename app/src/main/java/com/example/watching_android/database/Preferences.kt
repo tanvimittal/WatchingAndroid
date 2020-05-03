@@ -32,6 +32,7 @@ object Preferences{
                         APIKEY = userRegistration.api_key
                     }
                 }
+                APIKEY = sharedPref.getString(activity.getString(R.string.api_key), "").toString()
             } catch (e :Exception){
                 res = false
             }
@@ -65,4 +66,6 @@ object Preferences{
         userRegistration.api_key = sharedPref.getString(activity.getString(R.string.api_key), "").toString()
         return userRegistration
     }
+
+
 }

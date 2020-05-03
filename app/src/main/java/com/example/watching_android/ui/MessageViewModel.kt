@@ -1,6 +1,7 @@
 package com.example.watching_android.ui
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.watching_android.database.RetrofitConnection
@@ -20,7 +21,12 @@ class MessageViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 
     //val api_key : String = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing api key")
     //val user_id : Int = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing user id")
-    val messages : LiveData<List<Messages>> = messageRepository.getMessages()
+    var messages : LiveData<List<Messages>> = messageRepository.getMessages()
+
+    fun getRecentMessages() : LiveData<List<Messages>>{
+        messages =  messageRepository.getMessages()
+        return messages
+    }
 
 
 }

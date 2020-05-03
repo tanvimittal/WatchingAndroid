@@ -14,10 +14,13 @@ interface JsonPlaceHolder {
     fun createUser(@Body userInfoData: UserInfoData): Call<UserRegistration>
 
     @PUT( "users")
-    fun updateNickName(@Body nickName: NickNameData): Call<UserRegistration>
+    fun updateNickName(@Header("x-api-key") xApiKey: String,@Body nickName: NickNameData) : Call<Void>
+
 
     @GET("events")
-    fun getMessgaes(): Call<List<Messages>>
-    //fun getMessgaes(@Header("x-api-key") xApiKey: String): Call<List<Messages>>
+    fun getMessgaes(@Header("x-api-key") xApiKey: String): Call<List<Messages>>
+
+    @POST("events")
+    fun sendMessageDescription(@Header("x-api-key") xApiKey: String,@Body messageDescription: MessageDescription): Call<Messages>
 
 }

@@ -1,4 +1,3 @@
 package com.example.watching_android.model
 
-data class NickNameData (var id: Int,
-                    var nickname: String)
+data class NickNameData (var nickname: String)
