@@ -19,14 +19,19 @@ class MessageViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 //    messageRepository: MessageRepository) : ViewModel() {
     private val messageRepository = MessageRepository(RetrofitConnection())
 
+    //private val messages = MutableLiveData<List<Messages>>()
     //val api_key : String = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing api key")
     //val user_id : Int = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing user id")
-    var messages : LiveData<List<Messages>> = messageRepository.getMessages()
+    //private lateinit var messages : LiveData<List<Messages>>// = messageRepository.getMessages()
+    val messages = MutableLiveData<List<Messages>>()
 
     fun getRecentMessages() : LiveData<List<Messages>>{
-        messages =  messageRepository.getMessages()
+        messages.value= messageRepository.getMessages(this)
         return messages
     }
 
+    fun setMessageValue(paramMessages : List<Messages>){
+        messages.value = paramMessages
+    }
 
 }
