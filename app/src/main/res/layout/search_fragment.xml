@@ -9,6 +9,7 @@
             android:layout_width="296dp"
             android:layout_height="47dp"
             android:text="@string/searchText"
+            android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -19,17 +20,20 @@
 
     <EditText
             android:id="@+id/phoneNumberText"
-            android:layout_width="266dp"
-            android:layout_height="47dp"
+            android:layout_width="162dp"
+            android:layout_height="42dp"
             android:autofillHints="@string/autoHintNumber"
             android:ems="10"
+            android:hint="@string/autoHintNumber"
             android:inputType="phone"
+            android:textAlignment="center"
+            android:textColorHint="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.583"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/serachText"
-            app:layout_constraintVertical_bias="0.135" />
+            app:layout_constraintVertical_bias="0.154" />
 
     <Button
             android:id="@+id/btnOk"

@@ -16,7 +16,7 @@
     <!-- Alert box contents of telephone number not found -->
     <string name="alertNickNameTitle">お知らせ</string>
     <string name="alertNickNameMsg">Nickname should be between 1 and 15 characters</string>
-    <string name="alertSearchMsg">Nickname should be of 11 characters</string>
+    <string name="alertSearchMsg">Phone number should be of 11 characters</string>
     <string name="requestTitle">リクエスト</string>
     <string name="sendRequestMsg">%1$sさんに見守りリクエストを送ります。</string>
     <string name="onSuccess">リクエストを送信しました。</string>
