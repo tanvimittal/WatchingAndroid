@@ -32,6 +32,7 @@ import com.example.watching_android.model.UserRegistration
 import com.example.watching_android.ui.NickNameFragment
 import com.example.watching_android.ui.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     // Declaring constant of permission READ_PHONE_STATE
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
-        val sharedPref = this?.getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
         val nickName = sharedPref.getString(this.getString(R.string.nickname), "")
         Preferences.APIKEY = sharedPref.getString(this.getString(R.string.api_key), "").toString()
 
@@ -57,12 +58,12 @@ class MainActivity : AppCompatActivity() {
             // READ_PHONE_STATE Permission code
             checkPermission(Manifest.permission.READ_PHONE_STATE, READ_PHONE_STATE)
             val btn = findViewById<Button>(R.id.btn)
-            btn.setOnClickListener(View.OnClickListener {
+            btn.setOnClickListener {
                 Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show()
                 //RetrofitFunctions.registerUser(UserInfoData(), this)
                 checkPref(true, this)
 
-            })
+            }
             nickNameFragment = NickNameFragment()
             transaction = supportFragmentManager.beginTransaction()
             transaction.add(R.id.mainActivity, nickNameFragment)
@@ -111,19 +112,19 @@ class MainActivity : AppCompatActivity() {
 
     fun checkPref(setOrNot: Boolean, activity: Activity) {
 
-        if (setOrNot == false) {
+        if (!setOrNot) {
             Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
         } else {
-            val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+            val sharedPref = activity.getPreferences(Context.MODE_PRIVATE) ?: return
             val apiKey = sharedPref.getString(activity.getString(R.string.api_key), "")
             val id = sharedPref.getInt(activity.getString(R.string.ID), 0)
             val nickName = sharedPref.getString(activity.getString(R.string.nickname), "")
-            Toast.makeText(activity, apiKey + " " + id + "" + nickName, Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "$apiKey $id$nickName", Toast.LENGTH_LONG).show()
 
                 if(!activity.isFinishing && !activity.isDestroyed ){
                 try{
 
-                    transaction.replace(R.id.mainActivity, nickNameFragment);
+                    transaction.replace(R.id.mainActivity, nickNameFragment)
                     transaction.commit()
 
                 } catch (e: java.lang.Exception){
@@ -143,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 
                 val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 //Getting country code
-                val countryID= tm.simCountryIso.toUpperCase();
+                val countryID= tm.simCountryIso.toUpperCase(Locale.getDefault())
                 /*
                 val IMEI = tm.getImei(0)
                 if(IMEI!=null)
@@ -152,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 val telNumber = tm.line1Number
                 // 電話場番号はＮｕｌｌではない場合は次に進む
                 if(telNumber!=null) {
-                    var userInfo =
+                    val userInfo =
                         UserInfoData(phone_number = PhoneNumber(countryID, telNumber))
                     RetrofitFunctions.registerUser(userInfo, this)
                 } else{
@@ -237,8 +238,8 @@ class MainActivity : AppCompatActivity() {
 
         }
         else if(nickNameData!=null){
-            val setOrNot = Preferences.setPreferences(null, nickNameData, activity)
-           var startIntent: Intent? = Intent(activity, MainActivity::class.java)
+            Preferences.setPreferences(null, nickNameData, activity)
+            val startIntent: Intent? = Intent(activity, MainActivity::class.java)
             startIntent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             activity.startActivity(startIntent)
 

@@ -16,11 +16,15 @@ interface JsonPlaceHolder {
     @PUT( "users")
     fun updateNickName(@Header("x-api-key") xApiKey: String,@Body nickName: NickNameData) : Call<Void>
 
-
     @GET("events")
     fun getMessgaes(@Header("x-api-key") xApiKey: String): Call<List<Messages>>
 
     @POST("events")
     fun sendMessageDescription(@Header("x-api-key") xApiKey: String,@Body messageDescription: MessageDescription): Call<Messages>
 
+    @GET("users")
+    fun getSearchResult(@Header("x-api-key") xApiKey: String, @Query("phone_number") phoneNumber: String): Call<NickNameID>
+
+    @POST("follow_requests")
+    fun sendRequest(@Header("x-api-key") xApiKey: String,@Body user_id: RequestId): Call<Void>
 }
