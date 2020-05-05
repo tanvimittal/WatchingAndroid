@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
         // Set the tab
         else{
+            supportActionBar?.elevation = 0F
             Preferences.APIKEY
             val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
             val viewPager: ViewPager = findViewById(R.id.view_pager)

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.view.SupportActionModeWrapper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
@@ -42,7 +43,6 @@ class Chats : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val parentHolder = inflater.inflate(R.layout.chat_tab, container, false)
-
         btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
         btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
 
