@@ -7,13 +7,16 @@
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reyclerview_message_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="413dp"
+            android:layout_height="515dp"
             android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:reverseLayout="true" />
+
     <Button
             android:id="@+id/btnOhayou"
             android:layout_width="wrap_content"
