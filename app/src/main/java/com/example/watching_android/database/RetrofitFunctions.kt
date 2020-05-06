@@ -1,6 +1,7 @@
 package com.example.watching_android.database
 
 import android.app.Activity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import retrofit2.Call
@@ -11,6 +12,7 @@ import com.example.watching_android.model.*
 import com.example.watching_android.repository.MessageRepository
 import com.example.watching_android.ui.Chats
 import com.example.watching_android.ui.MessageViewModel
+import com.example.watching_android.ui.RequestRecieved
 import com.example.watching_android.ui.Search
 import java.lang.ref.ReferenceQueue
 
@@ -151,7 +153,61 @@ object RetrofitFunctions{
                 }
 
             })
+    }
 
+    /**
+     * This function is called to get the requests
+     */
+    fun getRequest(activity: Activity){
+        val retrofitConnection = RetrofitConnection()
+        val requestRecieved = RequestRecieved()
+        retrofitConnection.getRequests(Preferences.APIKEY)
+            .enqueue(object : Callback<List<RequestRecievedModel>>{
+                override fun onFailure(call: Call<List<RequestRecievedModel>>, t: Throwable) {
+                    //TODO: Decide what to do
+                    requestRecieved.onFailure( activity)
+                }
+
+                override fun onResponse(call: Call<List<RequestRecievedModel>>, response: Response<List<RequestRecievedModel>>) {
+                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
+                    if (responseCode ==2 ){
+                        response.body()?.let { requestRecieved.showRequests(it, activity) }
+                    }
+                    else{
+                        requestRecieved.onFailure( activity)
+                    }
+
+                }
+
+            })
+    }
+
+    /**
+     * This function is called when a request is accepted
+     */
+    fun acceptRequest(activity: Activity, id : Int){
+        val retrofitConnection = RetrofitConnection()
+        val requestRecieved = RequestRecieved()
+        retrofitConnection.acceptRequest(Preferences.APIKEY, id)
+            .enqueue(object : Callback<Void>{
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    //TODO: Decide what to do
+                    val str = "Fail"
+                }
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
+                    if (responseCode ==2 ){
+                        getRequest(activity)
+                        requestRecieved.onSuccess(activity)
+                    }
+                    else{
+                        //TODO: Decide what to do
+                    }
+
+                }
+
+            })
     }
 
 }

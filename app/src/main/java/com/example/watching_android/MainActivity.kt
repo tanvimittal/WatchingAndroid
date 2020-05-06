@@ -57,13 +57,7 @@ class MainActivity : AppCompatActivity() {
         if (nickName.isNullOrBlank()){
             // READ_PHONE_STATE Permission code
             checkPermission(Manifest.permission.READ_PHONE_STATE, READ_PHONE_STATE)
-            val btn = findViewById<Button>(R.id.btn)
-            btn.setOnClickListener {
-                Toast.makeText(this, "Hello", Toast.LENGTH_LONG).show()
-                //RetrofitFunctions.registerUser(UserInfoData(), this)
-                checkPref(true, this)
-
-            }
+            supportActionBar?.elevation = 0F
             nickNameFragment = NickNameFragment()
             transaction = supportFragmentManager.beginTransaction()
             transaction.add(R.id.mainActivity, nickNameFragment)
@@ -111,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun checkPref(setOrNot: Boolean, activity: Activity) {
+    private fun checkPref(setOrNot: Boolean, activity: Activity) {
 
         if (!setOrNot) {
             Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()

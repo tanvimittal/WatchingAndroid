@@ -27,4 +27,11 @@ interface JsonPlaceHolder {
 
     @POST("follow_requests")
     fun sendRequest(@Header("x-api-key") xApiKey: String,@Body user_id: RequestId): Call<Void>
+
+    @GET("follow_requests")
+    fun getRequests(@Header("x-api-key") xApiKey: String): Call<List<RequestRecievedModel>>
+
+    @POST("follow_requests/{id}/accept")
+    fun acceptRequest(@Header("x-api-key") xApiKey: String, @Path("id")id: Int): Call<Void>
+
 }

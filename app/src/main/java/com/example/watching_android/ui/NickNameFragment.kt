@@ -40,18 +40,14 @@ class NickNameFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val nickNameView = inflater.inflate(R.layout.nickname_fragmnent, container, false)
-        val btn = activity?.findViewById<Button>(R.id.btn)
-        if(btn!=null){
-            btn.visibility = View.INVISIBLE
-        }
 
         // Setting on click listener of button
         val registerButton = nickNameView?.findViewById<Button>(R.id.btnNickName)
         val textView = nickNameView?.findViewById<EditText>(R.id.editTextNickName)
-        registerButton?.setOnClickListener(View.OnClickListener {
+        registerButton?.setOnClickListener {
             Toast.makeText(activity, "Working", Toast.LENGTH_LONG).show()
             var nickName = textView!!.text.toString()
-            if(nickName!= null && nickName.trim().length<=15 && nickName.isNotEmpty()){
+            if(nickName.trim().length<=15 && nickName.isNotEmpty()){
                 val userRegistration = activity?.let { it1 -> Preferences.getPreferences(it1) }
                 if (userRegistration != null) {
                     activity?.let { it1 ->
@@ -60,8 +56,7 @@ class NickNameFragment() : Fragment() {
                         )
                     }
                 }
-            }
-            else{
+            } else{
                 // Alert Boxを表示してアプリを終了する。
                 val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(activity).create()
                 if (alertDialog != null) {
@@ -74,7 +69,7 @@ class NickNameFragment() : Fragment() {
                 }
             }
 
-        })
+        }
 
         return nickNameView
         //ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.ctrlActivityIndicator);

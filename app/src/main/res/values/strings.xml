@@ -19,6 +19,7 @@
     <string name="alertSearchMsg">Phone number should be of 11 characters</string>
     <string name="requestTitle">リクエスト</string>
     <string name="sendRequestMsg">%1$sさんに見守りリクエストを送ります。</string>
+    <string name="messageDetail">%1$sさんからリクエストが届いています。\n承認しましょうか?</string>
     <string name="onSuccess">リクエストを送信しました。</string>
     <string name="onError">エラーが発生しました。</string>
     <!-- Ohayou button -->
@@ -26,6 +27,7 @@
     <!-- Oyasumi button -->
     <string name="btn_oyasumi">おやすみ</string>
     <string name="tab_text_0">探す</string>
+    <string name="tab_text_request">リクエスト</string>
     <string name="tab_text_1">Chats</string>
 
     <!-- Menu -->
@@ -36,4 +38,8 @@
     <string name="btnOkText">探す</string>
     <string name="searchText">相手の電話番号を入れてください。</string>
     <string name="autoHintNumber">09022233311</string>
+    <string name="btn_request_accept">承認</string>
+    <string name="btn_decline">拒否</string>
+    <string name="on_request_accepted">リクエストを承認いたしました。</string>
+    <string name="no_request">リクエストがありません。</string>
 </resources>

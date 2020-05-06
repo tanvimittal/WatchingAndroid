@@ -23,7 +23,7 @@ class Search : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val parentHolder = inflater.inflate(R.layout.search_fragment, container, false)
-        val btnSearch = parentHolder?.findViewById<Button>(R.id.btnOk)
+        val btnSearch = parentHolder?.findViewById<Button>(R.id.btnAcceptRequest)
         val phoneNumberText = parentHolder?.findViewById<EditText>(R.id.phoneNumberText)!!
         btnSearch?.setOnClickListener {
             var searchPhone = phoneNumberText.text.toString()
