@@ -57,7 +57,7 @@ class RequestListAdapter(private val requestList: List<RequestRecievedModel>) :
             }
             //TODO: Decide what to do, right now Just deleting request
             btnDecline.setOnClickListener {
-
+                activity?.let { it1 -> RetrofitFunctions.declineRequest(it1, userId) }
             }
         }
 

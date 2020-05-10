@@ -34,4 +34,7 @@ interface JsonPlaceHolder {
     @POST("follow_requests/{id}/accept")
     fun acceptRequest(@Header("x-api-key") xApiKey: String, @Path("id")id: Int): Call<Void>
 
+    @POST("follow_requests/{id}/decline")
+    fun declineRequest(@Header("x-api-key") xApiKey: String, @Path("id")id: Int): Call<Void>
+
 }

@@ -28,20 +28,33 @@ class RequestRecieved : Fragment() {
 
         // Getting swipeOnRefresh
         val swipeRefreshLayout = parentHolder.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+        val swipeRefreshLayoutEmpty = parentHolder.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshEmpty)
         swipeRefreshLayout!!.setOnRefreshListener {
             activity?.let { RetrofitFunctions.getRequest(it) }
             swipeRefreshLayout.isRefreshing = false
         }
+        swipeRefreshLayoutEmpty!!.setOnRefreshListener {
+            activity?.let { RetrofitFunctions.getRequest(it) }
+            swipeRefreshLayoutEmpty.isRefreshing = false
+        }
         return parentHolder
     }
 
+    /**
+     * This function is called for displaying requests
+     */
     fun showRequests(requestList: List<RequestRecievedModel>, activity: Activity){
 
         val mrequestAdapter = RequestListAdapter(requestList)
+        val swipeRefreshLayout = activity.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+        val swipeRefreshLayoutEmpty = activity.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshEmpty)
+        swipeRefreshLayout.visibility = View.VISIBLE
         val viewManager = LinearLayoutManager(activity)
         val textNoData = activity.findViewById<TextView>(R.id.noItemTextView)
         if (requestList.isEmpty()){
+            swipeRefreshLayoutEmpty.visibility = View.VISIBLE
             textNoData.visibility = View.VISIBLE
+            swipeRefreshLayout.visibility = View.GONE
         }
         else{
             activity?.findViewById<RecyclerView>(R.id.requestRecyclerView)?.apply {
@@ -49,6 +62,7 @@ class RequestRecieved : Fragment() {
                 adapter = mrequestAdapter
             }
             textNoData.visibility = View.GONE
+            swipeRefreshLayoutEmpty.visibility = View.GONE
         }
 
     }
@@ -59,6 +73,13 @@ class RequestRecieved : Fragment() {
      */
     fun onSuccess(activity: Activity){
         Toast.makeText(activity, activity.resources.getString(R.string.on_request_accepted), Toast.LENGTH_LONG).show()
+    }
+
+    /**
+     * This function would be called when Request is declined
+     */
+    fun onRequestDeclinedSuccess(activity: Activity){
+        Toast.makeText(activity, activity.resources.getString(R.string.on_request_declined), Toast.LENGTH_LONG).show()
     }
 
     /**

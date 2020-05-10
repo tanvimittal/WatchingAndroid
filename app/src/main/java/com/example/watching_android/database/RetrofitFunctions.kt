@@ -193,6 +193,7 @@ object RetrofitFunctions{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do
                     val str = "Fail"
+                    requestRecieved.onFailure(activity)
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -203,6 +204,37 @@ object RetrofitFunctions{
                     }
                     else{
                         //TODO: Decide what to do
+                        requestRecieved.onFailure(activity)
+                    }
+
+                }
+
+            })
+    }
+
+    /**
+     * This function is called when a request is declined
+     */
+    fun declineRequest(activity: Activity, id : Int){
+        val retrofitConnection = RetrofitConnection()
+        val requestRecieved = RequestRecieved()
+        retrofitConnection.declineRequest(Preferences.APIKEY, id)
+            .enqueue(object : Callback<Void>{
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    //TODO: Decide what to do
+                    val str = "Fail"
+                    requestRecieved.onFailure(activity)
+                }
+
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
+                    if (responseCode ==2 ){
+                        getRequest(activity)
+                        requestRecieved.onRequestDeclinedSuccess(activity)
+                    }
+                    else{
+                        //TODO: Decide what to do
+                        requestRecieved.onFailure(activity)
                     }
 
                 }

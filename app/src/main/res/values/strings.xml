@@ -41,5 +41,6 @@
     <string name="btn_request_accept">承認</string>
     <string name="btn_decline">拒否</string>
     <string name="on_request_accepted">リクエストを承認いたしました。</string>
+    <string name="on_request_declined">リクエストを拒否いたしました。</string>
     <string name="no_request">リクエストがありません。</string>
 </resources>
