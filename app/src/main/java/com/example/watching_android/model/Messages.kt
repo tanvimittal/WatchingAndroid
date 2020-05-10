@@ -6,7 +6,7 @@ import java.util.*
 data class Messages (var id: Int,
                      var description: String,
                      var created_at : Date,
-                     var user: NickNameData
+                     var user: NickNameID
                      ){
     override fun toString(): String {
         return "$id - $description"

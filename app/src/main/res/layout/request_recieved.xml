@@ -4,13 +4,14 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
         android:paddingTop="8dp">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/requestCard"
             android:layout_width="401dp"
             android:layout_height="138dp"
-            android:layout_marginTop="70dp"
+            app:cardBackgroundColor="@color/Camo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -18,12 +19,13 @@
             app:layout_constraintVertical_bias="0.209">
 
         <com.google.android.material.circularreveal.CircularRevealRelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="406dp"
                 android:layout_height="match_parent"
                 android:background="?android:attr/textColorHintInverse">
 
             <Button
                     android:id="@+id/btnAcceptRequest"
+                    style="@style/AppTheme.RoundedCornerMaterialButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -34,6 +36,7 @@
 
             <Button
                     android:id="@+id/btnDeclineRequet"
+                    style="@style/AppTheme.RoundedCornerMaterialButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -49,7 +52,8 @@
                     android:layout_above="@+id/btnAcceptRequest"
                     android:layout_marginBottom="22dp"
                     android:text="TextView"
-                    android:textAlignment="gravity" />
+                    android:textAlignment="gravity"
+                    android:textColor="@color/design_default_color_on_secondary" />
 
         </com.google.android.material.circularreveal.CircularRevealRelativeLayout>
 

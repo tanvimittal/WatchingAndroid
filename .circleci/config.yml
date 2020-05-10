@@ -28,3 +28,7 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+      - run:
+        name: "Deploy to Firebase"
+        command: |
+          bundle exec fastlane stage flavor:alpha branch:${CIRCLE_BRANCH} app_id:$FIREBASE_ID firebase_token:$FIREBASE_TOKEN

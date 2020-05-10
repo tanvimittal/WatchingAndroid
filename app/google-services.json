@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "984905976918",
+    "firebase_url": "https://watching-android.firebaseio.com",
+    "project_id": "watching-android",
+    "storage_bucket": "watching-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984905976918:android:f88ff06ca39c9189ce3ff7",
+        "android_client_info": {
+          "package_name": "com.example.watching_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984905976918-0e24g32ofc9ohqbp9qpgjrnjorja49dd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKKrVuetaQECBt6HHEGZGSqfbMjq8KKs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984905976918-0e24g32ofc9ohqbp9qpgjrnjorja49dd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

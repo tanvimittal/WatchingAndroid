@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
         val nickName = sharedPref.getString(this.getString(R.string.nickname), "")
         Preferences.APIKEY = sharedPref.getString(this.getString(R.string.api_key), "").toString()
+        Preferences.USERID = sharedPref.getInt(this.getString(R.string.ID), 0)
 
         // If nickName is not being set
         if (nickName.isNullOrBlank()){
@@ -71,6 +72,8 @@ class MainActivity : AppCompatActivity() {
             viewPager.adapter = sectionsPagerAdapter
             val tabs: TabLayout = findViewById(R.id.tabs)
             tabs.setupWithViewPager(viewPager)
+            // This statement is setting default tab
+            viewPager.setCurrentItem(2,false)
 
         }
 

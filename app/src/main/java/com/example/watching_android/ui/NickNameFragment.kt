@@ -45,7 +45,6 @@ class NickNameFragment() : Fragment() {
         val registerButton = nickNameView?.findViewById<Button>(R.id.btnNickName)
         val textView = nickNameView?.findViewById<EditText>(R.id.editTextNickName)
         registerButton?.setOnClickListener {
-            Toast.makeText(activity, "Working", Toast.LENGTH_LONG).show()
             var nickName = textView!!.text.toString()
             if(nickName.trim().length<=15 && nickName.isNotEmpty()){
                 val userRegistration = activity?.let { it1 -> Preferences.getPreferences(it1) }

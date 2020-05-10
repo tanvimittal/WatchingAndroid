@@ -192,7 +192,6 @@ object RetrofitFunctions{
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do
-                    val str = "Fail"
                     requestRecieved.onFailure(activity)
                 }
 
@@ -222,7 +221,6 @@ object RetrofitFunctions{
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do
-                    val str = "Fail"
                     requestRecieved.onFailure(activity)
                 }
 
