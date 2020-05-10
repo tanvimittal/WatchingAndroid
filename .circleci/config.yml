@@ -28,6 +28,12 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+deploy_to_firebase:
+  build:
+    docker:
+      - image: circleci/node:10.16.0
+    working_directory: ~/repo
+    steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
@@ -45,5 +51,5 @@ jobs:
           name: Build
           command: npm build
       - run:
-          name: "Deploy to Firebase"
-          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
+          name: Firebase Deploy
+          command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN" --only hosting
