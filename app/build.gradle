@@ -91,6 +91,7 @@ dependencies {
     implementation "androidx.room:room-ktx:2.2.5"
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
 
     // Gson convertor
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
