@@ -8,11 +8,11 @@ import com.example.watching_android.constants.Constants
  * This function is returning retrofit's object
  */
 
-fun RetrofitConnection(): JsonPlaceHolder{
+fun RetrofitConnection(): WatchingApiService{
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        return retrofit.create(JsonPlaceHolder::class.java)
+        return retrofit.create(WatchingApiService::class.java)
 }

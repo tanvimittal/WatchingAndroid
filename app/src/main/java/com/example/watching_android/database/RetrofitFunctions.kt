@@ -23,7 +23,7 @@ object RetrofitFunctions{
 
         val mainActivity = MainActivity()
         val resUserInfoData = UserRegistration(0, "")
-        WatchingApi.client.createUser(userInfoData)
+        WatchingApi.service.postUsers(userInfoData)
             .enqueue(object : Callback<UserRegistration>{
                 override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
                     mainActivity.getResponse(null, null, activity)
@@ -51,7 +51,7 @@ object RetrofitFunctions{
      */
     fun registerNickName(nickName: NickNameData, activity: Activity){
         val mainActivity = MainActivity()
-        WatchingApi.client.updateNickName(Preferences.APIKEY, nickName)
+        WatchingApi.service.putUsers(Preferences.APIKEY, nickName)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     mainActivity.getResponse(null, null, activity)
@@ -75,7 +75,7 @@ object RetrofitFunctions{
     * This function is calling retrofit API and saving data as user shared preference
     */
     fun sendMessageDescription(messageDescription: MessageDescription){
-        WatchingApi.client.sendMessageDescription(Preferences.APIKEY, messageDescription)
+        WatchingApi.service.postEvents(Preferences.APIKEY, messageDescription)
             .enqueue(object : Callback<Messages>{
                 override fun onFailure(call: Call<Messages>, t: Throwable) {
                     //mainActivity.getResponse(null, null, activity)
@@ -100,7 +100,7 @@ object RetrofitFunctions{
      */
     fun getSearchResult(phoneClass: String, activity: FragmentActivity){
         val search = Search()
-        WatchingApi.client.getSearchResult(Preferences.APIKEY, phoneClass)
+        WatchingApi.service.getUsers(Preferences.APIKEY, phoneClass)
             .enqueue(object : Callback<NickNameID>{
                 override fun onFailure(call: Call<NickNameID>, t: Throwable) {
                     search.onFailure(activity)
@@ -124,7 +124,7 @@ object RetrofitFunctions{
      */
     fun sendRequest(userId : Int, activity: Activity){
         val search = Search()
-        WatchingApi.client.sendRequest(Preferences.APIKEY, RequestId(userId))
+        WatchingApi.service.postFollowRequests(Preferences.APIKEY, RequestId(userId))
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     search.onFailure(activity)
@@ -149,7 +149,7 @@ object RetrofitFunctions{
      */
     fun getRequest(activity: Activity){
         val requestRecieved = RequestRecieved()
-        WatchingApi.client.getRequests(Preferences.APIKEY)
+        WatchingApi.service.getFollowRequests(Preferences.APIKEY)
             .enqueue(object : Callback<List<RequestRecievedModel>>{
                 override fun onFailure(call: Call<List<RequestRecievedModel>>, t: Throwable) {
                     //TODO: Decide what to do
@@ -175,7 +175,7 @@ object RetrofitFunctions{
      */
     fun acceptRequest(activity: Activity, id : Int){
         val requestRecieved = RequestRecieved()
-        WatchingApi.client.acceptRequest(Preferences.APIKEY, id)
+        WatchingApi.service.postFollowRequestsAccept(Preferences.APIKEY, id)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do
@@ -203,7 +203,7 @@ object RetrofitFunctions{
      */
     fun declineRequest(activity: Activity, id : Int){
         val requestRecieved = RequestRecieved()
-        WatchingApi.client.declineRequest(Preferences.APIKEY, id)
+        WatchingApi.service.postFollowRequestsDecline(Preferences.APIKEY, id)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do

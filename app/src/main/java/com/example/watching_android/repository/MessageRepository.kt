@@ -11,7 +11,7 @@ import javax.inject.Singleton
 // This class will call and store messages which we get from API
 @Singleton
 class MessageRepository(
-    private val webservice : JsonPlaceHolder
+    private val webservice : WatchingApiService
 ){
 // At first, We don't need to use Dagger
 //class MessageRepository @Inject constructor(
@@ -21,7 +21,7 @@ class MessageRepository(
     //fun getMessages() : LiveData<List<Messages>>{
     fun getMessages(messageViewModel: MessageViewModel) : List<Messages>{
         var data = mutableListOf<Messages>()
-        webservice.getMessgaes(Preferences.APIKEY).enqueue(object : Callback<List<Messages>>{
+        webservice.getEvents(Preferences.APIKEY).enqueue(object : Callback<List<Messages>>{
                 override fun onFailure(call: Call<List<Messages>>, t: Throwable) {
                     //TODO: Decide on Failure
                 }

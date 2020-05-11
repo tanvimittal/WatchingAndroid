@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  * - https://www.youtube.com/watch?v=w6MvFXz5ecA
  */
 object WatchingApi {
-    val client: JsonPlaceHolder by lazy {
+    val service: WatchingApiService by lazy {
         // 通信ログ出力
         // https://tech.mti.co.jp/entry/2020/03/31/163321
         val interceptor = HttpLoggingInterceptor()
@@ -28,6 +28,6 @@ object WatchingApi {
             .client(httpClient)
             .build()
 
-        retrofit.create(JsonPlaceHolder::class.java)
+        retrofit.create(WatchingApiService::class.java)
     }
 }

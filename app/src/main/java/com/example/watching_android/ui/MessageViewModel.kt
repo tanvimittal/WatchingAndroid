@@ -15,7 +15,7 @@ class MessageViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 //class MessageViewModel @Inject constructor (
 //    savedStateHandle: SavedStateHandle,
 //    messageRepository: MessageRepository) : ViewModel() {
-    private val messageRepository = MessageRepository(WatchingApi.client)
+    private val messageRepository = MessageRepository(WatchingApi.service)
 
     //private val messages = MutableLiveData<List<Messages>>()
     //val api_key : String = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing api key")
