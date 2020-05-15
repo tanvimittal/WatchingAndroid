@@ -3,12 +3,7 @@
     <!-- Alert box contents of telephone number not found -->
     <string name="alertTelTitle">お知らせ</string>
     <string name="alertTelMsg">Sorry! You cannot use this app.</string>
-    <!-- ID of the user -->
-    <string name="ID">000</string>
-    <!-- API key -->
-    <string name="api_key">Default Key</string>
-    <!-- NickName -->
-    <string name="nickname">""</string>
+
     <!-- Hint for Nick Name -->
     <string name="hint_nickname">ニックネームを入力してください。</string>
     <!-- Button for registering nickname -->

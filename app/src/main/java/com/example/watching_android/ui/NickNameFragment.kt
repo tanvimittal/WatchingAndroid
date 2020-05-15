@@ -47,7 +47,9 @@ class NickNameFragment() : Fragment() {
         registerButton?.setOnClickListener {
             var nickName = textView!!.text.toString()
             if(nickName.trim().length<=15 && nickName.isNotEmpty()){
+                // TODO: そもそも、この処理に意味があるのか？
                 val userRegistration = activity?.let { it1 -> Preferences.getPreferences(it1) }
+                // TODO: userRegistration が null の時 (= avtivity が null の時?!) はどうする？
                 if (userRegistration != null) {
                     activity?.let { it1 ->
                         RetrofitFunctions.registerNickName(NickNameData(nickName),

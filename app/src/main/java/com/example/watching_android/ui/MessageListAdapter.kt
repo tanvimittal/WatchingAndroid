@@ -57,7 +57,7 @@ class MessageListAdapter(private val messageList: List<Messages>) :
      */
     override fun getItemViewType(position: Int): Int {
         val message = messageList.get(position)
-        if(message.user.id == Preferences.USERID)
+        if(message.user.id == Preferences.userId)
             return VIEW_TYPE_MESSAGE_SENT
         else
             return VIEW_TYPE_MESSAGE_RECEIVED

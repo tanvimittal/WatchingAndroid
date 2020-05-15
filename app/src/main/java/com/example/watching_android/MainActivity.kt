@@ -2,7 +2,6 @@ package com.example.watching_android
 
 import android.Manifest
 import android.app.Activity
-import android.content.ComponentCallbacks
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -13,8 +12,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
@@ -22,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
+import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
@@ -49,10 +47,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
-        val nickName = sharedPref.getString(this.getString(R.string.nickname), "")
-        Preferences.APIKEY = sharedPref.getString(this.getString(R.string.api_key), "").toString()
-        Preferences.USERID = sharedPref.getInt(this.getString(R.string.ID), 0)
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
+        Preferences.apiKey = sharedPref.getString(Preferences.KEY_API_KEY, null).toString()
+        Preferences.userId = sharedPref.getInt(Preferences.KEY_USER_ID, 0)
 
         // If nickName is not being set
         if (nickName.isNullOrBlank()){
@@ -66,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         // Set the tab
         else{
             supportActionBar?.elevation = 0F
-            Preferences.APIKEY
+            Preferences.apiKey
             val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
             val viewPager: ViewPager = findViewById(R.id.view_pager)
             viewPager.adapter = sectionsPagerAdapter
@@ -114,9 +112,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
         } else {
             val sharedPref = activity.getPreferences(Context.MODE_PRIVATE) ?: return
-            val apiKey = sharedPref.getString(activity.getString(R.string.api_key), "")
-            val id = sharedPref.getInt(activity.getString(R.string.ID), 0)
-            val nickName = sharedPref.getString(activity.getString(R.string.nickname), "")
+            val apiKey = sharedPref.getString(Preferences.KEY_API_KEY, null)
+            val id = sharedPref.getInt(Preferences.KEY_USER_ID, 0)
+            val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
             Toast.makeText(activity, "$apiKey $id$nickName", Toast.LENGTH_LONG).show()
 
                 if(!activity.isFinishing && !activity.isDestroyed ){

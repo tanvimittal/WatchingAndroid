@@ -2,7 +2,7 @@ package com.example.watching_android.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import com.example.watching_android.R
+import com.example.watching_android.database.Preferences
 
 class DebugFragment : Fragment() {
 
@@ -29,10 +30,10 @@ class DebugFragment : Fragment() {
             /*
              * SharedPreference 削除
              */
-            val sharedPref = activity?.getSharedPreferences("MainActivity", Context.MODE_PRIVATE)  // TODO: 保存先を変更
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
 
             if (sharedPref != null) {
-                val nickName = sharedPref.getString(getString(R.string.nickname), "")  // TODO: キーがおかしい？
+                val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
                 Log.d(this::class.java.simpleName, "nickname = $nickName")
 
                 sharedPref.edit().apply {
