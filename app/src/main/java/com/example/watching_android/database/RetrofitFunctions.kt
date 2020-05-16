@@ -46,8 +46,8 @@ object RetrofitFunctions{
     /**
      * This function is calling retrofit API and saving data as user shared preference
      */
-    fun registerNickName(nickName: NickNameData, activity: Activity, mainActivity: MainActivity){
-        WatchingApi.service.putUsers(Preferences.apiKey, nickName)
+    fun registerNickName(apiKey: String, nickName: NickNameData, activity: Activity, mainActivity: MainActivity){
+        WatchingApi.service.putUsers(apiKey, nickName)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     mainActivity.getResponse(null, null, activity)
@@ -67,11 +67,12 @@ object RetrofitFunctions{
     * This function is calling retrofit API and saving data as user shared preference
     */
     fun sendMessageDescription(
+        apiKey: String,
         messageDescription: MessageDescription,
         chats: Chats,
         activity: Activity
     ){
-        WatchingApi.service.postEvents(Preferences.apiKey, messageDescription)
+        WatchingApi.service.postEvents(apiKey, messageDescription)
             .enqueue(object : Callback<Messages>{
                 override fun onFailure(call: Call<Messages>, t: Throwable) {
                     chats.onError(activity)
@@ -92,11 +93,12 @@ object RetrofitFunctions{
      * This function is called when we search Person by entering phone number
      */
     fun getSearchResult(
+        apiKey: String,
         phoneClass: String,
         activity: FragmentActivity,
         search: Search
     ){
-        WatchingApi.service.getUsers(Preferences.apiKey, phoneClass)
+        WatchingApi.service.getUsers(apiKey, phoneClass)
             .enqueue(object : Callback<NickNameID>{
                 override fun onFailure(call: Call<NickNameID>, t: Throwable) {
                     search.onFailure(activity)
@@ -119,11 +121,12 @@ object RetrofitFunctions{
      * This function is called when send 見守りリクエスト
      */
     fun sendRequest(
+        apiKey: String,
         userId: Int,
         activity: Activity,
         search: Search
     ){
-        WatchingApi.service.postFollowRequests(Preferences.apiKey, RequestId(userId))
+        WatchingApi.service.postFollowRequests(apiKey, RequestId(userId))
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     search.onFailure(activity)
@@ -142,8 +145,8 @@ object RetrofitFunctions{
     /**
      * This function is called to get the requests
      */
-    fun getRequest(activity: Activity, receivedRequestHolder: RequestRecieved?){
-        WatchingApi.service.getFollowRequests(Preferences.apiKey)
+    fun getRequest(apiKey: String, activity: Activity, receivedRequestHolder: RequestRecieved?){
+        WatchingApi.service.getFollowRequests(apiKey)
             .enqueue(object : Callback<List<RequestRecievedModel>>{
                 override fun onFailure(call: Call<List<RequestRecievedModel>>, t: Throwable) {
                     //TODO: Decide what to do
@@ -164,11 +167,12 @@ object RetrofitFunctions{
      * This function is called when a request is accepted
      */
     fun acceptRequest(
+        apiKey: String,
         activity: Activity,
         id: Int,
         receivedRequestHolder: RequestRecieved?
     ){
-        WatchingApi.service.postFollowRequestsAccept(Preferences.apiKey, id)
+        WatchingApi.service.postFollowRequestsAccept(apiKey, id)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do
@@ -177,7 +181,7 @@ object RetrofitFunctions{
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() / 100 == 2) {
-                        getRequest(activity, receivedRequestHolder)
+                        getRequest(apiKey, activity, receivedRequestHolder)
                         receivedRequestHolder!!.onSuccess(activity)
                     } else {
                         //TODO: Decide what to do
@@ -191,11 +195,12 @@ object RetrofitFunctions{
      * This function is called when a request is declined
      */
     fun declineRequest(
+        apiKey: String,
         activity: Activity,
         id: Int,
         fragmentObject: RequestRecieved?
     ){
-        WatchingApi.service.postFollowRequestsDecline(Preferences.apiKey, id)
+        WatchingApi.service.postFollowRequestsDecline(apiKey, id)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do
@@ -204,7 +209,7 @@ object RetrofitFunctions{
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() / 100 == 2) {
-                        getRequest(activity, fragmentObject)
+                        getRequest(apiKey, activity, fragmentObject)
                         fragmentObject!!.onRequestDeclinedSuccess(activity)
                     } else {
                         //TODO: Decide what to do

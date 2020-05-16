@@ -15,6 +15,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watching_android.R
+import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.MessageDescription
 import com.example.watching_android.model.Messages
@@ -57,7 +58,13 @@ class Chats : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
         btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
-        viewModel.getRecentMessages()
+        val apiKey = Preferences.apiKey
+        if (apiKey == null) {
+            // TODO: エラー処理
+            return
+        }
+
+        viewModel.getRecentMessages(apiKey)
         tryFunc()
         btnOhayou?.setOnClickListener {
             buttonClick(MessageDescription("おはよう"))
@@ -69,7 +76,12 @@ class Chats : Fragment() {
     }
 
     private fun buttonClick(messageDescription: MessageDescription){
-        activity?.let { RetrofitFunctions.sendMessageDescription(messageDescription, this, it) }
+        val apiKey = Preferences.apiKey
+        if (apiKey == null) {
+            // TODO: エラー処理
+            return
+        }
+        activity?.let { RetrofitFunctions.sendMessageDescription(apiKey, messageDescription, this, it) }
     }
 
 
@@ -99,7 +111,13 @@ class Chats : Fragment() {
      * This function is called when button click is successful
      */
     fun onSuccess() {
-       viewModel.getRecentMessages()
+        val apiKey = Preferences.apiKey
+        if (apiKey == null) {
+            // TODO: エラー処理
+            return
+        }
+
+        viewModel.getRecentMessages(apiKey)
     }
 
     /**

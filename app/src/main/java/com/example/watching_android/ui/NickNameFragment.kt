@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.watching_android.MainActivity
@@ -47,14 +46,20 @@ class NickNameFragment() : Fragment() {
         val textView = nickNameView?.findViewById<EditText>(R.id.editTextNickName)
         registerButton?.setOnClickListener {
             var nickName = textView!!.text.toString()
-            if(nickName.trim().length<=15 && nickName.isNotEmpty()){
-                    activity?.let { it1 ->
-                        RetrofitFunctions.registerNickName(NickNameData(nickName),
-                            it1,
-                            activity as MainActivity
-                        )
-                    }
-            } else{
+            val apiKey = Preferences.apiKey
+
+            if (apiKey == null) {
+                // TODO: エラー処理
+            } else if (nickName.trim().length <= 15 && nickName.isNotEmpty()) {
+                activity?.let { it1 ->
+                    RetrofitFunctions.registerNickName(
+                        apiKey,
+                        NickNameData(nickName),
+                        it1,
+                        activity as MainActivity
+                    )
+                }
+            } else {
                 // Alert Boxを表示してアプリを終了する。
                 val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(activity).create()
                 if (alertDialog != null) {

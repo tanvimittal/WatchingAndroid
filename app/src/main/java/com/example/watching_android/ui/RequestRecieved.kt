@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.watching_android.R
+import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.RequestRecievedModel
 import kotlinx.android.synthetic.main.request_recieved_fragment.*
@@ -23,18 +24,25 @@ class RequestRecieved : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val apiKey = Preferences.apiKey
+
+        if (apiKey == null) {
+            // TODO: エラー処理
+            return null
+        }
+
         val parentHolder = inflater.inflate(R.layout.request_recieved_fragment, container, false)
-        activity?.let { RetrofitFunctions.getRequest(it, this) }
+        activity?.let { RetrofitFunctions.getRequest(apiKey, it, this) }
 
         // Getting swipeOnRefresh
         val swipeRefreshLayout = parentHolder.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
         val swipeRefreshLayoutEmpty = parentHolder.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshEmpty)
         swipeRefreshLayout!!.setOnRefreshListener {
-            activity?.let { RetrofitFunctions.getRequest(it, this) }
+            activity?.let { RetrofitFunctions.getRequest(apiKey, it, this) }
             swipeRefreshLayout.isRefreshing = false
         }
         swipeRefreshLayoutEmpty!!.setOnRefreshListener {
-            activity?.let { RetrofitFunctions.getRequest(it, this) }
+            activity?.let { RetrofitFunctions.getRequest(apiKey, it, this) }
             swipeRefreshLayoutEmpty.isRefreshing = false
         }
         return parentHolder

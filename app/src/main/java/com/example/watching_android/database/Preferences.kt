@@ -2,22 +2,24 @@ package com.example.watching_android.database
 
 import android.app.Activity
 import androidx.preference.PreferenceManager
-import com.example.watching_android.MainActivity
 import com.example.watching_android.model.NickNameData
 import com.example.watching_android.model.UserRegistration
-import java.lang.Exception
+import kotlin.system.exitProcess
 
 /**
  * This class is used to get and set shared preferences
  */
-object Preferences{
+object Preferences {
     // https://qiita.com/ryo_mm2d/items/b90dbbd726183c20c14c#%E3%82%AD%E3%83%BC%E3%82%92%E3%81%A9%E3%81%AE%E3%82%88%E3%81%86%E3%81%AB%E7%AE%A1%E7%90%86%E3%81%99%E3%81%B9%E3%81%8D%E3%81%8B
     const val KEY_USER_ID = "user_id"
     const val KEY_API_KEY = "api_key"
     const val KEY_NICKNAME = "nickname"
 
+    // 取得済みの場合は 0 以上
     var userId = -1
-    var apiKey = ""  // 取得できていないときに "" (空文字) で x-api-key を送ってしまう (検出しにくいバグを埋め込む)
+
+    // 取得済みの場合は null 以外
+    var apiKey: String? = null
 
     /*
      * 何を set するメソッド？

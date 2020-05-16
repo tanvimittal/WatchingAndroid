@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watching_android.R
+import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.RequestRecievedModel
 
@@ -49,16 +50,23 @@ class RequestListAdapter(private val requestList: List<RequestRecievedModel>) :
         private val btnOk: Button = itemView.findViewById(R.id.btnAcceptRequest)
         private val btnDecline: Button = itemView.findViewById(R.id.btnDeclineRequet)
         fun bind(request: RequestRecievedModel) {
+            val apiKey = Preferences.apiKey
+            if (apiKey == null) {
+                // TODO: エラー処理
+                return
+            }
+
             val userName = request.from_user.nickname
             val userId = request.id
             val title = String.format(stringName,userName)
             messageText.text = title
+
             btnOk.setOnClickListener {
-                activity?.let { it1 -> RetrofitFunctions.acceptRequest(it1, userId, fragmentObject) }
+                activity?.let { it1 -> RetrofitFunctions.acceptRequest(apiKey, it1, userId, fragmentObject) }
             }
             //TODO: Decide what to do, right now Just deleting request
             btnDecline.setOnClickListener {
-                activity?.let { it1 -> RetrofitFunctions.declineRequest(it1, userId, fragmentObject) }
+                activity?.let { it1 -> RetrofitFunctions.declineRequest(apiKey, it1, userId, fragmentObject) }
             }
         }
 

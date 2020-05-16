@@ -23,8 +23,8 @@ class MessageViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     //private lateinit var messages : LiveData<List<Messages>>// = messageRepository.getMessages()
     val messages = MutableLiveData<List<Messages>>()
 
-    fun getRecentMessages(){
-        messageRepository.getMessages(this)
+    fun getRecentMessages(apiKey: String) {
+        messageRepository.getMessages(apiKey, this)
     }
 
     fun setMessageValue(paramMessages : List<Messages>){

@@ -19,9 +19,10 @@ class MessageRepository(
 //){
 
     //fun getMessages() : LiveData<List<Messages>>{
-    fun getMessages(messageViewModel: MessageViewModel) : List<Messages>{
+    fun getMessages(apiKey: String, messageViewModel: MessageViewModel) : List<Messages>{
         var data = mutableListOf<Messages>()
-        webservice.getEvents(Preferences.apiKey).enqueue(object : Callback<List<Messages>>{
+
+        webservice.getEvents(apiKey).enqueue(object : Callback<List<Messages>>{
                 override fun onFailure(call: Call<List<Messages>>, t: Throwable) {
                     //TODO: Decide on Failure
                 }

@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.watching_android.R
+import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.NickNameID
 
@@ -26,11 +27,18 @@ class Search : Fragment() {
         val btnSearch = parentHolder?.findViewById<Button>(R.id.btnAcceptRequest)
         val phoneNumberText = parentHolder?.findViewById<EditText>(R.id.phoneNumberText)!!
         btnSearch?.setOnClickListener {
+            val apiKey = Preferences.apiKey
+
+            if (apiKey == null) {
+                // TODO: エラー処理
+                return@setOnClickListener
+            }
+
             var searchPhone = phoneNumberText.text.toString()
             if (searchPhone.length == 11 && searchPhone.isNotEmpty()) {
                 searchPhone = searchPhone.substring(1)
                 searchPhone = "+81$searchPhone"
-                activity?.let { it1 -> RetrofitFunctions.getSearchResult(searchPhone, it1, this) }
+                activity?.let { it1 -> RetrofitFunctions.getSearchResult(apiKey, searchPhone, it1, this) }
             } else {
                 // Alert Boxを表示してアプリを終了する。
                 val alertDialog: android.app.AlertDialog? =
@@ -51,6 +59,12 @@ class Search : Fragment() {
 
 
     fun sendRequest(nickNameInfo: NickNameID, activity: Activity) {
+        val apiKey = Preferences.apiKey
+        if (apiKey == null) {
+            // TODO: エラー処理
+            return
+        }
+
         val nickName = nickNameInfo.nickname
         val userId = nickNameInfo.id
         val alertDialog: android.app.AlertDialog? =
@@ -63,7 +77,7 @@ class Search : Fragment() {
                 AlertDialog.BUTTON_NEUTRAL, "OK",
                 DialogInterface.OnClickListener {
                         dialog, _ -> dialog.dismiss()
-                        RetrofitFunctions.sendRequest(userId,activity, this)
+                        RetrofitFunctions.sendRequest(apiKey, userId, activity, this)
                          })
             alertDialog.setButton(
                 AlertDialog.BUTTON_NEGATIVE, "CANCEL",
