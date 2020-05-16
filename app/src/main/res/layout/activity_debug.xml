@@ -20,11 +20,17 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <fragment
-            android:id="@+id/fragment"
-            android:name="com.example.watching_android.ui.DebugFragment"
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <fragment
+                android:id="@+id/fragment"
+                android:name="com.example.watching_android.ui.DebugFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

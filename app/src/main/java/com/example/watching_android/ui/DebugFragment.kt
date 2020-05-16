@@ -9,9 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
+import java.lang.StringBuilder
 
 class DebugFragment : Fragment() {
 
@@ -26,12 +28,24 @@ class DebugFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val log = StringBuilder()
+        log.appendln("Shared Preference")
+        log.appendln("${Preferences.KEY_USER_ID} = ${sharedPref.getInt(Preferences.KEY_USER_ID, -1)}")
+        log.appendln("${Preferences.KEY_API_KEY} = ${sharedPref.getString(Preferences.KEY_API_KEY, null)}")
+        log.appendln("${Preferences.KEY_NICKNAME} = ${sharedPref.getString(Preferences.KEY_NICKNAME, null)}")
+
+        /*
+         * デバッグ情報表示
+         */
+        val logText = view.findViewById<TextView>(R.id.text_log)
+        logText.text = log
+
         view.findViewById<Button>(R.id.button_first).setOnClickListener {
             /*
              * SharedPreference 削除
              */
-            val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-
             if (sharedPref != null) {
                 val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
                 Log.d(this::class.java.simpleName, "nickname = $nickName")
