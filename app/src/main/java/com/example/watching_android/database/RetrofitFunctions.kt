@@ -30,20 +30,17 @@ object RetrofitFunctions{
                 }
 
                 override fun onResponse(call: Call<UserRegistration>, response: Response<UserRegistration>) {
-                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
-                    if (responseCode ==2 ){
+                    if (response.code() / 100 == 2) {
                         val userApiKey = response.body()?.api_key ?:""
                         val id : Int = response.body()?.id ?:0
                         resUserInfoData.id = id
                         resUserInfoData.api_key = userApiKey
                         mainActivity.getResponse(resUserInfoData, null, activity)
-                    }
-                    else{
+                    } else {
                         mainActivity.getResponse(null, null, activity)
                     }
                 }
             })
-
     }
 
     /**
@@ -58,16 +55,12 @@ object RetrofitFunctions{
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
-                    if (responseCode ==2 ){
+                    if (response.code() / 100 == 2) {
                         mainActivity.getResponse(null, nickName, activity)
-                    }
-                    else{
+                    } else {
                         mainActivity.getResponse(null, null, activity)
                     }
-
                 }
-
             })
     }
 
@@ -83,15 +76,12 @@ object RetrofitFunctions{
                 }
 
                 override fun onResponse(call: Call<Messages>, response: Response<Messages>) {
-                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
-                    if (responseCode ==2 ){
+                    if (response.code() / 100 == 2) {
                         //Do Nothing
-                    }
-                    else{
+                    } else {
                         //TODO: Decide what to do
                     }
                 }
-
             })
     }
 
@@ -107,15 +97,13 @@ object RetrofitFunctions{
                 }
 
                 override fun onResponse(call: Call<NickNameID>, response: Response<NickNameID>) {
-                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
-                    if (responseCode ==2 ){
+                    if (response.code() / 100 == 2) {
+                        // レスポンスが null の時はきちんとエラー処理をすべき
                         response.body()?.let { search.sendRequest(it,activity) }
-                    }
-                    else{
+                    } else {
                         search.onFailure(activity)
                     }
                 }
-
             })
     }
 
@@ -131,16 +119,12 @@ object RetrofitFunctions{
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
-                    if (responseCode ==2 ){
+                    if (response.code() / 100 == 2) {
                         search.onSuccess(activity)
-                    }
-                    else{
+                    } else {
                         search.onFailure(activity)
                     }
-
                 }
-
             })
     }
 
@@ -157,16 +141,12 @@ object RetrofitFunctions{
                 }
 
                 override fun onResponse(call: Call<List<RequestRecievedModel>>, response: Response<List<RequestRecievedModel>>) {
-                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
-                    if (responseCode ==2 ){
+                    if (response.code() / 100 == 2) {
                         response.body()?.let { requestRecieved.showRequests(it, activity) }
-                    }
-                    else{
+                    } else {
                         requestRecieved.onFailure( activity)
                     }
-
                 }
-
             })
     }
 
@@ -183,18 +163,14 @@ object RetrofitFunctions{
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
-                    if (responseCode ==2 ){
+                    if (response.code() / 100 == 2) {
                         getRequest(activity)
                         requestRecieved.onSuccess(activity)
-                    }
-                    else{
+                    } else {
                         //TODO: Decide what to do
                         requestRecieved.onFailure(activity)
                     }
-
                 }
-
             })
     }
 
@@ -211,18 +187,14 @@ object RetrofitFunctions{
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    val responseCode = Integer.parseInt(response.code().toString().substring(0, 1))
-                    if (responseCode ==2 ){
+                    if (response.code() / 100 == 2) {
                         getRequest(activity)
                         requestRecieved.onRequestDeclinedSuccess(activity)
-                    }
-                    else{
+                    } else {
                         //TODO: Decide what to do
                         requestRecieved.onFailure(activity)
                     }
-
                 }
-
             })
     }
 
