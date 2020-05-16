@@ -7,6 +7,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.preference.PreferenceManager
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.Menu
@@ -19,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
-import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
@@ -40,8 +40,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var nickNameFragment: NickNameFragment
     }
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -49,17 +47,22 @@ class MainActivity : AppCompatActivity() {
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
-        Preferences.apiKey = sharedPref.getString(Preferences.KEY_API_KEY, null).toString()
+        Preferences.apiKey = sharedPref.getString(Preferences.KEY_API_KEY, "").toString()
         Preferences.userId = sharedPref.getInt(Preferences.KEY_USER_ID, 0)
+        val chkApiKey = Preferences.apiKey
 
-        // If nickName is not being set
-        if (nickName.isNullOrBlank()){
+
+        // If API key is not set
+        if (chkApiKey==null || chkApiKey.isNullOrBlank()){
             // READ_PHONE_STATE Permission code
             checkPermission(Manifest.permission.READ_PHONE_STATE, READ_PHONE_STATE)
+            // Api key is set
+        } else if (chkApiKey.isNotBlank() && nickName.isNullOrBlank()){
             supportActionBar?.elevation = 0F
             nickNameFragment = NickNameFragment()
             transaction = supportFragmentManager.beginTransaction()
-            transaction.add(R.id.mainActivity, nickNameFragment)
+            transaction.replace(R.id.mainActivity, nickNameFragment)
+            transaction.commit()
         }
         // Set the tab
         else{
@@ -111,32 +114,27 @@ class MainActivity : AppCompatActivity() {
         if (!setOrNot) {
             Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
         } else {
-            val sharedPref = activity.getPreferences(Context.MODE_PRIVATE) ?: return
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
             val apiKey = sharedPref.getString(Preferences.KEY_API_KEY, null)
             val id = sharedPref.getInt(Preferences.KEY_USER_ID, 0)
-            val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
-            Toast.makeText(activity, "$apiKey $id$nickName", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "$apiKey $id", Toast.LENGTH_LONG).show()
 
-                if(!activity.isFinishing && !activity.isDestroyed ){
-                try{
-
+                if (!activity.isFinishing && !activity.isDestroyed ) {
+                    supportActionBar?.elevation = 0F
+                    nickNameFragment = NickNameFragment()
+                    transaction = supportFragmentManager.beginTransaction()
                     transaction.replace(R.id.mainActivity, nickNameFragment)
                     transaction.commit()
-
-                } catch (e: java.lang.Exception){
-                    print(e.printStackTrace())
                 }
-
             }
         }
-    }
 
     /**
      * 携帯番号とＩＭＥＩ番号を取る機能
      */
-    fun readPhoneNumber() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
-            try{
+    private fun readPhoneNumber() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
+            try {
 
                 val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 //Getting country code
@@ -148,11 +146,11 @@ class MainActivity : AppCompatActivity() {
 
                 val telNumber = tm.line1Number
                 // 電話場番号はＮｕｌｌではない場合は次に進む
-                if(telNumber!=null) {
+                if (telNumber!=null) {
                     val userInfo =
                         UserInfoData(phone_number = PhoneNumber(countryID, telNumber))
-                    RetrofitFunctions.registerUser(userInfo, this)
-                } else{
+                    RetrofitFunctions.registerUser(userInfo, this, this)
+                } else {
                     // Alert Boxを表示してアプリを終了する。
                     val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(this@MainActivity).create()
                     if (alertDialog != null) {
@@ -181,7 +179,7 @@ class MainActivity : AppCompatActivity() {
      * Function to check if the permission is granted by user or not,
      * if the permission is not granted then ask for permission
      */
-    fun checkPermission(permission: String, requestCode: Int){
+    fun checkPermission(permission: String, requestCode: Int) {
         if (ContextCompat.checkSelfPermission(this,
                                    permission) == PackageManager.PERMISSION_DENIED) {
 
@@ -203,14 +201,14 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onRequestPermissionsResult(requestCode: Int,
                                    @NonNull permissions: Array<String>,
-                                   @NonNull grantResults: IntArray){
+                                   @NonNull grantResults: IntArray) {
 
         super.onRequestPermissionsResult(requestCode,
                                          permissions,
                                          grantResults)
 
         if (requestCode == READ_PHONE_STATE) {
-            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 readPhoneNumber()
             } else {
                 // Close the app
@@ -219,9 +217,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-
-
 
     /**
      * This function gets the response containing id and api key

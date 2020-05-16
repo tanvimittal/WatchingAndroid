@@ -26,6 +26,7 @@
             android:ems="10"
             android:hint="@string/autoHintNumber"
             android:inputType="phone"
+            android:maxLength="11"
             android:textAlignment="center"
             android:textColorHint="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"

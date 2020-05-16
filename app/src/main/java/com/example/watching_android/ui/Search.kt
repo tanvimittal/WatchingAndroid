@@ -30,7 +30,7 @@ class Search : Fragment() {
             if (searchPhone.length == 11 && searchPhone.isNotEmpty()) {
                 searchPhone = searchPhone.substring(1)
                 searchPhone = "+81$searchPhone"
-                activity?.let { it1 -> RetrofitFunctions.getSearchResult(searchPhone, it1) }
+                activity?.let { it1 -> RetrofitFunctions.getSearchResult(searchPhone, it1, this) }
             } else {
                 // Alert Boxを表示してアプリを終了する。
                 val alertDialog: android.app.AlertDialog? =
@@ -63,7 +63,7 @@ class Search : Fragment() {
                 AlertDialog.BUTTON_NEUTRAL, "OK",
                 DialogInterface.OnClickListener {
                         dialog, _ -> dialog.dismiss()
-                        RetrofitFunctions.sendRequest(userId,activity)
+                        RetrofitFunctions.sendRequest(userId,activity, this)
                          })
             alertDialog.setButton(
                 AlertDialog.BUTTON_NEGATIVE, "CANCEL",
@@ -87,6 +87,10 @@ class Search : Fragment() {
      */
     fun onFailure(activity: Activity){
         Toast.makeText(activity, activity.resources.getString(R.string.onError), Toast.LENGTH_LONG).show()
+    }
+
+    fun userNotFound(activity: Activity){
+        Toast.makeText(activity, activity.resources.getString(R.string.user_not_found), Toast.LENGTH_LONG).show()
     }
 
 }

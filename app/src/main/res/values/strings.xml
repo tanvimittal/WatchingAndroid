@@ -17,6 +17,7 @@
     <string name="messageDetail">%1$sさんからリクエストが届いています。\n承認しましょうか?</string>
     <string name="onSuccess">リクエストを送信しました。</string>
     <string name="onError">エラーが発生しました。</string>
+    <string name="user_not_found">ユーザが見つかりませんでした。</string>
     <!-- Ohayou button -->
     <string name="btn_ohayou">おはよう</string>
     <!-- Oyasumi button -->

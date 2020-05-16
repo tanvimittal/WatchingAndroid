@@ -1,13 +1,14 @@
 package com.example.watching_android.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.view.SupportActionModeWrapper
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.observe
@@ -60,18 +61,15 @@ class Chats : Fragment() {
         tryFunc()
         btnOhayou?.setOnClickListener {
             buttonClick(MessageDescription("おはよう"))
-            viewModel.getRecentMessages()
         }
 
         btnOyasumi?.setOnClickListener {
             buttonClick(MessageDescription("おやすみ"))
-            viewModel.getRecentMessages()
         }
     }
 
     private fun buttonClick(messageDescription: MessageDescription){
-        RetrofitFunctions.sendMessageDescription(messageDescription)
-
+        activity?.let { RetrofitFunctions.sendMessageDescription(messageDescription, this, it) }
     }
 
 
@@ -95,5 +93,20 @@ class Chats : Fragment() {
             // Scroll to last item in the list
             mMessageRecycler?.scrollToPosition((mMessageRecycler.adapter?.itemCount ?: 0) - 1)
         }
+    }
+
+    /**
+     * This function is called when button click is successful
+     */
+    fun onSuccess() {
+       viewModel.getRecentMessages()
+    }
+
+    /**
+     * This method is called when error occurs
+     */
+    fun onError(activity: Activity) {
+        Toast.makeText(activity, activity.resources.getString(R.string.onError), Toast.LENGTH_LONG)
+            .show()
     }
 }

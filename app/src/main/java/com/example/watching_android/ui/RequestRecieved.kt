@@ -24,17 +24,17 @@ class RequestRecieved : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val parentHolder = inflater.inflate(R.layout.request_recieved_fragment, container, false)
-        activity?.let { RetrofitFunctions.getRequest(it) }
+        activity?.let { RetrofitFunctions.getRequest(it, this) }
 
         // Getting swipeOnRefresh
         val swipeRefreshLayout = parentHolder.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
         val swipeRefreshLayoutEmpty = parentHolder.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshEmpty)
         swipeRefreshLayout!!.setOnRefreshListener {
-            activity?.let { RetrofitFunctions.getRequest(it) }
+            activity?.let { RetrofitFunctions.getRequest(it, this) }
             swipeRefreshLayout.isRefreshing = false
         }
         swipeRefreshLayoutEmpty!!.setOnRefreshListener {
-            activity?.let { RetrofitFunctions.getRequest(it) }
+            activity?.let { RetrofitFunctions.getRequest(it, this) }
             swipeRefreshLayoutEmpty.isRefreshing = false
         }
         return parentHolder

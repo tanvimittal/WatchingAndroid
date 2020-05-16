@@ -1,7 +1,6 @@
 package com.example.watching_android.ui
 
 import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.example.watching_android.model.RequestRecievedModel
 
 var stringName : String = ""
 var activity : Activity ?= null
+var fragmentObject : RequestRecieved ?= null
 class RequestListAdapter(private val requestList: List<RequestRecievedModel>) :
     RecyclerView.Adapter<RequestListAdapter.ReceivedRequestHolder>()
 {
@@ -30,6 +30,7 @@ class RequestListAdapter(private val requestList: List<RequestRecievedModel>) :
         // set the view's size, margins, paddings and layout parameters
         stringName = parent.context.resources.getString(R.string.messageDetail)
         activity = parent.context as Activity?
+        fragmentObject = RequestRecieved()
         return ReceivedRequestHolder(textView)
     }
 
@@ -44,20 +45,20 @@ class RequestListAdapter(private val requestList: List<RequestRecievedModel>) :
     override fun getItemCount() = requestList.size
 
     class ReceivedRequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        var messageText: TextView = itemView.findViewById(R.id.displayText)
-        val btnOk: Button = itemView.findViewById(R.id.btnAcceptRequest)
-        val btnDecline: Button = itemView.findViewById(R.id.btnDeclineRequet)
+        private var messageText: TextView = itemView.findViewById(R.id.displayText)
+        private val btnOk: Button = itemView.findViewById(R.id.btnAcceptRequest)
+        private val btnDecline: Button = itemView.findViewById(R.id.btnDeclineRequet)
         fun bind(request: RequestRecievedModel) {
             val userName = request.from_user.nickname
             val userId = request.id
             val title = String.format(stringName,userName)
             messageText.text = title
             btnOk.setOnClickListener {
-                activity?.let { it1 -> RetrofitFunctions.acceptRequest(it1, userId) }
+                activity?.let { it1 -> RetrofitFunctions.acceptRequest(it1, userId, fragmentObject) }
             }
             //TODO: Decide what to do, right now Just deleting request
             btnDecline.setOnClickListener {
-                activity?.let { it1 -> RetrofitFunctions.declineRequest(it1, userId) }
+                activity?.let { it1 -> RetrofitFunctions.declineRequest(it1, userId, fragmentObject) }
             }
         }
 

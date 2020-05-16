@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.fragment.app.FragmentActivity
 import com.example.watching_android.MainActivity
 import com.example.watching_android.model.*
+import com.example.watching_android.ui.Chats
 import com.example.watching_android.ui.RequestRecieved
 import com.example.watching_android.ui.Search
 import retrofit2.Call
@@ -19,9 +20,8 @@ object RetrofitFunctions{
     /**
      * This function is used to register users on database
      */
-    fun registerUser(userInfoData: UserInfoData, activity: Activity){
+    fun registerUser(userInfoData: UserInfoData, activity: Activity, mainActivity: MainActivity){
 
-        val mainActivity = MainActivity()
         val resUserInfoData = UserRegistration(0, "")
         WatchingApi.service.postUsers(userInfoData)
             .enqueue(object : Callback<UserRegistration>{
@@ -46,8 +46,7 @@ object RetrofitFunctions{
     /**
      * This function is calling retrofit API and saving data as user shared preference
      */
-    fun registerNickName(nickName: NickNameData, activity: Activity){
-        val mainActivity = MainActivity()
+    fun registerNickName(nickName: NickNameData, activity: Activity, mainActivity: MainActivity){
         WatchingApi.service.putUsers(Preferences.apiKey, nickName)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
@@ -67,19 +66,23 @@ object RetrofitFunctions{
     /**
     * This function is calling retrofit API and saving data as user shared preference
     */
-    fun sendMessageDescription(messageDescription: MessageDescription){
+    fun sendMessageDescription(
+        messageDescription: MessageDescription,
+        chats: Chats,
+        activity: Activity
+    ){
         WatchingApi.service.postEvents(Preferences.apiKey, messageDescription)
             .enqueue(object : Callback<Messages>{
                 override fun onFailure(call: Call<Messages>, t: Throwable) {
-                    //mainActivity.getResponse(null, null, activity)
-                    //TODO: Decide what to do
+                    chats.onError(activity)
                 }
 
                 override fun onResponse(call: Call<Messages>, response: Response<Messages>) {
                     if (response.code() / 100 == 2) {
-                        //Do Nothing
+                        chats.onSuccess()
+
                     } else {
-                        //TODO: Decide what to do
+                        chats.onError(activity)
                     }
                 }
             })
@@ -88,8 +91,11 @@ object RetrofitFunctions{
     /**
      * This function is called when we search Person by entering phone number
      */
-    fun getSearchResult(phoneClass: String, activity: FragmentActivity){
-        val search = Search()
+    fun getSearchResult(
+        phoneClass: String,
+        activity: FragmentActivity,
+        search: Search
+    ){
         WatchingApi.service.getUsers(Preferences.apiKey, phoneClass)
             .enqueue(object : Callback<NickNameID>{
                 override fun onFailure(call: Call<NickNameID>, t: Throwable) {
@@ -100,6 +106,8 @@ object RetrofitFunctions{
                     if (response.code() / 100 == 2) {
                         // レスポンスが null の時はきちんとエラー処理をすべき
                         response.body()?.let { search.sendRequest(it,activity) }
+                    } else if (response.code() == 404) {
+                        search.userNotFound(activity)
                     } else {
                         search.onFailure(activity)
                     }
@@ -110,8 +118,11 @@ object RetrofitFunctions{
     /**
      * This function is called when send 見守りリクエスト
      */
-    fun sendRequest(userId : Int, activity: Activity){
-        val search = Search()
+    fun sendRequest(
+        userId: Int,
+        activity: Activity,
+        search: Search
+    ){
         WatchingApi.service.postFollowRequests(Preferences.apiKey, RequestId(userId))
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
@@ -131,20 +142,19 @@ object RetrofitFunctions{
     /**
      * This function is called to get the requests
      */
-    fun getRequest(activity: Activity){
-        val requestRecieved = RequestRecieved()
+    fun getRequest(activity: Activity, receivedRequestHolder: RequestRecieved?){
         WatchingApi.service.getFollowRequests(Preferences.apiKey)
             .enqueue(object : Callback<List<RequestRecievedModel>>{
                 override fun onFailure(call: Call<List<RequestRecievedModel>>, t: Throwable) {
                     //TODO: Decide what to do
-                    requestRecieved.onFailure( activity)
+                    receivedRequestHolder!!.onFailure( activity)
                 }
 
                 override fun onResponse(call: Call<List<RequestRecievedModel>>, response: Response<List<RequestRecievedModel>>) {
                     if (response.code() / 100 == 2) {
-                        response.body()?.let { requestRecieved.showRequests(it, activity) }
+                        response.body()?.let { receivedRequestHolder!!.showRequests(it, activity) }
                     } else {
-                        requestRecieved.onFailure( activity)
+                        receivedRequestHolder!!.onFailure( activity)
                     }
                 }
             })
@@ -153,22 +163,25 @@ object RetrofitFunctions{
     /**
      * This function is called when a request is accepted
      */
-    fun acceptRequest(activity: Activity, id : Int){
-        val requestRecieved = RequestRecieved()
+    fun acceptRequest(
+        activity: Activity,
+        id: Int,
+        receivedRequestHolder: RequestRecieved?
+    ){
         WatchingApi.service.postFollowRequestsAccept(Preferences.apiKey, id)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do
-                    requestRecieved.onFailure(activity)
+                    receivedRequestHolder!!.onFailure(activity)
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() / 100 == 2) {
-                        getRequest(activity)
-                        requestRecieved.onSuccess(activity)
+                        getRequest(activity, receivedRequestHolder)
+                        receivedRequestHolder!!.onSuccess(activity)
                     } else {
                         //TODO: Decide what to do
-                        requestRecieved.onFailure(activity)
+                        receivedRequestHolder!!.onFailure(activity)
                     }
                 }
             })
@@ -177,22 +190,25 @@ object RetrofitFunctions{
     /**
      * This function is called when a request is declined
      */
-    fun declineRequest(activity: Activity, id : Int){
-        val requestRecieved = RequestRecieved()
+    fun declineRequest(
+        activity: Activity,
+        id: Int,
+        fragmentObject: RequestRecieved?
+    ){
         WatchingApi.service.postFollowRequestsDecline(Preferences.apiKey, id)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     //TODO: Decide what to do
-                    requestRecieved.onFailure(activity)
+                    fragmentObject!!.onFailure(activity)
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() / 100 == 2) {
-                        getRequest(activity)
-                        requestRecieved.onRequestDeclinedSuccess(activity)
+                        getRequest(activity, fragmentObject)
+                        fragmentObject!!.onRequestDeclinedSuccess(activity)
                     } else {
                         //TODO: Decide what to do
-                        requestRecieved.onFailure(activity)
+                        fragmentObject!!.onFailure(activity)
                     }
                 }
             })

@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.example.watching_android.MainActivity
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
@@ -47,16 +48,12 @@ class NickNameFragment() : Fragment() {
         registerButton?.setOnClickListener {
             var nickName = textView!!.text.toString()
             if(nickName.trim().length<=15 && nickName.isNotEmpty()){
-                // TODO: そもそも、この処理に意味があるのか？
-                val userRegistration = activity?.let { it1 -> Preferences.getPreferences(it1) }
-                // TODO: userRegistration が null の時 (= avtivity が null の時?!) はどうする？
-                if (userRegistration != null) {
                     activity?.let { it1 ->
                         RetrofitFunctions.registerNickName(NickNameData(nickName),
-                            it1
+                            it1,
+                            activity as MainActivity
                         )
                     }
-                }
             } else{
                 // Alert Boxを表示してアプリを終了する。
                 val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(activity).create()

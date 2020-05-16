@@ -18,10 +18,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.209">
 
-        <com.google.android.material.circularreveal.CircularRevealRelativeLayout
+        <RelativeLayout
                 android:layout_width="406dp"
                 android:layout_height="match_parent"
-                android:background="?android:attr/textColorHintInverse">
+                android:background="@color/LightGreen">
 
             <Button
                     android:id="@+id/btnAcceptRequest"
@@ -55,7 +55,7 @@
                     android:textAlignment="gravity"
                     android:textColor="@color/design_default_color_on_secondary" />
 
-        </com.google.android.material.circularreveal.CircularRevealRelativeLayout>
+        </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>

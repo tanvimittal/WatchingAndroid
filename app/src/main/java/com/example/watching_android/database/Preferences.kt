@@ -29,7 +29,6 @@ object Preferences{
      */
     fun setPreferences(userRegistration: UserRegistration?,nickNameData: NickNameData?, activity: Activity) : Boolean{
 
-        val mainActivity = MainActivity()
         var res = true
         // If userRegistration object is not null then write API key and user id in shared preferences
         if (userRegistration!=null){
@@ -63,22 +62,8 @@ object Preferences{
             }
         }
 
-
             return res
     }
 
-    /*
-     * このメソッドは必要か？
-     */
-    /**
-     * This function returns api key and id
-     */
-    fun getPreferences(activity: Activity) : UserRegistration{
-        var userRegistration = UserRegistration(0,"")
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        userRegistration.id = sharedPref.getInt(KEY_USER_ID, 0)
-        userRegistration.api_key = sharedPref.getString(KEY_API_KEY, "").toString()
-        return userRegistration
-    }
 }
 

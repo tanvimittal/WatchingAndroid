@@ -7,8 +7,8 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
-            android:layout_width="419dp"
-            android:layout_height="620dp"
+            android:layout_width="407dp"
+            android:layout_height="578dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
