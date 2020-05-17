@@ -18,6 +18,8 @@ import com.example.watching_android.model.NickNameData
 
 /**
  * Purpose of this class to register nickname
+ *
+ * - 現状 MainActivity からしか使えない (MainActivity に依存)
  */
 class NickNameFragment() : Fragment() {
 

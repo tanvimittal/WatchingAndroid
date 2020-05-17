@@ -134,30 +134,39 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    // TODO: 2 種類の API を受信を 1 つのメソッドで受けているのでわかりにくい
     /**
+     * RetrofitFunctions.registerUser の結果受信.
+     *
      * This function gets the response containing id and api key
      */
-    fun getResponse(userRegistration: UserRegistration?,nickNameData: NickNameData?, activity: Activity){
+    fun onResponseRegisterUser(userRegistration: UserRegistration) {
+        // TODO: そもそも、以下のメソッドは失敗することはなさそう
+        val setOrNot = Preferences.setPreferences(userRegistration, null, this)
 
-        if (userRegistration != null) {
-            // TODO: そもそも、以下のメソッドは失敗することはなさそう
-            val setOrNot = Preferences.setPreferences(userRegistration, null, activity)
-
-            if (setOrNot) {
-                transitionNickNameInputScreen(activity)
-            } else {
-                Toast.makeText(activity, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
-            }
-        } else if (nickNameData != null) {
-            Preferences.setPreferences(null, nickNameData, activity)
-            val startIntent: Intent? = Intent(activity, MainActivity::class.java)
-            startIntent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            activity.startActivity(startIntent)
-
+        if (setOrNot) {
+            transitionNickNameInputScreen(this)
         } else {
-            //TODO: DECIDE what to do when there is server side error
+            Toast.makeText(this, "Unable to set Shared Preferences", Toast.LENGTH_LONG).show()
         }
+    }
+
+    /**
+     * RetrofitFunctions.registerNickName の結果受信 (NickNameFragment で送信している).
+     */
+    fun onResponseRegisterNickname(nickNameData: NickNameData) {
+        Preferences.setPreferences(null, nickNameData, this)
+        val startIntent = Intent(this, MainActivity::class.java)
+        startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        this.startActivity(startIntent)
+    }
+
+    /**
+     * RetrofitFunctions.registerUser
+     * RetrofitFunctions.registerNickName
+     * のエラー処理.
+     */
+    fun onErrorRegister() {
+        //TODO: DECIDE what to do when there is server side error
     }
 
 

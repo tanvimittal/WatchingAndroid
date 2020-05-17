@@ -26,7 +26,7 @@ object RetrofitFunctions{
         WatchingApi.service.postUsers(userInfoData)
             .enqueue(object : Callback<UserRegistration>{
                 override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
-                    mainActivity.getResponse(null, null, activity)
+                    mainActivity.onErrorRegister()
                 }
 
                 override fun onResponse(call: Call<UserRegistration>, response: Response<UserRegistration>) {
@@ -35,9 +35,9 @@ object RetrofitFunctions{
                         val id : Int = response.body()?.id ?:0
                         resUserInfoData.id = id
                         resUserInfoData.api_key = userApiKey
-                        mainActivity.getResponse(resUserInfoData, null, activity)
+                        mainActivity.onResponseRegisterUser(resUserInfoData)
                     } else {
-                        mainActivity.getResponse(null, null, activity)
+                        mainActivity.onErrorRegister()
                     }
                 }
             })
@@ -50,14 +50,14 @@ object RetrofitFunctions{
         WatchingApi.service.putUsers(apiKey, nickName)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    mainActivity.getResponse(null, null, activity)
+                    mainActivity.onErrorRegister()
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() / 100 == 2) {
-                        mainActivity.getResponse(null, nickName, activity)
+                        mainActivity.onResponseRegisterNickname(nickName)
                     } else {
-                        mainActivity.getResponse(null, null, activity)
+                        mainActivity.onErrorRegister()
                     }
                 }
             })
