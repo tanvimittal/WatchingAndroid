@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun onResponseRegisterUser(userWithApiKey: UserWithApiKey) {
         // TODO: そもそも、以下のメソッドは失敗することはなさそう
-        val setOrNot = Preferences.setPreferences(userWithApiKey, null, this)
+        val setOrNot = Preferences.setApiIdInPreference(userWithApiKey, this)
 
         if (setOrNot) {
             transitionNickNameInputScreen(this)
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
      * RetrofitFunctions.registerNickName の結果受信 (NickNameFragment で送信している).
      */
     fun onResponseRegisterNickname(userForUpdate: UserForUpdate) {
-        Preferences.setPreferences(null, userForUpdate, this)
+        Preferences.setNickNamePreference(userForUpdate, this)
 
         val startIntent = Intent(this, MainActivity::class.java)
         startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

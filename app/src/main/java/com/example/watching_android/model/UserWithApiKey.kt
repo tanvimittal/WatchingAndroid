@@ -5,5 +5,5 @@ package com.example.watching_android.model
  */
 data class UserWithApiKey(
     var id: Int,
-    var apiKey: String
+    var apiKey: String?
 )

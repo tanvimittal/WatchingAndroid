@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:paddingTop="8dp">
 
     <androidx.cardview.widget.CardView
@@ -18,9 +18,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.209">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:background="@color/LightGreen">
 
             <Button
@@ -28,11 +28,15 @@
                     style="@style/AppTheme.RoundedCornerMaterialButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="119dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="84dp"
                     android:layout_toStartOf="@+id/btnDeclineRequet"
-                    android:text="@string/btn_request_accept" />
+                    android:text="@string/btn_request_accept"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.099"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                     android:id="@+id/btnDeclineRequet"
@@ -41,23 +45,29 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="47dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/btn_decline" />
+                    android:text="@string/btn_decline"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.871"
+                    app:layout_constraintStart_toStartOf="@+id/btnAcceptRequest"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.823" />
 
             <TextView
                     android:id="@+id/displayText"
-                    android:layout_width="388dp"
-                    android:layout_height="31dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_above="@+id/btnAcceptRequest"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="36dp"
+                    android:layout_marginStart="32dp"
                     android:text="TextView"
                     android:textAlignment="gravity"
-                    android:textColor="@color/design_default_color_on_secondary" />
+                    android:textColor="@color/design_default_color_on_secondary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.274" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.cardview.widget.CardView>

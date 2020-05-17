@@ -3,7 +3,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reyclerview_message_list"
@@ -28,7 +29,6 @@
             android:textColor="@color/design_default_color_background"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnOyasumi"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,17 +37,17 @@
     <Button
             android:id="@+id/btnOyasumi"
             style="@style/AppTheme.RoundedCornerMaterialButton"
-            android:layout_width="93dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/btn_oyasumi"
             android:textColor="@color/design_default_color_background"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.975" />
+            app:layout_constraintVertical_bias="0.983" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

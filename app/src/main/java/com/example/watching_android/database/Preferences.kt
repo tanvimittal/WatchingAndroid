@@ -21,19 +21,24 @@ object Preferences {
     var apiKey: String? = null
 
     /*
-     * 何を set するメソッド？
+     * Setting ID and API Key in preferences
      *
      * - IN と OUT を明確に！
      * - set と get の対応関係がとれていない
      *   set は nickname をあつかっているけど get は nickname をあつかっていない etc.
      * - 例外処理必要か？ return を見てないところもある
      */
-    fun setPreferences(userWithApiKey: UserWithApiKey?, userForUpdate: UserForUpdate?, activity: Activity) : Boolean{
+    /**
+     * This function is called to set ID and Api key in shared preferences
+     * @param : userWithApiKey - Contains the API key and user id to be written in shared preferences
+     *        : activity - Object of Activity
+     * @return : True if the value is set otherwise false
+     */
+    fun setApiIdInPreference(userWithApiKey: UserWithApiKey?, activity: Activity) : Boolean{
 
         var res = true
         // If userRegistration object is not null then write API key and user id in shared preferences
         if (userWithApiKey!=null){
-            try{
                 val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
                 with (sharedPref.edit()) {
                     putString(KEY_API_KEY, userWithApiKey.apiKey)
@@ -45,25 +50,28 @@ object Preferences {
                     }
                 }
                 apiKey = sharedPref.getString(KEY_API_KEY, "").toString()
-            } catch (e :Exception){
-                res = false
-            }
         }
+            return res
+    }
 
-        // If userRegistration object is not null then write API key and user id in shared preferences
+
+    /**
+     * This function is used to set Nickname in preference
+     * @param: userForUpdate - Contains nickname to be updated
+     *       : activity - Object of Activity
+     * @return : Boolean Value - True if nickname is set otherwise false
+     */
+    fun setNickNamePreference(userForUpdate: UserForUpdate?, activity: Activity) : Boolean{
+        var res = true
+        // If Nickname is not null set nickname
         if (userForUpdate!=null){
-            try{
                 val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
                 with (sharedPref.edit()) {
                     putString(KEY_NICKNAME, userForUpdate.nickname)
                     commit()
                 }
-            } catch (e :Exception){
-                res = false
-            }
         }
-
-            return res
+        return res
     }
 
 }

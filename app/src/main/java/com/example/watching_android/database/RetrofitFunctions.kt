@@ -28,7 +28,7 @@ object RetrofitFunctions{
 
                 override fun onResponse(call: Call<UserWithApiKey>, response: Response<UserWithApiKey>) {
                     if (response.code() / 100 == 2) {
-                        val userApiKey = response.body()?.apiKey ?: ""
+                        val userApiKey = response.body()?.apiKey
                         val id: Int = response.body()?.id ?: 0
                         // TODO: エラー処理
 
