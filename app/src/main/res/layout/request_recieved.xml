@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
             android:id="@+id/requestCard"
-            android:layout_width="401dp"
-            android:layout_height="138dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/Camo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -19,8 +19,8 @@
             app:layout_constraintVertical_bias="0.209">
 
         <RelativeLayout
-                android:layout_width="406dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:background="@color/LightGreen">
 
             <Button
@@ -28,10 +28,10 @@
                     style="@style/AppTheme.RoundedCornerMaterialButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="294dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="119dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_toStartOf="@+id/btnDeclineRequet"
                     android:text="@string/btn_request_accept" />
 
             <Button
@@ -41,16 +41,18 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="42dp"
-                    android:layout_marginBottom="9dp"
+                    android:layout_marginEnd="47dp"
+                    android:layout_marginBottom="15dp"
                     android:text="@string/btn_decline" />
 
             <TextView
                     android:id="@+id/displayText"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_width="388dp"
+                    android:layout_height="31dp"
                     android:layout_above="@+id/btnAcceptRequest"
-                    android:layout_marginBottom="22dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="36dp"
                     android:text="TextView"
                     android:textAlignment="gravity"
                     android:textColor="@color/design_default_color_on_secondary" />
