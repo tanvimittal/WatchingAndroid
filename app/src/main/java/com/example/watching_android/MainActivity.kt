@@ -24,7 +24,7 @@ import com.example.watching_android.model.UserForUpdate
 import com.example.watching_android.model.PhoneNumber
 import com.example.watching_android.model.UserForRegistration
 import com.example.watching_android.model.UserWithApiKey
-import com.example.watching_android.ui.NickNameFragment
+import com.example.watching_android.ui.NicknameFragment
 import com.example.watching_android.ui.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
 
@@ -55,13 +55,13 @@ class MainActivity : AppCompatActivity() {
                     showFinishAlertBox()
                 } else {
                     val userInfo = UserForRegistration(phoneNumber = phoneNumber)
-                    RetrofitFunctions.registerUser(userInfo, this, this)
+                    RetrofitFunctions.registerUser(userInfo, this)
                 }
             }
         } else if (Preferences.apiKey != null && nickName == null) {
             supportActionBar?.elevation = 0F
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.mainActivity, NickNameFragment())
+            transaction.replace(R.id.mainActivity, NicknameFragment())
             transaction.commit()
         } else {
             // Set the tab
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                     showFinishAlertBox()
                 } else {
                     val userInfo = UserForRegistration(phoneNumber = phoneNumber)
-                    RetrofitFunctions.registerUser(userInfo, this, this)
+                    RetrofitFunctions.registerUser(userInfo, this)
                 }
             } else {
                 // Close the app
@@ -155,6 +155,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun onResponseRegisterNickname(userForUpdate: UserForUpdate) {
         Preferences.setPreferences(null, userForUpdate, this)
+
         val startIntent = Intent(this, MainActivity::class.java)
         startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         this.startActivity(startIntent)
@@ -231,7 +232,7 @@ class MainActivity : AppCompatActivity() {
         if (!activity.isFinishing && !activity.isDestroyed) {
             supportActionBar?.elevation = 0F
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.mainActivity, NickNameFragment())
+            transaction.replace(R.id.mainActivity, NicknameFragment())
             transaction.commit()
         }
     }

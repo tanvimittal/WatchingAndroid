@@ -21,13 +21,13 @@ import com.example.watching_android.model.UserForUpdate
  *
  * - 現状 MainActivity からしか使えない (MainActivity に依存)
  */
-class NickNameFragment() : Fragment() {
+class NicknameFragment() : Fragment() {
 
     var mContext : Context? = null
     companion object {
-        fun createInstance( mc : Context): NickNameFragment {
+        fun createInstance( mc : Context): NicknameFragment {
             // インスタンス？　MainActivityで生成時に呼ばれている関数
-            val tmpDetailFragment = NickNameFragment()
+            val tmpDetailFragment = NicknameFragment()
             tmpDetailFragment.mContext = mc
             return tmpDetailFragment
         }
@@ -44,22 +44,17 @@ class NickNameFragment() : Fragment() {
         val nickNameView = inflater.inflate(R.layout.nickname_fragmnent, container, false)
 
         // Setting on click listener of button
-        val registerButton = nickNameView?.findViewById<Button>(R.id.btnNickName)
-        val textView = nickNameView?.findViewById<EditText>(R.id.editTextNickName)
+        val registerButton = nickNameView.findViewById<Button>(R.id.btnNickName)
+        val textView = nickNameView.findViewById<EditText>(R.id.editTextNickName)
         registerButton?.setOnClickListener {
-            var nickName = textView!!.text.toString()
+            var nickname = textView.text.toString()
             val apiKey = Preferences.apiKey
 
             if (apiKey == null) {
                 // TODO: エラー処理
-            } else if (nickName.trim().length <= 15 && nickName.isNotEmpty()) {
-                activity?.let { it1 ->
-                    RetrofitFunctions.registerNickName(
-                        apiKey,
-                        UserForUpdate(nickName),
-                        it1,
-                        activity as MainActivity
-                    )
+            } else if (nickname.trim().length <= 15 && nickname.isNotEmpty()) {
+                activity?.let {
+                    RetrofitFunctions.registerNickname(apiKey, UserForUpdate(nickname), it as MainActivity)
                 }
             } else {
                 // Alert Boxを表示してアプリを終了する。

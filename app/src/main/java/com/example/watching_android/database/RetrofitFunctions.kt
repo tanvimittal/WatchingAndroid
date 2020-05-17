@@ -16,26 +16,23 @@ import retrofit2.Response
  */
 object RetrofitFunctions{
 
-     lateinit var userApiKey: String
     /**
      * This function is used to register users on database
      */
-    fun registerUser(userForRegistration: UserForRegistration, activity: Activity, mainActivity: MainActivity){
-
-        val resUserInfoData = UserWithApiKey(0, "")
+    fun registerUser(userForRegistration: UserForRegistration, mainActivity: MainActivity){
         WatchingApi.service.postUsers(userForRegistration)
-            .enqueue(object : Callback<UserWithApiKey>{
+            .enqueue(object : Callback<UserWithApiKey> {
                 override fun onFailure(call: Call<UserWithApiKey>, t: Throwable) {
                     mainActivity.onErrorRegister()
                 }
 
                 override fun onResponse(call: Call<UserWithApiKey>, response: Response<UserWithApiKey>) {
                     if (response.code() / 100 == 2) {
-                        val userApiKey = response.body()?.apiKey ?:""
-                        val id : Int = response.body()?.id ?:0
-                        resUserInfoData.id = id
-                        resUserInfoData.apiKey = userApiKey
-                        mainActivity.onResponseRegisterUser(resUserInfoData)
+                        val userApiKey = response.body()?.apiKey ?: ""
+                        val id: Int = response.body()?.id ?: 0
+                        // TODO: エラー処理
+
+                        mainActivity.onResponseRegisterUser(UserWithApiKey(id, userApiKey))
                     } else {
                         mainActivity.onErrorRegister()
                     }
@@ -46,16 +43,16 @@ object RetrofitFunctions{
     /**
      * This function is calling retrofit API and saving data as user shared preference
      */
-    fun registerNickName(apiKey: String, nickName: UserForUpdate, activity: Activity, mainActivity: MainActivity){
-        WatchingApi.service.putUsers(apiKey, nickName)
-            .enqueue(object : Callback<Void>{
+    fun registerNickname(apiKey: String, userForUpdate: UserForUpdate, mainActivity: MainActivity){
+        WatchingApi.service.putUsers(apiKey, userForUpdate)
+            .enqueue(object : Callback<Void> {
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     mainActivity.onErrorRegister()
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() / 100 == 2) {
-                        mainActivity.onResponseRegisterNickname(nickName)
+                        mainActivity.onResponseRegisterNickname(userForUpdate)
                     } else {
                         mainActivity.onErrorRegister()
                     }
