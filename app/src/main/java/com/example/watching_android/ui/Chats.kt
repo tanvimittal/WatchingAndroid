@@ -16,8 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
-import com.example.watching_android.model.EventForRegistration
 import com.example.watching_android.model.Event
+import com.example.watching_android.model.EventForRegistration
+import com.example.watching_android.utility.hideKeyboard
 
 
 class Chats : Fragment() {
@@ -46,7 +47,6 @@ class Chats : Fragment() {
         val parentHolder = inflater.inflate(R.layout.chat_tab, container, false)
         btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
         btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
-
         return parentHolder
     }
 
@@ -57,6 +57,7 @@ class Chats : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
         btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
+        activity?.let { hideKeyboard(it) }
         val apiKey = Preferences.apiKey
         if (apiKey == null) {
             // TODO: エラー処理

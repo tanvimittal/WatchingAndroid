@@ -15,6 +15,7 @@ import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.FollowRequest
+import com.example.watching_android.utility.hideKeyboard
 
 class RequestRecieved : Fragment() {
 
@@ -29,7 +30,7 @@ class RequestRecieved : Fragment() {
             // TODO: エラー処理
             return null
         }
-
+        activity?.let { hideKeyboard(it) }
         val parentHolder = inflater.inflate(R.layout.request_recieved_fragment, container, false)
         activity?.let { RetrofitFunctions.getRequest(apiKey, it, this) }
 

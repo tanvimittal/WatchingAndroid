@@ -28,11 +28,21 @@ object RetrofitFunctions{
 
                 override fun onResponse(call: Call<UserWithApiKey>, response: Response<UserWithApiKey>) {
                     if (response.code() / 100 == 2) {
-                        val userApiKey = response.body()?.apiKey
-                        val id: Int = response.body()?.id ?: 0
-                        // TODO: エラー処理
+                        val userWithApiKey = response.body()
+                        // Checking on error
+                        if (userWithApiKey == null) {
+                            mainActivity.onErrorRegister()
+                            // IF API key is null
+                        } else if (userWithApiKey.apiKey == null) {
+                            mainActivity.onErrorRegister()
+                            // If id is less than equal to 0
+                        } else if (userWithApiKey.id <= 0) {
+                            mainActivity.onErrorRegister()
+                            // When there is no error
+                        } else {
+                            mainActivity.onResponseRegisterUser(userWithApiKey)
+                        }
 
-                        mainActivity.onResponseRegisterUser(UserWithApiKey(id, userApiKey))
                     } else {
                         mainActivity.onErrorRegister()
                     }
@@ -152,6 +162,7 @@ object RetrofitFunctions{
 
                 override fun onResponse(call: Call<List<FollowRequest>>, response: Response<List<FollowRequest>>) {
                     if (response.code() / 100 == 2) {
+                        //TODO:
                         response.body()?.let { receivedRequestHolder!!.showRequests(it, activity) }
                     } else {
                         receivedRequestHolder!!.onFailure( activity)
