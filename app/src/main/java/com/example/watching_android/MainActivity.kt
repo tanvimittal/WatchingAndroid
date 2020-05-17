@@ -126,9 +126,8 @@ class MainActivity : AppCompatActivity() {
                     RetrofitFunctions.registerUser(userInfo, this)
                 }
             } else {
-                // Close the app
+                // Display the alert box
                 showFinishAlertBox()
-                //finish()
             }
         }
     }
@@ -161,7 +160,9 @@ class MainActivity : AppCompatActivity() {
      * のエラー処理.
      */
     fun onErrorRegister() {
+
         //TODO: DECIDE what to do when there is server side error
+        Toast.makeText(this, "TODO: Server Error", Toast.LENGTH_LONG).show()
     }
 
 
@@ -197,13 +198,7 @@ class MainActivity : AppCompatActivity() {
         val tm = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         //Getting country code
         val countryID = tm.simCountryIso.toUpperCase()
-        /*
-        val IMEI = tm.getImei(0)
-        if(IMEI!=null)
-            Toast.makeText(this, "IMEI number: " + IMEI, Toast.LENGTH_LONG).show() */
-
         val telNumber = tm.line1Number
-
         return if (telNumber != null) {
             PhoneNumber(countryID, telNumber)
         } else {
@@ -217,11 +212,6 @@ class MainActivity : AppCompatActivity() {
      * - Activity が有効じゃないときは黙って何もしない
      */
     private fun transitionNickNameInputScreen(activity: Activity) {
-        // デバッグ用
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        val apiKey = sharedPref.getString(Preferences.KEY_API_KEY, null)
-        val userId = sharedPref.getInt(Preferences.KEY_USER_ID, -1)
-        Toast.makeText(activity, "$apiKey $userId", Toast.LENGTH_LONG).show()
 
         if (!activity.isFinishing && !activity.isDestroyed) {
             supportActionBar?.elevation = 0F

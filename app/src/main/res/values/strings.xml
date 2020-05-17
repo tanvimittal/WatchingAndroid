@@ -39,4 +39,5 @@
     <string name="on_request_accepted">リクエストを承認いたしました。</string>
     <string name="on_request_declined">リクエストを拒否いたしました。</string>
     <string name="no_request">リクエストがありません。</string>
+    <string name="btn_read_again">再読み込み</string>
 </resources>

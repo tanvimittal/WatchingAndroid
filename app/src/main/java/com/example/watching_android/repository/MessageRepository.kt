@@ -28,8 +28,10 @@ class MessageRepository(
                 }
 
                 override fun onResponse(call: Call<List<Event>>, response: Response<List<Event>>) {
-                   data = response.body() as MutableList<Event>
-                    messageViewModel.setMessageValue(data)
+                    if (response.code() / 100 == 2) {
+                        data = response.body() as MutableList<Event>
+                        messageViewModel.setMessageValue(data)
+                    }
                 }
             })
         return data

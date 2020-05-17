@@ -49,5 +49,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.983" />
 
+    <Button
+            android:id="@+id/btnReadAgain"
+            style="@style/AppTheme.RoundedCornerMaterialButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_read_again"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnOyasumi"
+            app:layout_constraintStart_toEndOf="@+id/btnOhayou"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.984" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,12 +19,14 @@ import com.example.watching_android.database.RetrofitFunctions
 import com.example.watching_android.model.Event
 import com.example.watching_android.model.EventForRegistration
 import com.example.watching_android.utility.hideKeyboard
+import kotlinx.android.synthetic.main.chat_tab.*
 
 
 class Chats : Fragment() {
 
     var btnOhayou : Button ?= null
     var btnOyasumi: Button ?= null
+    var btnReadAgain : Button ?= null
 
     // https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate
     // We don't need factoryProducer?!
@@ -45,8 +47,6 @@ class Chats : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val parentHolder = inflater.inflate(R.layout.chat_tab, container, false)
-        btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
-        btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
         return parentHolder
     }
 
@@ -57,6 +57,7 @@ class Chats : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
         btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
+        btnReadAgain = activity?.findViewById<Button>(R.id.btnReadAgain)
         activity?.let { hideKeyboard(it) }
         val apiKey = Preferences.apiKey
         if (apiKey == null) {
@@ -72,6 +73,10 @@ class Chats : Fragment() {
 
         btnOyasumi?.setOnClickListener {
             buttonClick(EventForRegistration("おやすみ"))
+        }
+
+        btnReadAgain?.setOnClickListener {
+            viewModel.getRecentMessages(apiKey)
         }
     }
 
