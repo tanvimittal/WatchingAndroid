@@ -3,5 +3,7 @@ package com.example.watching_android.model
 /**
  * This class stores the response of the api
  */
-data class UserRegistration(var id: Int,
-                            var api_key: String)
+data class UserWithApiKey(
+    var id: Int,
+    var apiKey: String
+)

@@ -20,21 +20,21 @@ object RetrofitFunctions{
     /**
      * This function is used to register users on database
      */
-    fun registerUser(userInfoData: UserInfoData, activity: Activity, mainActivity: MainActivity){
+    fun registerUser(userForRegistration: UserForRegistration, activity: Activity, mainActivity: MainActivity){
 
-        val resUserInfoData = UserRegistration(0, "")
-        WatchingApi.service.postUsers(userInfoData)
-            .enqueue(object : Callback<UserRegistration>{
-                override fun onFailure(call: Call<UserRegistration>, t: Throwable) {
+        val resUserInfoData = UserWithApiKey(0, "")
+        WatchingApi.service.postUsers(userForRegistration)
+            .enqueue(object : Callback<UserWithApiKey>{
+                override fun onFailure(call: Call<UserWithApiKey>, t: Throwable) {
                     mainActivity.onErrorRegister()
                 }
 
-                override fun onResponse(call: Call<UserRegistration>, response: Response<UserRegistration>) {
+                override fun onResponse(call: Call<UserWithApiKey>, response: Response<UserWithApiKey>) {
                     if (response.code() / 100 == 2) {
-                        val userApiKey = response.body()?.api_key ?:""
+                        val userApiKey = response.body()?.apiKey ?:""
                         val id : Int = response.body()?.id ?:0
                         resUserInfoData.id = id
-                        resUserInfoData.api_key = userApiKey
+                        resUserInfoData.apiKey = userApiKey
                         mainActivity.onResponseRegisterUser(resUserInfoData)
                     } else {
                         mainActivity.onErrorRegister()
@@ -46,7 +46,7 @@ object RetrofitFunctions{
     /**
      * This function is calling retrofit API and saving data as user shared preference
      */
-    fun registerNickName(apiKey: String, nickName: NickNameData, activity: Activity, mainActivity: MainActivity){
+    fun registerNickName(apiKey: String, nickName: UserForUpdate, activity: Activity, mainActivity: MainActivity){
         WatchingApi.service.putUsers(apiKey, nickName)
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
@@ -68,17 +68,17 @@ object RetrofitFunctions{
     */
     fun sendMessageDescription(
         apiKey: String,
-        messageDescription: MessageDescription,
+        eventForRegistration: EventForRegistration,
         chats: Chats,
         activity: Activity
     ){
-        WatchingApi.service.postEvents(apiKey, messageDescription)
-            .enqueue(object : Callback<Messages>{
-                override fun onFailure(call: Call<Messages>, t: Throwable) {
+        WatchingApi.service.postEvents(apiKey, eventForRegistration)
+            .enqueue(object : Callback<Event>{
+                override fun onFailure(call: Call<Event>, t: Throwable) {
                     chats.onError(activity)
                 }
 
-                override fun onResponse(call: Call<Messages>, response: Response<Messages>) {
+                override fun onResponse(call: Call<Event>, response: Response<Event>) {
                     if (response.code() / 100 == 2) {
                         chats.onSuccess()
 
@@ -99,12 +99,12 @@ object RetrofitFunctions{
         search: Search
     ){
         WatchingApi.service.getUsers(apiKey, phoneClass)
-            .enqueue(object : Callback<NickNameID>{
-                override fun onFailure(call: Call<NickNameID>, t: Throwable) {
+            .enqueue(object : Callback<UserPublic>{
+                override fun onFailure(call: Call<UserPublic>, t: Throwable) {
                     search.onFailure(activity)
                 }
 
-                override fun onResponse(call: Call<NickNameID>, response: Response<NickNameID>) {
+                override fun onResponse(call: Call<UserPublic>, response: Response<UserPublic>) {
                     if (response.code() / 100 == 2) {
                         // レスポンスが null の時はきちんとエラー処理をすべき
                         response.body()?.let { search.sendRequest(it,activity) }
@@ -126,7 +126,7 @@ object RetrofitFunctions{
         activity: Activity,
         search: Search
     ){
-        WatchingApi.service.postFollowRequests(apiKey, RequestId(userId))
+        WatchingApi.service.postFollowRequests(apiKey, FollowRequestForRegistration(userId))
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
                     search.onFailure(activity)
@@ -147,13 +147,13 @@ object RetrofitFunctions{
      */
     fun getRequest(apiKey: String, activity: Activity, receivedRequestHolder: RequestRecieved?){
         WatchingApi.service.getFollowRequests(apiKey)
-            .enqueue(object : Callback<List<RequestRecievedModel>>{
-                override fun onFailure(call: Call<List<RequestRecievedModel>>, t: Throwable) {
+            .enqueue(object : Callback<List<FollowRequest>>{
+                override fun onFailure(call: Call<List<FollowRequest>>, t: Throwable) {
                     //TODO: Decide what to do
                     receivedRequestHolder!!.onFailure( activity)
                 }
 
-                override fun onResponse(call: Call<List<RequestRecievedModel>>, response: Response<List<RequestRecievedModel>>) {
+                override fun onResponse(call: Call<List<FollowRequest>>, response: Response<List<FollowRequest>>) {
                     if (response.code() / 100 == 2) {
                         response.body()?.let { receivedRequestHolder!!.showRequests(it, activity) }
                     } else {

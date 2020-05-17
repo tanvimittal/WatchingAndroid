@@ -20,10 +20,10 @@ import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
-import com.example.watching_android.model.NickNameData
+import com.example.watching_android.model.UserForUpdate
 import com.example.watching_android.model.PhoneNumber
-import com.example.watching_android.model.UserInfoData
-import com.example.watching_android.model.UserRegistration
+import com.example.watching_android.model.UserForRegistration
+import com.example.watching_android.model.UserWithApiKey
 import com.example.watching_android.ui.NickNameFragment
 import com.example.watching_android.ui.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 if (phoneNumber == null) {
                     showFinishAlertBox()
                 } else {
-                    val userInfo = UserInfoData(phone_number = phoneNumber)
+                    val userInfo = UserForRegistration(phoneNumber = phoneNumber)
                     RetrofitFunctions.registerUser(userInfo, this, this)
                 }
             }
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                 if (phoneNumber == null) {
                     showFinishAlertBox()
                 } else {
-                    val userInfo = UserInfoData(phone_number = phoneNumber)
+                    val userInfo = UserForRegistration(phoneNumber = phoneNumber)
                     RetrofitFunctions.registerUser(userInfo, this, this)
                 }
             } else {
@@ -139,9 +139,9 @@ class MainActivity : AppCompatActivity() {
      *
      * This function gets the response containing id and api key
      */
-    fun onResponseRegisterUser(userRegistration: UserRegistration) {
+    fun onResponseRegisterUser(userWithApiKey: UserWithApiKey) {
         // TODO: そもそも、以下のメソッドは失敗することはなさそう
-        val setOrNot = Preferences.setPreferences(userRegistration, null, this)
+        val setOrNot = Preferences.setPreferences(userWithApiKey, null, this)
 
         if (setOrNot) {
             transitionNickNameInputScreen(this)
@@ -153,8 +153,8 @@ class MainActivity : AppCompatActivity() {
     /**
      * RetrofitFunctions.registerNickName の結果受信 (NickNameFragment で送信している).
      */
-    fun onResponseRegisterNickname(nickNameData: NickNameData) {
-        Preferences.setPreferences(null, nickNameData, this)
+    fun onResponseRegisterNickname(userForUpdate: UserForUpdate) {
+        Preferences.setPreferences(null, userForUpdate, this)
         val startIntent = Intent(this, MainActivity::class.java)
         startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         this.startActivity(startIntent)

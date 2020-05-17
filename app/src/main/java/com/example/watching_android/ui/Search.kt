@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
-import com.example.watching_android.model.NickNameID
+import com.example.watching_android.model.UserPublic
 
 class Search : Fragment() {
 
@@ -58,7 +58,7 @@ class Search : Fragment() {
     }
 
 
-    fun sendRequest(nickNameInfo: NickNameID, activity: Activity) {
+    fun sendRequest(nickNameInfo: UserPublic, activity: Activity) {
         val apiKey = Preferences.apiKey
         if (apiKey == null) {
             // TODO: エラー処理

@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
-import com.example.watching_android.model.RequestRecievedModel
+import com.example.watching_android.model.FollowRequest
 
 
 var stringName : String = ""
 var activity : Activity ?= null
 var fragmentObject : RequestRecieved ?= null
-class RequestListAdapter(private val requestList: List<RequestRecievedModel>) :
+class RequestListAdapter(private val followRequestList: List<FollowRequest>) :
     RecyclerView.Adapter<RequestListAdapter.ReceivedRequestHolder>()
 {
 
@@ -39,34 +39,34 @@ class RequestListAdapter(private val requestList: List<RequestRecievedModel>) :
     override fun onBindViewHolder(holder: ReceivedRequestHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        val request = requestList[position]
+        val request = followRequestList[position]
         holder.bind(request)
     }
 
-    override fun getItemCount() = requestList.size
+    override fun getItemCount() = followRequestList.size
 
     class ReceivedRequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         private var messageText: TextView = itemView.findViewById(R.id.displayText)
         private val btnOk: Button = itemView.findViewById(R.id.btnAcceptRequest)
         private val btnDecline: Button = itemView.findViewById(R.id.btnDeclineRequet)
-        fun bind(request: RequestRecievedModel) {
+        fun bind(followRequest: FollowRequest) {
             val apiKey = Preferences.apiKey
             if (apiKey == null) {
                 // TODO: エラー処理
                 return
             }
 
-            val userName = request.from_user.nickname
-            val userId = request.id
-            val title = String.format(stringName,userName)
+            val nickname = followRequest.fromUser.nickname
+            val followRequestId = followRequest.id
+            val title = String.format(stringName, nickname)
             messageText.text = title
 
             btnOk.setOnClickListener {
-                activity?.let { it1 -> RetrofitFunctions.acceptRequest(apiKey, it1, userId, fragmentObject) }
+                activity?.let { it1 -> RetrofitFunctions.acceptRequest(apiKey, it1, followRequestId, fragmentObject) }
             }
             //TODO: Decide what to do, right now Just deleting request
             btnDecline.setOnClickListener {
-                activity?.let { it1 -> RetrofitFunctions.declineRequest(apiKey, it1, userId, fragmentObject) }
+                activity?.let { it1 -> RetrofitFunctions.declineRequest(apiKey, it1, followRequestId, fragmentObject) }
             }
         }
 

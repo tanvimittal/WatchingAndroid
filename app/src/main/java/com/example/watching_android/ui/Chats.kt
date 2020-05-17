@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.observe
@@ -17,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
-import com.example.watching_android.model.MessageDescription
-import com.example.watching_android.model.Messages
+import com.example.watching_android.model.EventForRegistration
+import com.example.watching_android.model.Event
 
 
 class Chats : Fragment() {
@@ -67,21 +66,21 @@ class Chats : Fragment() {
         viewModel.getRecentMessages(apiKey)
         tryFunc()
         btnOhayou?.setOnClickListener {
-            buttonClick(MessageDescription("おはよう"))
+            buttonClick(EventForRegistration("おはよう"))
         }
 
         btnOyasumi?.setOnClickListener {
-            buttonClick(MessageDescription("おやすみ"))
+            buttonClick(EventForRegistration("おやすみ"))
         }
     }
 
-    private fun buttonClick(messageDescription: MessageDescription){
+    private fun buttonClick(eventForRegistration: EventForRegistration){
         val apiKey = Preferences.apiKey
         if (apiKey == null) {
             // TODO: エラー処理
             return
         }
-        activity?.let { RetrofitFunctions.sendMessageDescription(apiKey, messageDescription, this, it) }
+        activity?.let { RetrofitFunctions.sendMessageDescription(apiKey, eventForRegistration, this, it) }
     }
 
 
@@ -89,7 +88,7 @@ class Chats : Fragment() {
      * This function is used to put observer on viewModel
      */
     private fun tryFunc() {
-        val list: MutableList<Messages> = mutableListOf()
+        val list: MutableList<Event> = mutableListOf()
         viewModel.messages.observe(viewLifecycleOwner) {
 
             it!!.forEach {

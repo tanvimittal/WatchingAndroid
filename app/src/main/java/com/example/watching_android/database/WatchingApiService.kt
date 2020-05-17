@@ -18,31 +18,31 @@ interface WatchingApiService {
      * user
      */
     @GET("users")
-    fun getUsers(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Query("phone_number") phoneNumber: String): Call<NickNameID>
+    fun getUsers(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Query("phone_number") phoneNumber: String): Call<UserPublic>
 
     @POST("users")
-    fun postUsers(@Body userInfoData: UserInfoData): Call<UserRegistration>
+    fun postUsers(@Body userForRegistration: UserForRegistration): Call<UserWithApiKey>
 
     @PUT("users")
-    fun putUsers(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Body nickName: NickNameData): Call<Void>
+    fun putUsers(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Body nickName: UserForUpdate): Call<Void>
 
     /*
      * event
      */
     @GET("events")
-    fun getEvents(@Header(HEADER_NAME_X_API_KEY) xApiKey: String): Call<List<Messages>>
+    fun getEvents(@Header(HEADER_NAME_X_API_KEY) xApiKey: String): Call<List<Event>>
 
     @POST("events")
-    fun postEvents(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Body messageDescription: MessageDescription): Call<Messages>
+    fun postEvents(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Body eventForRegistration: EventForRegistration): Call<Event>
 
     /*
      * follow_request
      */
     @GET("follow_requests")
-    fun getFollowRequests(@Header(HEADER_NAME_X_API_KEY) xApiKey: String): Call<List<RequestRecievedModel>>
+    fun getFollowRequests(@Header(HEADER_NAME_X_API_KEY) xApiKey: String): Call<List<FollowRequest>>
 
     @POST("follow_requests")
-    fun postFollowRequests(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Body user_id: RequestId): Call<Void>
+    fun postFollowRequests(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Body user_forRegistrationFollow: FollowRequestForRegistration): Call<Void>
 
     @POST("follow_requests/{id}/accept")
     fun postFollowRequestsAccept(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Path("id") id: Int): Call<Void>

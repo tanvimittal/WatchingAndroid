@@ -1,7 +1,7 @@
 package com.example.watching_android.repository
 
 import com.example.watching_android.database.*
-import com.example.watching_android.model.Messages
+import com.example.watching_android.model.Event
 import com.example.watching_android.ui.MessageViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,16 +19,16 @@ class MessageRepository(
 //){
 
     //fun getMessages() : LiveData<List<Messages>>{
-    fun getMessages(apiKey: String, messageViewModel: MessageViewModel) : List<Messages>{
-        var data = mutableListOf<Messages>()
+    fun getMessages(apiKey: String, messageViewModel: MessageViewModel) : List<Event>{
+        var data = mutableListOf<Event>()
 
-        webservice.getEvents(apiKey).enqueue(object : Callback<List<Messages>>{
-                override fun onFailure(call: Call<List<Messages>>, t: Throwable) {
+        webservice.getEvents(apiKey).enqueue(object : Callback<List<Event>>{
+                override fun onFailure(call: Call<List<Event>>, t: Throwable) {
                     //TODO: Decide on Failure
                 }
 
-                override fun onResponse(call: Call<List<Messages>>, response: Response<List<Messages>>) {
-                   data = response.body() as MutableList<Messages>
+                override fun onResponse(call: Call<List<Event>>, response: Response<List<Event>>) {
+                   data = response.body() as MutableList<Event>
                     messageViewModel.setMessageValue(data)
                 }
             })

@@ -14,8 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
-import com.example.watching_android.model.RequestRecievedModel
-import kotlinx.android.synthetic.main.request_recieved_fragment.*
+import com.example.watching_android.model.FollowRequest
 
 class RequestRecieved : Fragment() {
 
@@ -51,15 +50,15 @@ class RequestRecieved : Fragment() {
     /**
      * This function is called for displaying requests
      */
-    fun showRequests(requestList: List<RequestRecievedModel>, activity: Activity){
+    fun showRequests(followRequestList: List<FollowRequest>, activity: Activity){
 
-        val mrequestAdapter = RequestListAdapter(requestList)
+        val mrequestAdapter = RequestListAdapter(followRequestList)
         val swipeRefreshLayout = activity.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
         val swipeRefreshLayoutEmpty = activity.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshEmpty)
         swipeRefreshLayout.visibility = View.VISIBLE
         val viewManager = LinearLayoutManager(activity)
         val textNoData = activity.findViewById<TextView>(R.id.noItemTextView)
-        if (requestList.isEmpty()){
+        if (followRequestList.isEmpty()){
             swipeRefreshLayoutEmpty.visibility = View.VISIBLE
             textNoData.visibility = View.VISIBLE
             swipeRefreshLayout.visibility = View.GONE

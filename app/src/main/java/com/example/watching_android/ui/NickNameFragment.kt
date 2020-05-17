@@ -14,7 +14,7 @@ import com.example.watching_android.MainActivity
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
 import com.example.watching_android.database.RetrofitFunctions
-import com.example.watching_android.model.NickNameData
+import com.example.watching_android.model.UserForUpdate
 
 /**
  * Purpose of this class to register nickname
@@ -56,7 +56,7 @@ class NickNameFragment() : Fragment() {
                 activity?.let { it1 ->
                     RetrofitFunctions.registerNickName(
                         apiKey,
-                        NickNameData(nickName),
+                        UserForUpdate(nickName),
                         it1,
                         activity as MainActivity
                     )

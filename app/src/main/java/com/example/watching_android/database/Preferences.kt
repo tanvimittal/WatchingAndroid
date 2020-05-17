@@ -2,9 +2,8 @@ package com.example.watching_android.database
 
 import android.app.Activity
 import androidx.preference.PreferenceManager
-import com.example.watching_android.model.NickNameData
-import com.example.watching_android.model.UserRegistration
-import kotlin.system.exitProcess
+import com.example.watching_android.model.UserForUpdate
+import com.example.watching_android.model.UserWithApiKey
 
 /**
  * This class is used to get and set shared preferences
@@ -29,20 +28,20 @@ object Preferences {
      *   set は nickname をあつかっているけど get は nickname をあつかっていない etc.
      * - 例外処理必要か？ return を見てないところもある
      */
-    fun setPreferences(userRegistration: UserRegistration?,nickNameData: NickNameData?, activity: Activity) : Boolean{
+    fun setPreferences(userWithApiKey: UserWithApiKey?, userForUpdate: UserForUpdate?, activity: Activity) : Boolean{
 
         var res = true
         // If userRegistration object is not null then write API key and user id in shared preferences
-        if (userRegistration!=null){
+        if (userWithApiKey!=null){
             try{
                 val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
                 with (sharedPref.edit()) {
-                    putString(KEY_API_KEY, userRegistration.api_key)
-                    putInt(KEY_USER_ID, userRegistration.id)
+                    putString(KEY_API_KEY, userWithApiKey.apiKey)
+                    putInt(KEY_USER_ID, userWithApiKey.id)
                     commit()
-                    if(userRegistration!=null){
-                        userId = userRegistration.id
-                        apiKey = userRegistration.api_key
+                    if(userWithApiKey!=null){
+                        userId = userWithApiKey.id
+                        apiKey = userWithApiKey.apiKey
                     }
                 }
                 apiKey = sharedPref.getString(KEY_API_KEY, "").toString()
@@ -52,11 +51,11 @@ object Preferences {
         }
 
         // If userRegistration object is not null then write API key and user id in shared preferences
-        if (nickNameData!=null){
+        if (userForUpdate!=null){
             try{
                 val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
                 with (sharedPref.edit()) {
-                    putString(KEY_NICKNAME, nickNameData.nickname)
+                    putString(KEY_NICKNAME, userForUpdate.nickname)
                     commit()
                 }
             } catch (e :Exception){

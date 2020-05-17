@@ -7,12 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watching_android.R
 import com.example.watching_android.database.Preferences
-import com.example.watching_android.model.Messages
+import com.example.watching_android.model.Event
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class MessageListAdapter(private val messageList: List<Messages>) :
+class MessageListAdapter(private val messageList: List<Event>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
     private val VIEW_TYPE_MESSAGE_SENT = 1
@@ -69,12 +69,12 @@ class MessageListAdapter(private val messageList: List<Messages>) :
         var messageText: TextView = itemView.findViewById(R.id.text_message_body)
         var timeText: TextView = itemView.findViewById(R.id.text_message_time)
         var nameText: TextView = itemView.findViewById(R.id.text_message_name)
-        fun bind(message: Messages) {
+        fun bind(message: Event) {
             messageText.text = message.description
 
 
             // Format the stored timestamp into a readable String using method.
-            val setDate = getDate(message.created_at)
+            val setDate = getDate(message.createdAt)
             timeText.text = setDate
 
             //Setting nick name
@@ -107,12 +107,12 @@ class MessageListAdapter(private val messageList: List<Messages>) :
         RecyclerView.ViewHolder(itemView) {
         var messageText: TextView = itemView.findViewById(R.id.text_message_body)
         var timeText: TextView = itemView.findViewById(R.id.text_message_time)
-        fun bind(message: Messages) {
+        fun bind(message: Event) {
             messageText.text = message.description
 
 
             // Format the stored timestamp into a readable String using method.
-            val setDate = getDate(message.created_at)
+            val setDate = getDate(message.createdAt)
             timeText.text = setDate
             // Insert the profile image from the URL into the ImageView.
             //Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage)
