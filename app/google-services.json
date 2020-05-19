@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:984905976918:android:f88ff06ca39c9189ce3ff7",
         "android_client_info": {
-          "package_name": "com.example.watching_android"
+          "package_name": "jp.kyuuki.watching"
         }
       },
       "oauth_client": [

@@ -12,7 +12,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "com.example.watching_android"
+        applicationId "jp.kyuuki.watching"
         minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
