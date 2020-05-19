@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             val tabs: TabLayout = findViewById(R.id.tabs)
             tabs.setupWithViewPager(viewPager)
             // This statement is setting default tab
-            viewPager.setCurrentItem(2, false)
+            viewPager.setCurrentItem(0, false)
         }
     }
 
