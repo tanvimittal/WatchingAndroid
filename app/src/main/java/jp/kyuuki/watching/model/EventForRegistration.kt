@@ -1,5 +1,5 @@
 package jp.kyuuki.watching.model
 
-data class EventForRegistration (
-    val description : String
+data class EventForRegistration(
+    val name: String
 )

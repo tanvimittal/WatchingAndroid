@@ -40,4 +40,11 @@
     <string name="on_request_declined">リクエストを拒否いたしました。</string>
     <string name="no_request">リクエストがありません。</string>
     <string name="btn_read_again">再読み込み</string>
+
+    <!-- イベント一覧 -->
+    <string name="message_received_event_get_up">%1$sさんが起きました！</string>
+    <string name="message_received_event_go_to_bed">%1$sさんが寝ました！</string>
+    <string name="message_sent_event_get_up">起きました！</string>
+    <string name="message_sent_event_go_to_bed">寝ました！</string>
+    <string name="message_event_invalid">\?\?\?\?\?</string>
 </resources>

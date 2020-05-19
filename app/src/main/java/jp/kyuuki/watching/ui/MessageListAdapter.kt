@@ -1,5 +1,6 @@
 package jp.kyuuki.watching.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,7 @@ import jp.kyuuki.watching.model.Event
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class MessageListAdapter(private val messageList: List<Event>) :
+class MessageListAdapter(val context: Context, private val messageList: List<Event>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
     private val VIEW_TYPE_MESSAGE_SENT = 1
@@ -29,14 +29,14 @@ class MessageListAdapter(private val messageList: List<Event>) :
             val textView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_message_received, parent, false)
             // set the view's size, margins, paddings and layout parameters
-            retMessageHolder = ReceivedMessageHolder(textView)
+            retMessageHolder = ReceivedMessageHolder(context, textView)
         }
         else if (viewType == VIEW_TYPE_MESSAGE_SENT) {
             // create a new view
             val textView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_message_sent, parent, false)
             // set the view's size, margins, paddings and layout parameters
-            retMessageHolder = SentMessageHolder(textView)
+            retMessageHolder = SentMessageHolder(context, textView)
         }
         return retMessageHolder
     }
@@ -65,20 +65,30 @@ class MessageListAdapter(private val messageList: List<Event>) :
 
     override fun getItemCount() = messageList.size
 
-    class ReceivedMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ReceivedMessageHolder(val context: Context, itemView: View) : RecyclerView.ViewHolder(itemView) {
         var messageText: TextView = itemView.findViewById(R.id.text_message_body)
         var timeText: TextView = itemView.findViewById(R.id.text_message_time)
         var nameText: TextView = itemView.findViewById(R.id.text_message_name)
-        fun bind(message: Event) {
-            messageText.text = message.description
-
+        fun bind(event: Event) {
+            messageText.text = when (event.name) {
+                Event.NAME_GET_UP -> {
+                    context.getString(R.string.message_received_event_get_up, event.user.nickname)
+                }
+                Event.NAME_GO_TO_BED -> {
+                    context.getString(R.string.message_received_event_go_to_bed, event.user.nickname)
+                }
+                else -> {
+                    context.getString(R.string.message_event_invalid)
+                    // TODO: バグを検出
+                }
+            }
 
             // Format the stored timestamp into a readable String using method.
-            val setDate = getDate(message.createdAt)
+            val setDate = getDate(event.createdAt)
             timeText.text = setDate
 
             //Setting nick name
-            nameText.text = message.user.nickname
+            nameText.text = event.user.nickname
 
             // Insert the profile image from the URL into the ImageView.
             //Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage)
@@ -103,16 +113,26 @@ class MessageListAdapter(private val messageList: List<Event>) :
     }
 
 
-    private class SentMessageHolder internal constructor(itemView: View) :
+    private class SentMessageHolder internal constructor(val context: Context, itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var messageText: TextView = itemView.findViewById(R.id.text_message_body)
         var timeText: TextView = itemView.findViewById(R.id.text_message_time)
-        fun bind(message: Event) {
-            messageText.text = message.description
-
+        fun bind(event: Event) {
+            messageText.text = when (event.name) {
+                Event.NAME_GET_UP -> {
+                    context.getString(R.string.message_sent_event_get_up)
+                }
+                Event.NAME_GO_TO_BED -> {
+                    context.getString(R.string.message_sent_event_go_to_bed)
+                }
+                else -> {
+                    context.getString(R.string.message_event_invalid)
+                    // TODO: バグを検出
+                }
+            }
 
             // Format the stored timestamp into a readable String using method.
-            val setDate = getDate(message.createdAt)
+            val setDate = getDate(event.createdAt)
             timeText.text = setDate
             // Insert the profile image from the URL into the ImageView.
             //Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage)
@@ -135,7 +155,6 @@ class MessageListAdapter(private val messageList: List<Event>) :
             return ("$msgDate $time")
         }
     }
-
 
 }
 

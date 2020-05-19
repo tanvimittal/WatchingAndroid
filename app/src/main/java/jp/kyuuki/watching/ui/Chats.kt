@@ -67,11 +67,11 @@ class Chats : Fragment() {
         viewModel.getRecentMessages(apiKey)
         tryFunc()
         btnOhayou?.setOnClickListener {
-            buttonClick(EventForRegistration("おはよう"))
+            buttonClick(EventForRegistration("get_up"))
         }
 
         btnOyasumi?.setOnClickListener {
-            buttonClick(EventForRegistration("おやすみ"))
+            buttonClick(EventForRegistration("go_to_bed"))
         }
 
         btnReadAgain?.setOnClickListener {
@@ -99,7 +99,7 @@ class Chats : Fragment() {
             it!!.forEach {
                 list.add(it)
             }
-            val mMessageAdapter = MessageListAdapter(list)
+            val mMessageAdapter = MessageListAdapter(requireContext(), list)
             val viewManager = LinearLayoutManager(activity)
             val mMessageRecycler =
                 activity?.findViewById<RecyclerView>(R.id.reyclerview_message_list)?.apply {
