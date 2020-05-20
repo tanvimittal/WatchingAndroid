@@ -102,9 +102,10 @@ class Chats : Fragment() {
      * This function is used to put observer on viewModel
      */
     private fun tryFunc() {
+        val list: MutableList<Event> = mutableListOf()
 
         viewModel.messages.observe(viewLifecycleOwner) {
-            val list: MutableList<Event> = mutableListOf()
+            list.clear()
             it!!.forEach {
                 list.add(it)
             }
