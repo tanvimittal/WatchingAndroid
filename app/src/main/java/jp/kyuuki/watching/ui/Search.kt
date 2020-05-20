@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -26,6 +27,7 @@ class Search : Fragment() {
         val parentHolder = inflater.inflate(R.layout.search_fragment, container, false)
         val btnSearch = parentHolder?.findViewById<Button>(R.id.btnAcceptRequest)
         val phoneNumberText = parentHolder?.findViewById<EditText>(R.id.phoneNumberText)!!
+        val progressBarSearch  = parentHolder?.findViewById<ProgressBar>(R.id.progressBarSearch)
         btnSearch?.setOnClickListener {
             val apiKey = Preferences.apiKey
 
@@ -36,6 +38,7 @@ class Search : Fragment() {
 
             var searchPhone = phoneNumberText.text.toString()
             if (searchPhone.length == 11 && searchPhone.isNotEmpty()) {
+                progressBarSearch.visibility = View.VISIBLE
                 searchPhone = searchPhone.substring(1)
                 searchPhone = "+81$searchPhone"
                 activity?.let { it1 -> RetrofitFunctions.getSearchResult(apiKey, searchPhone, it1, this) }
@@ -65,6 +68,10 @@ class Search : Fragment() {
             return
         }
 
+        // Progress Barを非表示する
+        val progressBarSearch  = activity?.findViewById<ProgressBar>(R.id.progressBarSearch)
+        progressBarSearch.visibility = View.GONE
+
         val nickName = nickNameInfo.nickname
         val userId = nickNameInfo.id
         val alertDialog: android.app.AlertDialog? =
@@ -77,6 +84,7 @@ class Search : Fragment() {
                 AlertDialog.BUTTON_NEUTRAL, "OK",
                 DialogInterface.OnClickListener {
                         dialog, _ -> dialog.dismiss()
+                        progressBarSearch.visibility = View.VISIBLE
                         RetrofitFunctions.sendRequest(apiKey, userId, activity, this)
                          })
             alertDialog.setButton(
@@ -91,6 +99,8 @@ class Search : Fragment() {
      * This function would be called when Request is sent
      */
     fun onSuccess(activity: Activity){
+        val progressBarSearch  = activity?.findViewById<ProgressBar>(R.id.progressBarSearch)
+        progressBarSearch.visibility = View.GONE
         Toast.makeText(activity, activity.resources.getString(R.string.onSuccess), Toast.LENGTH_LONG).show()
         val phoneNumberText = activity.findViewById<EditText>(R.id.phoneNumberText)!!
         phoneNumberText.setText("")
@@ -100,10 +110,14 @@ class Search : Fragment() {
      * This function would be called when error occurs
      */
     fun onFailure(activity: Activity){
+        val progressBarSearch  = activity?.findViewById<ProgressBar>(R.id.progressBarSearch)
+        progressBarSearch.visibility = View.GONE
         Toast.makeText(activity, activity.resources.getString(R.string.onError), Toast.LENGTH_LONG).show()
     }
 
     fun userNotFound(activity: Activity){
+        val progressBarSearch  = activity?.findViewById<ProgressBar>(R.id.progressBarSearch)
+        progressBarSearch.visibility = View.GONE
         Toast.makeText(activity, activity.resources.getString(R.string.user_not_found), Toast.LENGTH_LONG).show()
     }
 

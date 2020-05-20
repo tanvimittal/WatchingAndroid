@@ -10,6 +10,8 @@ import android.telephony.TelephonyManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     // Declaring constant of permission READ_PHONE_STATE
     companion object {
         const val READ_PHONE_STATE = 100
+        lateinit var progressBarMainActivity : ProgressBar
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        progressBarMainActivity = ProgressBar(this)
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
@@ -54,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 if (phoneNumber == null) {
                     showFinishAlertBox()
                 } else {
+                    progressBarMainActivity.visibility = View.VISIBLE
                     val userInfo = UserForRegistration(phoneNumber = phoneNumber)
                     RetrofitFunctions.registerUser(userInfo, this)
                 }
@@ -140,6 +145,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun onResponseRegisterUser(userWithApiKey: UserWithApiKey) {
         // TODO: そもそも、以下のメソッドは失敗することはなさそう
+        progressBarMainActivity.visibility = View.GONE
         Preferences.setApiIdInPreference(userWithApiKey, this)
         transitionNickNameInputScreen(this)
     }
@@ -148,6 +154,8 @@ class MainActivity : AppCompatActivity() {
      * RetrofitFunctions.registerNickName の結果受信 (NickNameFragment で送信している).
      */
     fun onResponseRegisterNickname(userForUpdate: UserForUpdate) {
+        val progressBar = this.findViewById<ProgressBar>(R.id.progressBarNickName);
+        progressBar.visibility = View.GONE
         Preferences.setNickNamePreference(userForUpdate, this)
         val startIntent = Intent(this, MainActivity::class.java)
         startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -160,7 +168,9 @@ class MainActivity : AppCompatActivity() {
      * のエラー処理.
      */
     fun onErrorRegister() {
-
+        val progressBar = this.findViewById<ProgressBar>(R.id.progressBarNickName);
+        progressBarMainActivity.visibility = View.GONE
+        progressBar.visibility = View.GONE
         //TODO: DECIDE what to do when there is server side error
         Toast.makeText(this, "TODO: Server Error", Toast.LENGTH_LONG).show()
     }

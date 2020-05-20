@@ -1,11 +1,13 @@
 package jp.kyuuki.watching.ui
 
 import android.app.Activity
+import android.media.tv.TvContract
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,9 +25,10 @@ import jp.kyuuki.watching.utility.hideKeyboard
 
 class Chats : Fragment() {
 
-    var btnOhayou : Button ?= null
-    var btnOyasumi: Button ?= null
-    var btnReadAgain : Button ?= null
+    private var btnOhayou : Button ?= null
+    private var btnOyasumi: Button ?= null
+    private var btnReadAgain : Button ?= null
+    private var progressBarChats : ProgressBar ?= null
 
     // https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate
     // We don't need factoryProducer?!
@@ -57,6 +60,8 @@ class Chats : Fragment() {
         btnOhayou = activity?.findViewById<Button>(R.id.btnOhayou)
         btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
         btnReadAgain = activity?.findViewById<Button>(R.id.btnReadAgain)
+        progressBarChats = activity?.findViewById<ProgressBar>(R.id.progressBarChats)
+
         activity?.let { hideKeyboard(it) }
         val apiKey = Preferences.apiKey
         if (apiKey == null) {
@@ -64,17 +69,21 @@ class Chats : Fragment() {
             return
         }
 
+        progressBarChats?.visibility = View.VISIBLE
         viewModel.getRecentMessages(apiKey)
         tryFunc()
         btnOhayou?.setOnClickListener {
+            progressBarChats?.visibility = View.VISIBLE
             buttonClick(EventForRegistration("get_up"))
         }
 
         btnOyasumi?.setOnClickListener {
+            progressBarChats?.visibility = View.VISIBLE
             buttonClick(EventForRegistration("go_to_bed"))
         }
 
         btnReadAgain?.setOnClickListener {
+            progressBarChats?.visibility = View.VISIBLE
             viewModel.getRecentMessages(apiKey)
         }
     }
@@ -99,6 +108,7 @@ class Chats : Fragment() {
             it!!.forEach {
                 list.add(it)
             }
+            progressBarChats?.visibility = View.GONE
             val mMessageAdapter = MessageListAdapter(requireContext(), list)
             val viewManager = LinearLayoutManager(activity)
             val mMessageRecycler =
@@ -128,6 +138,7 @@ class Chats : Fragment() {
      * This method is called when error occurs
      */
     fun onError(activity: Activity) {
+        progressBarChats?.visibility = View.GONE
         Toast.makeText(activity, activity.resources.getString(R.string.onError), Toast.LENGTH_LONG)
             .show()
     }

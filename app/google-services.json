@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "984905976918",
-    "firebase_url": "https://watching-android.firebaseio.com",
-    "project_id": "watching-android",
-    "storage_bucket": "watching-android.appspot.com"
+    "project_number": "1005998105164",
+    "firebase_url": "https://watching-android-8d837.firebaseio.com",
+    "project_id": "watching-android-8d837",
+    "storage_bucket": "watching-android-8d837.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:984905976918:android:f88ff06ca39c9189ce3ff7",
+        "mobilesdk_app_id": "1:1005998105164:android:2fb6429ce0935728e2cae9",
         "android_client_info": {
           "package_name": "jp.kyuuki.watching"
         }
       },
       "oauth_client": [
         {
-          "client_id": "984905976918-0e24g32ofc9ohqbp9qpgjrnjorja49dd.apps.googleusercontent.com",
+          "client_id": "1005998105164-1umnspn9d7f8u92alusspmdocflggq2c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCKKrVuetaQECBt6HHEGZGSqfbMjq8KKs0"
+          "current_key": "AIzaSyABIhpg4VEfjzHGjqGlOa1j5UUsST9KVEs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "984905976918-0e24g32ofc9ohqbp9qpgjrnjorja49dd.apps.googleusercontent.com",
+              "client_id": "1005998105164-1umnspn9d7f8u92alusspmdocflggq2c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import jp.kyuuki.watching.MainActivity
@@ -42,7 +43,7 @@ class NicknameFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val nickNameView = inflater.inflate(R.layout.nickname_fragmnent, container, false)
-
+        val progressBar = nickNameView.findViewById<ProgressBar>(R.id.progressBarNickName);
         // Setting on click listener of button
         val registerButton = nickNameView.findViewById<Button>(R.id.btnNickName)
         val textView = nickNameView.findViewById<EditText>(R.id.editTextNickName)
@@ -54,6 +55,7 @@ class NicknameFragment() : Fragment() {
                 // TODO: エラー処理
             } else if (nickname.trim().length <= 15 && nickname.isNotEmpty()) {
                 activity?.let {
+                    progressBar.visibility = View.VISIBLE
                     RetrofitFunctions.registerNickname(apiKey, UserForUpdate(nickname), it as MainActivity)
                 }
             } else {
@@ -72,7 +74,7 @@ class NicknameFragment() : Fragment() {
         }
 
         return nickNameView
-        //ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.ctrlActivityIndicator);
+
     }
 
 }
