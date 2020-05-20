@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'com.google.firebase.crashlytics'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -64,6 +66,9 @@ dependencies {
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
+
+    // Add the Firebase Crashlytics SDK.
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
 
     // Recycler View
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
