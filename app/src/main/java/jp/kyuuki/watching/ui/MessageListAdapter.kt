@@ -38,6 +38,7 @@ class MessageListAdapter(val context: Context, private val messageList: List<Eve
             // set the view's size, margins, paddings and layout parameters
             retMessageHolder = SentMessageHolder(context, textView)
         }
+
         return retMessageHolder
     }
 
