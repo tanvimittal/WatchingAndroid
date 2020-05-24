@@ -21,6 +21,7 @@ import jp.kyuuki.watching.database.RetrofitFunctions
 import jp.kyuuki.watching.model.Event
 import jp.kyuuki.watching.model.EventForRegistration
 import jp.kyuuki.watching.utility.hideKeyboard
+import java.lang.Error
 
 
 class Chats : Fragment() {
@@ -106,19 +107,26 @@ class Chats : Fragment() {
 
         viewModel.messages.observe(viewLifecycleOwner) {
             list.clear()
-            it!!.forEach {
-                list.add(it)
+            // On Error→ messages would be null
+            if (it == null){
+                activity?.let { it1 -> onError(it1) }
+                // On Success→ messages won't be null
+            } else {
+                it.forEach {
+                    list.add(it)
+                }
+                val mMessageAdapter = MessageListAdapter(requireContext(), list)
+                val viewManager = LinearLayoutManager(activity)
+                val mMessageRecycler =
+                    activity?.findViewById<RecyclerView>(R.id.reyclerview_message_list)?.apply {
+                        layoutManager = viewManager
+                        adapter = mMessageAdapter
+                    }
+                // Scroll to last item in the list
+                mMessageRecycler?.scrollToPosition((mMessageRecycler.adapter?.itemCount ?: 0) - 1)
             }
             progressBarChats?.visibility = View.GONE
-            val mMessageAdapter = MessageListAdapter(requireContext(), list)
-            val viewManager = LinearLayoutManager(activity)
-            val mMessageRecycler =
-                activity?.findViewById<RecyclerView>(R.id.reyclerview_message_list)?.apply {
-                    layoutManager = viewManager
-                    adapter = mMessageAdapter
-                }
-            // Scroll to last item in the list
-            mMessageRecycler?.scrollToPosition((mMessageRecycler.adapter?.itemCount ?: 0) - 1)
+
         }
     }
 

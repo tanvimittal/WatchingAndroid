@@ -24,13 +24,15 @@ class MessageRepository(
 
         webservice.getEvents(apiKey).enqueue(object : Callback<List<Event>>{
                 override fun onFailure(call: Call<List<Event>>, t: Throwable) {
-                    //TODO: Decide on Failure
+                    messageViewModel.setErrorInMessages()
                 }
 
                 override fun onResponse(call: Call<List<Event>>, response: Response<List<Event>>) {
                     if (response.code() / 100 == 2) {
                         data = response.body() as MutableList<Event>
                         messageViewModel.setMessageValue(data)
+                    } else {
+                        messageViewModel.setErrorInMessages()
                     }
                 }
             })

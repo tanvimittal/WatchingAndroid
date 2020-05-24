@@ -21,6 +21,11 @@ class MessageViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     //val api_key : String = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing api key")
     //val user_id : Int = savedStateHandle["api_key"] ?: throw IllegalArgumentException("missing user id")
     //private lateinit var messages : LiveData<List<Messages>>// = messageRepository.getMessages()
+
+    /**
+     * Have no value → empty list
+     * In case of error value of messages → null
+      */
     val messages = MutableLiveData<List<Event>>()
 
     fun getRecentMessages(apiKey: String) {
@@ -30,5 +35,13 @@ class MessageViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     fun setMessageValue(paramMessages : List<Event>){
         messages.value = paramMessages
     }
+
+    /**
+     * In case of error this function will set value of messages to null
+     */
+    fun setErrorInMessages() {
+        messages.value = null
+    }
+
 
 }
