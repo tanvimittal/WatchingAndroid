@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.view.Menu
@@ -104,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         // Handle item selection
         return when (item.itemId) {
             R.id.contact -> {
-                Toast.makeText(this, "TODO: Contact", Toast.LENGTH_LONG).show()
+                startActivityIntentContact()
                 true
             }
             R.id.debug -> {
@@ -249,4 +251,16 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+    /**
+     * お問い合せメール.
+     */
+    private fun startActivityIntentContact() {
+        val intent = Intent()
+        intent.action = Intent.ACTION_SENDTO
+        intent.data = Uri.parse("mailto:" + getString(R.string.contact_email))
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_subject))
+        intent.putExtra(Intent.EXTRA_TEXT,
+            getString(R.string.contact_text, BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.MANUFACTURER + " " + Build.MODEL))
+        startActivity(intent)
+    }
 }
