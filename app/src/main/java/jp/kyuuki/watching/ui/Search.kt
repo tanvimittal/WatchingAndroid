@@ -12,12 +12,18 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import jp.kyuuki.watching.R
 import jp.kyuuki.watching.database.Preferences
 import jp.kyuuki.watching.database.RetrofitFunctions
 import jp.kyuuki.watching.model.UserPublic
 
 class Search : Fragment() {
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +34,7 @@ class Search : Fragment() {
         val btnSearch = parentHolder?.findViewById<Button>(R.id.btnAcceptRequest)
         val phoneNumberText = parentHolder?.findViewById<EditText>(R.id.phoneNumberText)!!
         val progressBarSearch  = parentHolder?.findViewById<ProgressBar>(R.id.progressBarSearch)
+        firebaseAnalytics = Firebase.analytics
         btnSearch?.setOnClickListener {
             val apiKey = Preferences.apiKey
 
@@ -38,6 +45,12 @@ class Search : Fragment() {
 
             var searchPhone = phoneNumberText.text.toString()
             if (searchPhone.length == 11 && searchPhone.isNotEmpty()) {
+
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+                    param(FirebaseAnalytics.Param.ITEM_ID, btnSearch!!.text.toString())
+                    param(FirebaseAnalytics.Param.CONTENT_TYPE, "Button")
+                }
+
                 progressBarSearch.visibility = View.VISIBLE
                 searchPhone = searchPhone.substring(1)
                 searchPhone = "+81$searchPhone"
@@ -85,6 +98,10 @@ class Search : Fragment() {
                 DialogInterface.OnClickListener {
                         dialog, _ -> dialog.dismiss()
                         progressBarSearch.visibility = View.VISIBLE
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+                        param(FirebaseAnalytics.Param.ITEM_ID, "SendRequest")
+                        param(FirebaseAnalytics.Param.CONTENT_TYPE, "Button")
+                    }
                         RetrofitFunctions.sendRequest(apiKey, userId, activity, this)
                          })
             alertDialog.setButton(

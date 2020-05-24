@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         lateinit var progressBarMainActivity : ProgressBar
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
