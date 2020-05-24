@@ -1,7 +1,6 @@
 package jp.kyuuki.watching.ui
 
 import android.app.Activity
-import android.media.tv.TvContract
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +14,16 @@ import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import jp.kyuuki.watching.R
 import jp.kyuuki.watching.database.Preferences
 import jp.kyuuki.watching.database.RetrofitFunctions
 import jp.kyuuki.watching.model.Event
 import jp.kyuuki.watching.model.EventForRegistration
 import jp.kyuuki.watching.utility.hideKeyboard
-import java.lang.Error
+import com.google.firebase.analytics.ktx.logEvent
 
 
 class Chats : Fragment() {
@@ -30,6 +32,7 @@ class Chats : Fragment() {
     private var btnOyasumi: Button ?= null
     private var btnReadAgain : Button ?= null
     private var progressBarChats : ProgressBar ?= null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     // https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate
     // We don't need factoryProducer?!
@@ -53,6 +56,7 @@ class Chats : Fragment() {
         return parentHolder
     }
 
+
     /**
      * Everytime data is changed this function would be called
      */
@@ -62,6 +66,7 @@ class Chats : Fragment() {
         btnOyasumi = activity?.findViewById<Button>(R.id.btnOyasumi)
         btnReadAgain = activity?.findViewById<Button>(R.id.btnReadAgain)
         progressBarChats = activity?.findViewById<ProgressBar>(R.id.progressBarChats)
+        firebaseAnalytics = Firebase.analytics
 
         activity?.let { hideKeyboard(it) }
         val apiKey = Preferences.apiKey
@@ -74,19 +79,34 @@ class Chats : Fragment() {
         viewModel.getRecentMessages(apiKey)
         tryFunc()
         btnOhayou?.setOnClickListener {
+
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+                param(FirebaseAnalytics.Param.ITEM_ID, btnOhayou!!.text.toString())
+                param(FirebaseAnalytics.Param.CONTENT_TYPE, "Button")
+            }
+
             progressBarChats?.visibility = View.VISIBLE
             buttonClick(EventForRegistration("get_up"))
         }
 
         btnOyasumi?.setOnClickListener {
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+                param(FirebaseAnalytics.Param.ITEM_ID, btnOyasumi!!.text.toString())
+                param(FirebaseAnalytics.Param.CONTENT_TYPE, "Button")
+            }
             progressBarChats?.visibility = View.VISIBLE
             buttonClick(EventForRegistration("go_to_bed"))
         }
 
         btnReadAgain?.setOnClickListener {
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+                param(FirebaseAnalytics.Param.ITEM_ID, btnReadAgain!!.text.toString())
+                param(FirebaseAnalytics.Param.CONTENT_TYPE, "Button")
+            }
             progressBarChats?.visibility = View.VISIBLE
             viewModel.getRecentMessages(apiKey)
         }
+
     }
 
     private fun buttonClick(eventForRegistration: EventForRegistration){

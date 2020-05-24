@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import jp.kyuuki.watching.R
 import jp.kyuuki.watching.database.Preferences
 import jp.kyuuki.watching.database.RetrofitFunctions
@@ -19,13 +23,17 @@ import jp.kyuuki.watching.utility.hideKeyboard
 
 class RequestRecieved : Fragment() {
 
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val apiKey = Preferences.apiKey
+        firebaseAnalytics = Firebase.analytics
 
+        this.registerEventOnFirebase()
         if (apiKey == null) {
             // TODO: エラー処理
             return null
@@ -40,12 +48,23 @@ class RequestRecieved : Fragment() {
         swipeRefreshLayout!!.setOnRefreshListener {
             activity?.let { RetrofitFunctions.getRequest(apiKey, it, this) }
             swipeRefreshLayout.isRefreshing = false
+            this.registerEventOnFirebase()
         }
         swipeRefreshLayoutEmpty!!.setOnRefreshListener {
             activity?.let { RetrofitFunctions.getRequest(apiKey, it, this) }
             swipeRefreshLayoutEmpty.isRefreshing = false
+            this.registerEventOnFirebase()
         }
+
         return parentHolder
+    }
+
+    private fun registerEventOnFirebase() {
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
+            param(FirebaseAnalytics.Param.ITEM_ID,
+                "FollowRequests")
+            param(FirebaseAnalytics.Param.CONTENT_TYPE, "Button")
+        }
     }
 
     /**
