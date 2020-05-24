@@ -7,15 +7,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.telephony.TelephonyManager
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
@@ -30,6 +30,7 @@ import jp.kyuuki.watching.model.UserForUpdate
 import jp.kyuuki.watching.model.UserWithApiKey
 import jp.kyuuki.watching.ui.NicknameFragment
 import jp.kyuuki.watching.ui.SectionsPagerAdapter
+
 
 class MainActivity : AppCompatActivity() {
     // Declaring constant of permission READ_PHONE_STATE
@@ -48,7 +49,26 @@ class MainActivity : AppCompatActivity() {
         // API 初期化 (ここだけで本当に大丈夫？)
         WatchingApi.setBaseUrl(getString(R.string.api_base_url))
 
+        //taking constraint's layout's id
+        val constraintLayout = findViewById<ConstraintLayout>(R.id.mainActivity)
+
         progressBarMainActivity = ProgressBar(this)
+        progressBarMainActivity.visibility = View.GONE
+
+        // Placing progress bar in centre of screen
+        val params = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.WRAP_CONTENT,
+            ConstraintLayout.LayoutParams.MATCH_PARENT
+        ).apply {
+            topToTop = R.id.mainActivity
+            bottomToBottom = R.id.mainActivity
+            leftToLeft = R.id.mainActivity
+            rightToRight = R.id.mainActivity
+        }
+        progressBarMainActivity.layoutParams = params
+
+        constraintLayout.addView(progressBarMainActivity)
+
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
@@ -163,8 +183,7 @@ class MainActivity : AppCompatActivity() {
      * RetrofitFunctions.registerNickName の結果受信 (NickNameFragment で送信している).
      */
     fun onResponseRegisterNickname(userForUpdate: UserForUpdate) {
-        val progressBar = this.findViewById<ProgressBar>(R.id.progressBarNickName);
-        progressBar.visibility = View.GONE
+        progressBarMainActivity.visibility = View.GONE
         Preferences.setNickNamePreference(userForUpdate, this)
         val startIntent = Intent(this, MainActivity::class.java)
         startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -177,9 +196,7 @@ class MainActivity : AppCompatActivity() {
      * のエラー処理.
      */
     fun onErrorRegister() {
-        val progressBar = this.findViewById<ProgressBar>(R.id.progressBarNickName);
         progressBarMainActivity.visibility = View.GONE
-        progressBar.visibility = View.GONE
         //TODO: DECIDE what to do when there is server side error
         Toast.makeText(this, "TODO: Server Error", Toast.LENGTH_LONG).show()
     }
