@@ -57,7 +57,7 @@ class DebugFragment : Fragment() {
 
                 Toast.makeText(activity, "Deleted SharedPreferences", Toast.LENGTH_LONG).show()
 
-                activity?.finish()
+                activity?.moveTaskToBack(true)
             }
         }
     }
