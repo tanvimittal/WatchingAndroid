@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- API -->
+    <string name="api_base_url">https://watching-server-staging.herokuapp.com/v1/</string>
+    <!--<string name="api_base_url">http://rails-dev.akoba.xyz:8080/v1/</string>-->
+    <!--<string name="api_base_url">http://10.0.2.2:8080/v1/</string>-->
+</resources>

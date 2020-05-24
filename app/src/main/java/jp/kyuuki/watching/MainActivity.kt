@@ -23,6 +23,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import jp.kyuuki.watching.database.Preferences
 import jp.kyuuki.watching.database.RetrofitFunctions
+import jp.kyuuki.watching.database.WatchingApi
 import jp.kyuuki.watching.model.PhoneNumber
 import jp.kyuuki.watching.model.UserForRegistration
 import jp.kyuuki.watching.model.UserForUpdate
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // API 初期化 (ここだけで本当に大丈夫？)
+        WatchingApi.setBaseUrl(getString(R.string.api_base_url))
 
         progressBarMainActivity = ProgressBar(this)
         // Reading nickName from shared preferences, if it is not set then app would be called from beginning else tablayout

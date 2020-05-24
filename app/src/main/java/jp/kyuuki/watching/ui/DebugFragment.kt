@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import jp.kyuuki.watching.R
 import jp.kyuuki.watching.database.Preferences
+import jp.kyuuki.watching.database.WatchingApi
 import java.lang.StringBuilder
 
 class DebugFragment : Fragment() {
@@ -34,6 +35,9 @@ class DebugFragment : Fragment() {
         log.appendln("${Preferences.KEY_USER_ID} = ${sharedPref.getInt(Preferences.KEY_USER_ID, -1)}")
         log.appendln("${Preferences.KEY_API_KEY} = ${sharedPref.getString(Preferences.KEY_API_KEY, null)}")
         log.appendln("${Preferences.KEY_NICKNAME} = ${sharedPref.getString(Preferences.KEY_NICKNAME, null)}")
+        log.appendln("")
+        log.appendln("WatchingApi")
+        log.appendln("apiBaseUrl = ${WatchingApi.apiBaseUrl}")
 
         /*
          * デバッグ情報表示
@@ -46,15 +50,14 @@ class DebugFragment : Fragment() {
              * SharedPreference 削除
              */
             if (sharedPref != null) {
-                val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
-                Log.d(this::class.java.simpleName, "nickname = $nickName")
-
                 sharedPref.edit().apply {
                     clear()
                     commit()
                 }
 
                 Toast.makeText(activity, "Deleted SharedPreferences", Toast.LENGTH_LONG).show()
+
+                activity?.finish()
             }
         }
     }

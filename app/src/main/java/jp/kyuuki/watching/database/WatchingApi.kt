@@ -2,7 +2,6 @@ package jp.kyuuki.watching.database
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
-import jp.kyuuki.watching.constants.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,9 +11,17 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Watching API.
  *
  * - Singleton にする
+ * - 厳密には Singleton というより 1 つの WatchingApiService を再利用するため
  * - https://www.youtube.com/watch?v=w6MvFXz5ecA
  */
 object WatchingApi {
+    lateinit var apiBaseUrl: String
+
+    // 最初にこのメソッドで初期化すること
+    fun setBaseUrl(apiBaseUrl: String) {
+        this.apiBaseUrl = apiBaseUrl
+    }
+
     val service: WatchingApiService by lazy {
         // JSON キーをスネークケースに変換
         // https://qiita.com/smoriwani/items/e549ba40bc2accfdff35
@@ -33,7 +40,7 @@ object WatchingApi {
 
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(Constants.baseUrl)
+            .baseUrl(apiBaseUrl)
             .client(httpClient)
             .build()
 
