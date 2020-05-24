@@ -29,7 +29,7 @@
     <string name="tab_text_event">イベント一覧</string>
 
     <!-- Menu -->
-    <string name="menu_contact">お問い合せ</string>
+    <string name="menu_contact">お問い合わせ</string>
     <string name="menu_debug">デバッグ</string>
 
     <string name="title_activity_debug">DebugActivity</string>
@@ -49,4 +49,9 @@
     <string name="message_sent_event_get_up">起きました！</string>
     <string name="message_sent_event_go_to_bed">寝ました！</string>
     <string name="message_event_invalid">\?\?\?\?\?</string>
+
+    <!-- お問い合わせ -->
+    <string name="contact_email">kyuuki.japan+watching@gmail.com</string>
+    <string name="contact_subject">【見守りアプリ】 お問い合わせ</string>
+    <string name="contact_text">------\nアプリバージョン: %1$s\nAndroid バージョン: %2$s\n機種名: %3$s\n------\n\n</string>
 </resources>
