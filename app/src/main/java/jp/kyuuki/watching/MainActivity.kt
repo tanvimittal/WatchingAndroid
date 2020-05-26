@@ -9,10 +9,11 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
-import android.view.*
-import android.widget.LinearLayout
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.ProgressBar
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
@@ -274,12 +275,24 @@ class MainActivity : AppCompatActivity() {
      * お問い合せメール.
      */
     private fun startActivityIntentContact() {
-        val intent = Intent()
-        intent.action = Intent.ACTION_SENDTO
-        intent.data = Uri.parse("mailto:" + getString(R.string.contact_email))
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_subject))
-        intent.putExtra(Intent.EXTRA_TEXT,
-            getString(R.string.contact_text, BuildConfig.VERSION_NAME, Build.VERSION.RELEASE, Build.MANUFACTURER + " " + Build.MODEL))
-        startActivity(intent)
+        // https://developer.android.com/guide/components/intents-common?hl=ja#Email
+        // https://qiita.com/masaibar/items/4edcc9c7d2df11fe6e79
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.contact_email)))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.contact_subject))
+            putExtra(
+                Intent.EXTRA_TEXT,
+                getString(
+                    R.string.contact_text,
+                    BuildConfig.VERSION_NAME,
+                    Build.VERSION.RELEASE,
+                    Build.MANUFACTURER + " " + Build.MODEL
+                )
+            )
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 }
