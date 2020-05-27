@@ -1,13 +1,28 @@
 <resources>
-    <string name="app_name">Watching-Android</string>
+    <string name="app_name">見守りアプリ</string>
+
+    <!-- Menu -->
+    <string name="menu_contact">お問い合わせ</string>
+    <string name="menu_debug">デバッグ</string>
+
+    <!-- タブタイトル -->
+    <string name="tab_text_event">イベント一覧</string>
+    <string name="tab_text_request">見守りリクエスト</string>
+    <string name="tab_text_search">相手を探す</string>
+
+    <!-- プロフィール登録画面 -->
+    <string name="description_input_nickname">
+        ニックネームを入力して、登録ボタンを押してください。\n
+    </string>
+    <!-- Hint for Nick Name -->
+    <string name="hint_nickname">○○太郎</string>
+    <!-- Button for registering nickname -->
+    <string name="btn_nickname_reguster">登録</string>
+
     <!-- Alert box contents of telephone number not found -->
     <string name="alertTelTitle">お知らせ</string>
     <string name="alertTelMsg">Sorry! You cannot use this app.</string>
 
-    <!-- Hint for Nick Name -->
-    <string name="hint_nickname">ニックネームを入力してください。</string>
-    <!-- Button for registering nickname -->
-    <string name="btn_nickname_reguster">登録</string>
     <!-- Alert box contents of telephone number not found -->
     <string name="alertNickNameTitle">お知らせ</string>
     <string name="alertNickNameMsg">Nickname should be between 1 and 15 characters</string>
@@ -23,16 +38,6 @@
     <!-- Oyasumi button -->
     <string name="btn_oyasumi">おやすみ</string>
 
-    <!-- タブタイトル -->
-    <string name="tab_text_search">相手を探す</string>
-    <string name="tab_text_request">リクエスト</string>
-    <string name="tab_text_event">イベント一覧</string>
-
-    <!-- Menu -->
-    <string name="menu_contact">お問い合わせ</string>
-    <string name="menu_debug">デバッグ</string>
-
-    <string name="title_activity_debug">DebugActivity</string>
     <string name="btnOkText">探す</string>
     <string name="searchText">相手の電話番号を入れてください。</string>
     <string name="autoHintNumber">09022233311</string>
@@ -43,7 +48,7 @@
     <string name="no_request">リクエストがありません。</string>
     <string name="btn_read_again">再読み込み</string>
 
-    <!-- イベント一覧 -->
+    <!-- イベント一覧画面 -->
     <string name="message_received_event_get_up">%1$sさんが起きました！</string>
     <string name="message_received_event_go_to_bed">%1$sさんが寝ました！</string>
     <string name="message_sent_event_get_up">起きました！</string>
@@ -54,4 +59,6 @@
     <string name="contact_email">kyuuki.japan+watching@gmail.com</string>
     <string name="contact_subject">【見守りアプリ】 お問い合わせ</string>
     <string name="contact_text">------\nアプリバージョン: %1$s\nAndroid バージョン: %2$s\n機種名: %3$s\n------\n\n</string>
+
+    <string name="title_activity_debug">デバッグ用</string>
 </resources>
