@@ -10,54 +10,62 @@
     <string name="tab_text_request">見守りリクエスト</string>
     <string name="tab_text_search">相手を探す</string>
 
+
+    <!-- 初期処理 -->
+    <!-- Alert box contents of telephone number not found -->
+    <string name="alertTelTitle">お知らせ</string>
+    <string name="alertTelMsg">申し訳ございません。お使いの端末ではご利用できません。</string>
+
+
     <!-- プロフィール登録画面 -->
-    <string name="description_input_nickname">
-        ニックネームを入力して、登録ボタンを押してください。\n
-        （%1$d 文字以内）
-    </string>
+    <string name="description_input_nickname">ニックネームを入力して、登録ボタンを押してください。\n（%1$d 文字以内）</string>
     <!-- Hint for Nick Name -->
     <string name="hint_nickname">○○太郎</string>
     <!-- Button for registering nickname -->
     <string name="btn_nickname_reguster">登録</string>
     <string name="alertNickNameMsg">ニックネームは 1 ～ %1$d 文字で入力して下さい。</string>
 
-    <!-- Alert box contents of telephone number not found -->
-    <string name="alertTelTitle">お知らせ</string>
-    <string name="alertTelMsg">Sorry! You cannot use this app.</string>
 
+    <!-- 見守りリクエスト一覧画面 -->
+    <string name="messageDetail">%1$sさんからリクエストが届いています。\n承認しますか？</string>
+    <string name="btn_request_accept">承認</string>
+    <string name="btn_decline">拒否</string>
+    <string name="on_request_accepted">リクエストを承認しました。</string>
+    <string name="on_request_declined">リクエストを拒否しました。</string>
+    <string name="no_request">見守りリクエストがありません。</string>
+
+
+    <!-- 見守り相手検索画面 -->
+    <string name="btnOkText">探す</string>
+    <string name="searchText">見守りたい相手の電話番号を入れてください。</string>
+    <string name="autoHintNumber">09022233311</string>
     <string name="alertSearchMsg">Phone number should be of 11 characters</string>
     <string name="requestTitle">リクエスト</string>
     <string name="sendRequestMsg">%1$sさんに見守りリクエストを送ります。</string>
-    <string name="messageDetail">%1$sさんからリクエストが届いています。\n承認しましょうか?</string>
     <string name="onSuccess">リクエストを送信しました。</string>
     <string name="onError">エラーが発生しました。</string>
     <string name="user_not_found">ユーザが見つかりませんでした。</string>
+
+
+    <!-- イベント一覧画面 -->
     <!-- Ohayou button -->
     <string name="btn_ohayou">おはよう</string>
     <!-- Oyasumi button -->
     <string name="btn_oyasumi">おやすみ</string>
-
-    <string name="btnOkText">探す</string>
-    <string name="searchText">相手の電話番号を入れてください。</string>
-    <string name="autoHintNumber">09022233311</string>
-    <string name="btn_request_accept">承認</string>
-    <string name="btn_decline">拒否</string>
-    <string name="on_request_accepted">リクエストを承認いたしました。</string>
-    <string name="on_request_declined">リクエストを拒否いたしました。</string>
-    <string name="no_request">リクエストがありません。</string>
     <string name="btn_read_again">再読み込み</string>
 
-    <!-- イベント一覧画面 -->
     <string name="message_received_event_get_up">%1$sさんが起きました！</string>
     <string name="message_received_event_go_to_bed">%1$sさんが寝ました！</string>
     <string name="message_sent_event_get_up">起きました！</string>
     <string name="message_sent_event_go_to_bed">寝ました！</string>
     <string name="message_event_invalid">\?\?\?\?\?</string>
 
+
     <!-- お問い合わせ -->
     <string name="contact_email">kyuuki.japan+watching@gmail.com</string>
     <string name="contact_subject">【見守りアプリ】 お問い合わせ</string>
     <string name="contact_text">------\nアプリバージョン: %1$s\nAndroid バージョン: %2$s\n機種名: %3$s\n------\n\n</string>
+
 
     <!-- 共通 -->
     <string name="message_server_error">サーバーエラーが発生しました。\nしばらくしてから、もう一度お試しください。</string>
