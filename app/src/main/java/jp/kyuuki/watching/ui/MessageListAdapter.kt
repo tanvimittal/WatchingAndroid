@@ -66,10 +66,10 @@ class MessageListAdapter(val context: Context, private val messageList: List<Eve
 
     override fun getItemCount() = messageList.size
 
-    class ReceivedMessageHolder(val context: Context, itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private class ReceivedMessageHolder(val context: Context, itemView: View) : RecyclerView.ViewHolder(itemView) {
         var messageText: TextView = itemView.findViewById(R.id.text_message_body)
         var timeText: TextView = itemView.findViewById(R.id.text_message_time)
-        var nameText: TextView = itemView.findViewById(R.id.text_message_name)
+        //var nameText: TextView = itemView.findViewById(R.id.text_message_name)
         fun bind(event: Event) {
             messageText.text = when (event.name) {
                 Event.NAME_GET_UP -> {
@@ -85,11 +85,11 @@ class MessageListAdapter(val context: Context, private val messageList: List<Eve
             }
 
             // Format the stored timestamp into a readable String using method.
-            val setDate = getDate(event.createdAt)
+            val setDate = formatDate(event.createdAt)
             timeText.text = setDate
 
             //Setting nick name
-            nameText.text = event.user.nickname
+            //nameText.text = event.user.nickname
 
             // Insert the profile image from the URL into the ImageView.
             //Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage)
@@ -133,32 +133,24 @@ class MessageListAdapter(val context: Context, private val messageList: List<Eve
             }
 
             // Format the stored timestamp into a readable String using method.
-            val setDate = getDate(event.createdAt)
+            val setDate = formatDate(event.createdAt)
             timeText.text = setDate
             // Insert the profile image from the URL into the ImageView.
             //Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage)
-        }
-
-
-        /**
-         * Converting date into desired format
-         */
-        fun getDate(date: Date): String {
-
-            // output format: hour:minute AM/PM
-            val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val outDateFormat = SimpleDateFormat("MM-dd", Locale.getDefault())
-
-            outputFormat.timeZone = TimeZone.getDefault()
-            outDateFormat.timeZone = TimeZone.getDefault()
-            val time = outputFormat.format(date)
-            val msgDate = outDateFormat.format(date)
-            return ("$msgDate $time")
         }
     }
 
 }
 
+// 日本仕様
+private fun formatDate(date: Date): String {
+    // output format: hour:minute AM/PM
+    val outputFormat = SimpleDateFormat("a hh:mm", Locale.getDefault())
+    val outDateFormat = SimpleDateFormat("MM/dd", Locale.getDefault())
 
-
-
+    outputFormat.timeZone = TimeZone.getDefault()
+    outDateFormat.timeZone = TimeZone.getDefault()
+    val time = outputFormat.format(date)
+    val msgDate = outDateFormat.format(date)
+    return ("$msgDate   $time")
+}
