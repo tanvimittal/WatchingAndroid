@@ -21,7 +21,7 @@ import jp.kyuuki.watching.database.Preferences
 import jp.kyuuki.watching.database.RetrofitFunctions
 import jp.kyuuki.watching.model.UserPublic
 
-class Search : Fragment() {
+class UserSearchFragment : Fragment() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -30,7 +30,7 @@ class Search : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val parentHolder = inflater.inflate(R.layout.search_fragment, container, false)
+        val parentHolder = inflater.inflate(R.layout.fragment_user_search, container, false)
         val btnSearch = parentHolder?.findViewById<Button>(R.id.btnAcceptRequest)
         val phoneNumberText = parentHolder?.findViewById<EditText>(R.id.phoneNumberText)!!
         val progressBarSearch  = parentHolder?.findViewById<ProgressBar>(R.id.progressBarSearch)

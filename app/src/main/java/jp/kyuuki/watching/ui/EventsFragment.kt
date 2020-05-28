@@ -26,7 +26,7 @@ import jp.kyuuki.watching.utility.hideKeyboard
 import com.google.firebase.analytics.ktx.logEvent
 
 
-class Chats : Fragment() {
+class EventsFragment : Fragment() {
 
     private var btnOhayou : Button ?= null
     private var btnOyasumi: Button ?= null
@@ -52,7 +52,7 @@ class Chats : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val parentHolder = inflater.inflate(R.layout.chat_tab, container, false)
+        val parentHolder = inflater.inflate(R.layout.fragment_events, container, false)
         return parentHolder
     }
 

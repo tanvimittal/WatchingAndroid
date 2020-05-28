@@ -4,9 +4,9 @@ import android.app.Activity
 import androidx.fragment.app.FragmentActivity
 import jp.kyuuki.watching.MainActivity
 import jp.kyuuki.watching.model.*
-import jp.kyuuki.watching.ui.Chats
-import jp.kyuuki.watching.ui.RequestRecieved
-import jp.kyuuki.watching.ui.Search
+import jp.kyuuki.watching.ui.EventsFragment
+import jp.kyuuki.watching.ui.RecievedRequestsFragment
+import jp.kyuuki.watching.ui.UserSearchFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,21 +53,20 @@ object RetrofitFunctions{
     /**
      * This function is calling retrofit API and saving data as user shared preference
      */
-    fun registerNickname(apiKey: String, userForUpdate: UserForUpdate, mainActivity: MainActivity){
-        WatchingApi.service.putUsers(apiKey, userForUpdate)
-            .enqueue(object : Callback<Void> {
-                override fun onFailure(call: Call<Void>, t: Throwable) {
+    fun registerNickname(apiKey: String, userForUpdate: UserForUpdate, mainActivity: MainActivity) {
+        WatchingApi.service.putUsers(apiKey, userForUpdate).enqueue(object : Callback<Void> {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                mainActivity.onErrorRegister()
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.code() / 100 == 2) {
+                    mainActivity.onResponseRegisterNickname(userForUpdate)
+                } else {
                     mainActivity.onErrorRegister()
                 }
-
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.code() / 100 == 2) {
-                        mainActivity.onResponseRegisterNickname(userForUpdate)
-                    } else {
-                        mainActivity.onErrorRegister()
-                    }
-                }
-            })
+            }
+        })
     }
 
     /**
@@ -76,21 +75,21 @@ object RetrofitFunctions{
     fun sendMessageDescription(
         apiKey: String,
         eventForRegistration: EventForRegistration,
-        chats: Chats,
+        eventsFragment: EventsFragment,
         activity: Activity
     ){
         WatchingApi.service.postEvents(apiKey, eventForRegistration)
             .enqueue(object : Callback<Event>{
                 override fun onFailure(call: Call<Event>, t: Throwable) {
-                    chats.onError(activity)
+                    eventsFragment.onError(activity)
                 }
 
                 override fun onResponse(call: Call<Event>, response: Response<Event>) {
                     if (response.code() / 100 == 2) {
-                        chats.onSuccess()
+                        eventsFragment.onSuccess()
 
                     } else {
-                        chats.onError(activity)
+                        eventsFragment.onError(activity)
                     }
                 }
             })
@@ -103,22 +102,22 @@ object RetrofitFunctions{
         apiKey: String,
         phoneClass: String,
         activity: FragmentActivity,
-        search: Search
+        userSearchFragment: UserSearchFragment
     ){
         WatchingApi.service.getUsers(apiKey, phoneClass)
             .enqueue(object : Callback<UserPublic>{
                 override fun onFailure(call: Call<UserPublic>, t: Throwable) {
-                    search.onFailure(activity)
+                    userSearchFragment.onFailure(activity)
                 }
 
                 override fun onResponse(call: Call<UserPublic>, response: Response<UserPublic>) {
                     if (response.code() / 100 == 2) {
                         // レスポンスが null の時はきちんとエラー処理をすべき
-                        response.body()?.let { search.sendRequest(it,activity) }
+                        response.body()?.let { userSearchFragment.sendRequest(it,activity) }
                     } else if (response.code() == 404) {
-                        search.userNotFound(activity)
+                        userSearchFragment.userNotFound(activity)
                     } else {
-                        search.onFailure(activity)
+                        userSearchFragment.onFailure(activity)
                     }
                 }
             })
@@ -131,19 +130,19 @@ object RetrofitFunctions{
         apiKey: String,
         userId: Int,
         activity: Activity,
-        search: Search
+        userSearchFragment: UserSearchFragment
     ){
         WatchingApi.service.postFollowRequests(apiKey, FollowRequestForRegistration(userId))
             .enqueue(object : Callback<Void>{
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    search.onFailure(activity)
+                    userSearchFragment.onFailure(activity)
                 }
 
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.code() / 100 == 2) {
-                        search.onSuccess(activity)
+                        userSearchFragment.onSuccess(activity)
                     } else {
-                        search.onFailure(activity)
+                        userSearchFragment.onFailure(activity)
                     }
                 }
             })
@@ -152,7 +151,7 @@ object RetrofitFunctions{
     /**
      * This function is called to get the requests
      */
-    fun getRequest(apiKey: String, activity: Activity, receivedRequestHolder: RequestRecieved?){
+    fun getRequest(apiKey: String, activity: Activity, receivedRequestHolder: RecievedRequestsFragment?){
         WatchingApi.service.getFollowRequests(apiKey)
             .enqueue(object : Callback<List<FollowRequest>>{
                 override fun onFailure(call: Call<List<FollowRequest>>, t: Throwable) {
@@ -178,7 +177,7 @@ object RetrofitFunctions{
         apiKey: String,
         activity: Activity,
         id: Int,
-        receivedRequestHolder: RequestRecieved?
+        receivedRequestHolder: RecievedRequestsFragment?
     ){
         WatchingApi.service.postFollowRequestsAccept(apiKey, id)
             .enqueue(object : Callback<Void>{
@@ -206,7 +205,7 @@ object RetrofitFunctions{
         apiKey: String,
         activity: Activity,
         id: Int,
-        fragmentObject: RequestRecieved?
+        fragmentObject: RecievedRequestsFragment?
     ){
         WatchingApi.service.postFollowRequestsDecline(apiKey, id)
             .enqueue(object : Callback<Void>{

@@ -15,7 +15,7 @@ import jp.kyuuki.watching.model.FollowRequest
 
 var stringName : String = ""
 var activity : Activity ?= null
-var fragmentObject : RequestRecieved ?= null
+var fragmentObject : RecievedRequestsFragment ?= null
 class RequestListAdapter(private val followRequestList: List<FollowRequest>) :
     RecyclerView.Adapter<RequestListAdapter.ReceivedRequestHolder>()
 {
@@ -31,7 +31,7 @@ class RequestListAdapter(private val followRequestList: List<FollowRequest>) :
         // set the view's size, margins, paddings and layout parameters
         stringName = parent.context.resources.getString(R.string.messageDetail)
         activity = parent.context as Activity?
-        fragmentObject = RequestRecieved()
+        fragmentObject = RecievedRequestsFragment()
         return ReceivedRequestHolder(textView)
     }
 

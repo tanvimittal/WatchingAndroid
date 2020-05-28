@@ -21,7 +21,7 @@ import jp.kyuuki.watching.database.RetrofitFunctions
 import jp.kyuuki.watching.model.FollowRequest
 import jp.kyuuki.watching.utility.hideKeyboard
 
-class RequestRecieved : Fragment() {
+class RecievedRequestsFragment : Fragment() {
 
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
@@ -39,7 +39,7 @@ class RequestRecieved : Fragment() {
             return null
         }
         activity?.let { hideKeyboard(it) }
-        val parentHolder = inflater.inflate(R.layout.request_recieved_fragment, container, false)
+        val parentHolder = inflater.inflate(R.layout.fragment_recieved_requests, container, false)
         activity?.let { RetrofitFunctions.getRequest(apiKey, it, this) }
 
         // Getting swipeOnRefresh
