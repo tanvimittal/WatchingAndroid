@@ -13,19 +13,18 @@
     <!-- プロフィール登録画面 -->
     <string name="description_input_nickname">
         ニックネームを入力して、登録ボタンを押してください。\n
+        （%1$d 文字以内）
     </string>
     <!-- Hint for Nick Name -->
     <string name="hint_nickname">○○太郎</string>
     <!-- Button for registering nickname -->
     <string name="btn_nickname_reguster">登録</string>
+    <string name="alertNickNameMsg">ニックネームは 1 ～ %1$d 文字で入力して下さい。</string>
 
     <!-- Alert box contents of telephone number not found -->
     <string name="alertTelTitle">お知らせ</string>
     <string name="alertTelMsg">Sorry! You cannot use this app.</string>
 
-    <!-- Alert box contents of telephone number not found -->
-    <string name="alertNickNameTitle">お知らせ</string>
-    <string name="alertNickNameMsg">Nickname should be between 1 and 15 characters</string>
     <string name="alertSearchMsg">Phone number should be of 11 characters</string>
     <string name="requestTitle">リクエスト</string>
     <string name="sendRequestMsg">%1$sさんに見守りリクエストを送ります。</string>
@@ -59,6 +58,9 @@
     <string name="contact_email">kyuuki.japan+watching@gmail.com</string>
     <string name="contact_subject">【見守りアプリ】 お問い合わせ</string>
     <string name="contact_text">------\nアプリバージョン: %1$s\nAndroid バージョン: %2$s\n機種名: %3$s\n------\n\n</string>
+
+    <!-- 共通 -->
+    <string name="message_server_error">サーバーエラーが発生しました。\nしばらくしてから、もう一度お試しください。</string>
 
     <string name="title_activity_debug">デバッグ用</string>
 </resources>

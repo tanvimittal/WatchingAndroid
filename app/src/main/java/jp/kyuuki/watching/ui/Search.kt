@@ -60,7 +60,7 @@ class Search : Fragment() {
                 val alertDialog: android.app.AlertDialog? =
                     android.app.AlertDialog.Builder(activity).create()
                 if (alertDialog != null) {
-                    alertDialog.setTitle(this.resources.getString(R.string.alertNickNameTitle))
+                    //alertDialog.setTitle(this.resources.getString(R.string.alertNickNameTitle))
                     alertDialog.setMessage(this.resources.getString(R.string.alertSearchMsg))
                     alertDialog.setButton(
                         AlertDialog.BUTTON_NEUTRAL, "OK",

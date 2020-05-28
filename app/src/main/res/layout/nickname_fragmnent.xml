@@ -21,7 +21,7 @@
     <TextView
             android:id="@+id/text_description"
             android:layout_width="300dp"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:layout_marginBottom="32dp"
             android:text="@string/description_input_nickname"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"

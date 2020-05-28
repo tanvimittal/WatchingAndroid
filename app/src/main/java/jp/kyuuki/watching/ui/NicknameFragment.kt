@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -20,6 +21,7 @@ import jp.kyuuki.watching.R
 import jp.kyuuki.watching.database.Preferences
 import jp.kyuuki.watching.database.RetrofitFunctions
 import jp.kyuuki.watching.model.UserForUpdate
+import jp.kyuuki.watching.model.UserPublic
 
 /**
  * Purpose of this class to register nickname
@@ -54,13 +56,18 @@ class NicknameFragment() : Fragment() {
         // Setting on click listener of button
         val registerButton = nickNameView.findViewById<Button>(R.id.btnNickName)
         val textView = nickNameView.findViewById<EditText>(R.id.editTextNickName)
-        registerButton?.setOnClickListener {
+
+        nickNameView.findViewById<TextView>(R.id.text_description).text =
+            getString(R.string.description_input_nickname, UserPublic.MAX_LENGTH_NICKNAME)
+
+        registerButton.setOnClickListener {
             var nickname = textView.text.toString()
             val apiKey = Preferences.apiKey
 
             if (apiKey == null) {
                 // TODO: エラー処理
-            } else if (nickname.trim().length <= 15 && nickname.isNotEmpty()) {
+            } else if (nickname.trim().length <= UserPublic.MAX_LENGTH_NICKNAME && nickname.isNotEmpty()) {
+                // TODO: MainActivity 依存
                 activity?.let {
 
                     firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT) {
@@ -73,11 +80,11 @@ class NicknameFragment() : Fragment() {
                     RetrofitFunctions.registerNickname(apiKey, UserForUpdate(nickname), it as MainActivity)
                 }
             } else {
-                // Alert Boxを表示してアプリを終了する。
+                // Alert Boxを表示する。
                 val alertDialog: android.app.AlertDialog? = android.app.AlertDialog.Builder(activity).create()
                 if (alertDialog != null) {
-                    alertDialog.setTitle(this.resources.getString(R.string.alertNickNameTitle))
-                    alertDialog.setMessage(this.resources.getString(R.string.alertNickNameMsg))
+                    //alertDialog.setTitle(this.resources.getString(R.string.alertNickNameTitle))
+                    alertDialog.setMessage(getString(R.string.alertNickNameMsg, UserPublic.MAX_LENGTH_NICKNAME))
                     alertDialog.setButton(
                         AlertDialog.BUTTON_NEUTRAL, "OK",
                         DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
@@ -88,7 +95,6 @@ class NicknameFragment() : Fragment() {
         }
 
         return nickNameView
-
     }
 
 }

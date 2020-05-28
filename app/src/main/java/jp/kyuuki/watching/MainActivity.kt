@@ -200,8 +200,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun onErrorRegister() {
         progressBarMainActivity.visibility = View.GONE
-        //TODO: DECIDE what to do when there is server side error
-        Toast.makeText(this, "TODO: Server Error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.message_server_error), Toast.LENGTH_LONG).show()
     }
 
 
