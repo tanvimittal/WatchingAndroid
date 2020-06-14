@@ -45,6 +45,10 @@
                 android:value="false" />
         <!-- [END fcm_disable_auto_init] -->
 
+        <!-- Icon declaration -->
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@drawable/ic_stat_name" />
+
     </application>
 
 </manifest>
