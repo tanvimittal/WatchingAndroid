@@ -27,12 +27,10 @@ import com.google.android.material.tabs.TabLayout
 import jp.kyuuki.watching.database.Preferences
 import jp.kyuuki.watching.database.RetrofitFunctions
 import jp.kyuuki.watching.database.WatchingApi
-import jp.kyuuki.watching.model.PhoneNumber
-import jp.kyuuki.watching.model.UserForRegistration
-import jp.kyuuki.watching.model.UserForUpdate
-import jp.kyuuki.watching.model.UserWithApiKey
+import jp.kyuuki.watching.model.*
 import jp.kyuuki.watching.ui.NicknameFragment
 import jp.kyuuki.watching.ui.SectionsPagerAdapter
+import jp.kyuuki.watching.utility.MyFirebaseMessagingService
 
 
 class MainActivity : AppCompatActivity() {
@@ -77,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         val nickName = sharedPref.getString(Preferences.KEY_NICKNAME, null)
         Preferences.apiKey = sharedPref.getString(Preferences.KEY_API_KEY, null)
         Preferences.userId = sharedPref.getInt(Preferences.KEY_USER_ID, -1)
+        Preferences.fcmToken = sharedPref.getString(Preferences.KEY_FCM_TOKEN, null)
 
         // If API key is not set
         if (Preferences.apiKey == null) {
@@ -92,6 +91,9 @@ class MainActivity : AppCompatActivity() {
                     RetrofitFunctions.registerUser(userInfo, this)
                 }
             }
+        } else if(Preferences.fcmToken == null){
+            val myFirebaseMessagingService = MyFirebaseMessagingService()
+            myFirebaseMessagingService.sendInitialTokenToServer(this)
         } else if (Preferences.apiKey != null && nickName == null) {
             supportActionBar?.elevation = 0F
             val transaction = supportFragmentManager.beginTransaction()
@@ -179,7 +181,19 @@ class MainActivity : AppCompatActivity() {
         // TODO: そもそも、以下のメソッドは失敗することはなさそう
         progressBarMainActivity.visibility = View.GONE
         Preferences.setApiIdInPreference(userWithApiKey, this)
-        transitionNickNameInputScreen(this)
+        val myFirebaseMessagingService = MyFirebaseMessagingService()
+        myFirebaseMessagingService.sendInitialTokenToServer(this)
+    }
+
+    /**
+     * RetrofitFunctions.registerUser の結果受信.
+     *
+     * This function gets the response containing id and api key
+     */
+    fun onResponseFcmToken(fcmToken: UserForFcmToken, mainActivity: MainActivity) {
+        // TODO: そもそも、以下のメソッドは失敗することはなさそう
+        Preferences.setFcmTokenInPreference(fcmToken, mainActivity)
+        transitionNickNameInputScreen(mainActivity)
     }
 
     /**

@@ -26,6 +26,12 @@ interface WatchingApiService {
     @PUT("users")
     fun putUsers(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Body nickName: UserForUpdate): Call<Void>
 
+    /**
+     * Registering FCM token
+     */
+    @PUT("users")
+    fun putUsersFcmToken(@Header(HEADER_NAME_X_API_KEY) xApiKey: String, @Body nickName: UserForFcmToken): Call<Void>
+
     /*
      * event
      */

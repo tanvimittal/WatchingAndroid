@@ -71,4 +71,9 @@
     <string name="message_server_error">サーバーエラーが発生しました。\nしばらくしてから、もう一度お試しください。</string>
 
     <string name="title_activity_debug">デバッグ用</string>
+
+    <!-- 通知チャンネル -->
+    <string name="channel_message_name">Message</string>
+    <string name="channel_message_description">Show receive messages</string>
+
 </resources>

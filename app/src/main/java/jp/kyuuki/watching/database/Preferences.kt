@@ -2,6 +2,7 @@ package jp.kyuuki.watching.database
 
 import android.app.Activity
 import androidx.preference.PreferenceManager
+import jp.kyuuki.watching.model.UserForFcmToken
 import jp.kyuuki.watching.model.UserForUpdate
 import jp.kyuuki.watching.model.UserWithApiKey
 
@@ -13,12 +14,16 @@ object Preferences {
     const val KEY_USER_ID = "user_id"
     const val KEY_API_KEY = "api_key"
     const val KEY_NICKNAME = "nickname"
+    const  val KEY_FCM_TOKEN = "fcm_token"
 
     // 取得済みの場合は 0 以上
     var userId = -1
 
     // 取得済みの場合は null 以外
     var apiKey: String? = null
+
+    // 取得済みの場合は null 以外
+    var fcmToken: String? = null
 
     /**
      * This function is called to set ID and Api key in shared preferences
@@ -51,6 +56,21 @@ object Preferences {
         with (sharedPref.edit()) {
         putString(KEY_NICKNAME, userForUpdate.nickname)
         commit()
+        }
+    }
+
+    /**
+     * This function is used to set Fcm Token in preference
+     * @param: fcmToken - Contains fcmToken to be updated
+     *       : activity - Object of Activity
+     */
+    fun setFcmTokenInPreference(paramFcmToken: UserForFcmToken, activity: Activity) {
+        // If Nickname is not null set nickname
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
+        with (sharedPref.edit()) {
+            putString(KEY_FCM_TOKEN, paramFcmToken.fcm_token)
+            commit()
+            fcmToken = paramFcmToken.fcm_token
         }
     }
 

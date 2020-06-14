@@ -1,6 +1,7 @@
 package jp.kyuuki.watching.database
 
 import android.app.Activity
+import android.app.Presentation
 import androidx.fragment.app.FragmentActivity
 import jp.kyuuki.watching.MainActivity
 import jp.kyuuki.watching.model.*
@@ -70,6 +71,28 @@ object RetrofitFunctions{
     }
 
     /**
+     * @param - apiKey : corresponding key for user
+     *          fcmToken : Token to be registered
+     * @return : 200 on success
+     */
+    fun registerFcmToken(apiKey: String, fcmToken: UserForFcmToken, mainActivity: MainActivity) {
+
+        WatchingApi.service.putUsersFcmToken(apiKey, fcmToken).enqueue(object : Callback<Void> {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                mainActivity.onErrorRegister()
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.code() / 100 == 2) {
+                   mainActivity.onResponseFcmToken(fcmToken, mainActivity)
+                } else {
+                    mainActivity.onErrorRegister()
+                }
+            }
+        })
+    }
+
+    /**
     * This function is calling retrofit API and saving data as user shared preference
     */
     fun sendMessageDescription(
@@ -87,13 +110,13 @@ object RetrofitFunctions{
                 override fun onResponse(call: Call<Event>, response: Response<Event>) {
                     if (response.code() / 100 == 2) {
                         eventsFragment.onSuccess()
-
                     } else {
                         eventsFragment.onError(activity)
                     }
                 }
             })
     }
+
 
     /**
      * This function is called when we search Person by entering phone number
