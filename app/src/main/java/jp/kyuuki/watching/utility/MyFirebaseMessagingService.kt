@@ -18,9 +18,7 @@ import jp.kyuuki.watching.R
 import jp.kyuuki.watching.database.Preferences
 import jp.kyuuki.watching.database.RetrofitFunctions
 import jp.kyuuki.watching.model.Event
-import jp.kyuuki.watching.model.FcmSend
 import jp.kyuuki.watching.model.UserForFcmToken
-import jp.kyuuki.watching.model.UserPublic
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -39,19 +37,15 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-
-        remoteMessage.data.isNotEmpty().let {
-            val data = remoteMessage.data
-            val activityName = data["name"]
-            val userName = data["user_nickname"]
-            createNotificationChannel()
+        createNotificationChannel()
+        remoteMessage.data?.let {
+            val activityName = it["name"]
+            val userName = it["user_nickname"]
             if (activityName != null && userName != null ) {
                 sendNotification(activityName, userName)
             }
         }
-
     }
-
 
     fun sendInitialTokenToServer(mainActivity: MainActivity){
         FirebaseInstanceId.getInstance().instanceId
@@ -74,12 +68,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      *
      * @param messageBody FCM message body received.
      */
-    private fun sendNotification(activityName : String, userName : String) {
-        var message : String = ""
-        if (Event.NAME_GET_UP.equals(activityName)) {
-            message = applicationContext.getString(R.string.message_received_event_get_up, userName)
-        }else{
-            message = applicationContext.getString(R.string.message_received_event_go_to_bed, userName)
+    private fun sendNotification(activityName: String, userName: String) {
+        val message = when (activityName) {
+            Event.NAME_GET_UP -> getString(R.string.message_received_event_get_up, userName)
+            Event.NAME_GO_TO_BED -> getString(R.string.message_received_event_go_to_bed, userName)
+            else -> {
+                // TODO: エラー処理
+                ""
+            }
         }
 
         val intent = Intent(this, MainActivity::class.java)
@@ -91,10 +87,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(applicationContext.getString(R.string.app_name))
             .setContentText(message)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher))
+            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_notification_large))
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
+            .setColor(resources.getColor(R.color.colorPrimary, null))
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
     }
@@ -103,8 +100,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_message_name)
-            val descriptionText = getString(R.string.channel_message_description)
+            val name = getString(R.string.channel_evemt_name)
+            val descriptionText = getString(R.string.channel_event_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_MESSAGE_ID, name, importance).apply {
                 description = descriptionText

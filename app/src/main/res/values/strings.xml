@@ -61,6 +61,11 @@
     <string name="message_event_invalid">\?\?\?\?\?</string>
 
 
+    <!-- 通知チャンネル -->
+    <string name="channel_evemt_name">イベント通知</string>
+    <string name="channel_event_description">イベントの通知を受信します。</string>
+
+
     <!-- お問い合わせ -->
     <string name="contact_email">kyuuki.japan+watching@gmail.com</string>
     <string name="contact_subject">【見守りアプリ】 お問い合わせ</string>
@@ -71,9 +76,4 @@
     <string name="message_server_error">サーバーエラーが発生しました。\nしばらくしてから、もう一度お試しください。</string>
 
     <string name="title_activity_debug">デバッグ用</string>
-
-    <!-- 通知チャンネル -->
-    <string name="channel_message_name">Message</string>
-    <string name="channel_message_description">Show receive messages</string>
-
 </resources>
