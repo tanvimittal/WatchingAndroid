@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1005998105164",
+    "firebase_url": "https://watching-android-8d837.firebaseio.com",
+    "project_id": "watching-android-8d837",
+    "storage_bucket": "watching-android-8d837.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005998105164:android:2fb6429ce0935728e2cae9",
+        "android_client_info": {
+          "package_name": "jp.kyuuki.watching.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005998105164-1umnspn9d7f8u92alusspmdocflggq2c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABIhpg4VEfjzHGjqGlOa1j5UUsST9KVEs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005998105164-1umnspn9d7f8u92alusspmdocflggq2c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

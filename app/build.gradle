@@ -1,12 +1,8 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
-
-apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -36,6 +32,19 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    // https://developer.android.com/studio/build/build-variants
+    flavorDimensions "environment"
+    productFlavors {
+        production {
+            dimension  "environment"
+        }
+        staging {
+            dimension  "environment"
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+        }
     }
 }
 
@@ -108,5 +117,8 @@ dependencies {
 
     // firebase messaging
     implementation 'com.google.firebase:firebase-messaging:20.2.0'
-
 }
+
+// https://firebase.google.com/docs/android/setup
+// Add the following line to the bottom of the file:
+apply plugin: 'com.google.gms.google-services'
