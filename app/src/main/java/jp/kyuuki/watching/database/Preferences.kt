@@ -59,20 +59,5 @@ object Preferences {
         }
     }
 
-    /**
-     * This function is used to set Fcm Token in preference
-     * @param: fcmToken - Contains fcmToken to be updated
-     *       : activity - Object of Activity
-     */
-    fun setFcmTokenInPreference(paramFcmToken: UserForFcmToken, activity: Activity) {
-        // If Nickname is not null set nickname
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(activity)
-        with (sharedPref.edit()) {
-            putString(KEY_FCM_TOKEN, paramFcmToken.fcm_token)
-            commit()
-            fcmToken = paramFcmToken.fcm_token
-        }
-    }
-
 }
 

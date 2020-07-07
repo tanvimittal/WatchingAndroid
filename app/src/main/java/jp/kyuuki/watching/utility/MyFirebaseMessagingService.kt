@@ -33,7 +33,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      * is initially generated so this is where you would retrieve the token.
      */
     override fun onNewToken(token: String) {
-        sendToSever(token, MainActivity())
+        sendToSever(token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -47,20 +47,20 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    fun sendInitialTokenToServer(mainActivity: MainActivity){
+    fun sendInitialTokenToServer(){
         FirebaseInstanceId.getInstance().instanceId
             .addOnCompleteListener(OnCompleteListener { task ->
 
                 // Get new Instance ID token
                 val token = task.result?.token
                 if (token != null) {
-                    sendToSever(token, mainActivity)
+                    sendToSever(token)
                 }
             })
     }
 
-    fun sendToSever(token : String , mainActivity: MainActivity) {
-        Preferences.apiKey?.let { RetrofitFunctions.registerFcmToken(it, UserForFcmToken(token) , mainActivity) }
+    fun sendToSever(token : String) {
+        Preferences.apiKey?.let { RetrofitFunctions.registerFcmToken(it, UserForFcmToken(token)) }
     }
 
     /**

@@ -75,18 +75,18 @@ object RetrofitFunctions{
      *          fcmToken : Token to be registered
      * @return : 200 on success
      */
-    fun registerFcmToken(apiKey: String, fcmToken: UserForFcmToken, mainActivity: MainActivity) {
+    fun registerFcmToken(apiKey: String, fcmToken: UserForFcmToken) {
 
         WatchingApi.service.putUsersFcmToken(apiKey, fcmToken).enqueue(object : Callback<Void> {
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                mainActivity.onErrorRegister()
+
             }
 
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.code() / 100 == 2) {
-                   mainActivity.onResponseFcmToken(fcmToken, mainActivity)
+
                 } else {
-                    mainActivity.onErrorRegister()
+
                 }
             }
         })
