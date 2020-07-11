@@ -7,7 +7,7 @@
 
     <!-- タブタイトル -->
     <string name="tab_text_event">イベント一覧</string>
-    <string name="tab_text_request">見守りリクエスト</string>
+    <string name="tab_text_request">リクエスト</string>
     <string name="tab_text_search">相手を探す</string>
 
 

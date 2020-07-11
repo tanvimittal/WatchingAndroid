@@ -16,18 +16,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.301" />
+            app:layout_constraintVertical_bias="0.4" />
 
     <TextView
             android:id="@+id/text_description"
             android:layout_width="300dp"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:text="@string/description_input_nickname"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@+id/editTextNickName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <Button
             android:id="@+id/btnNickName"

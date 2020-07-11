@@ -18,11 +18,8 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
                 app:layout_constraintTop_toTopOf="@+id/view_pager"
-                app:tabIndicatorColor="@color/design_default_color_background"
-                app:tabSelectedTextColor="@color/design_default_color_background"
-                app:tabTextColor="?attr/colorButtonNormal" />
+                style="@style/MyCustomTabLayout" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

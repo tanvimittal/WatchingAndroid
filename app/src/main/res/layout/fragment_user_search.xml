@@ -8,7 +8,7 @@
     <TextView
             android:id="@+id/serachText"
             android:layout_width="296dp"
-            android:layout_height="47dp"
+            android:layout_height="wrap_content"
             android:text="@string/searchText"
             android:textAlignment="center"
             android:textSize="18sp"
@@ -22,7 +22,7 @@
     <EditText
             android:id="@+id/phoneNumberText"
             android:layout_width="162dp"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
             android:autofillHints="@string/autoHintNumber"
             android:ems="10"
             android:hint="@string/autoHintNumber"
